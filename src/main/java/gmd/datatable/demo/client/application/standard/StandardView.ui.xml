@@ -25,7 +25,7 @@
 	<m:MaterialPanel>
 		<m:table.MaterialDataTable ui:field="table"
 								   shadow="1"
-								   height="600px"/>
+								   height="400px"/>
 		<m:MaterialPanel ui:field="filterPanel">
 			<m:MaterialLabel text="Options" fontSize="2em" marginTop="12"/>
 			<m:MaterialLabel text="Play with the options to customize datatable" />

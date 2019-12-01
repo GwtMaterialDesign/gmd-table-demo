@@ -58,6 +58,7 @@ public class StandardPresenter extends BasePresenter<StandardPresenter.MyView, S
     protected void onBind() {
         super.onBind();
 
+        setHeaderTitle("Standard", "Simple DataTable implementation", "somelink");
         getView().setupOptions();
         getView().setupTable();
     }

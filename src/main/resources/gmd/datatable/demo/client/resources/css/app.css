@@ -5,7 +5,9 @@
 html, body {
     overflow-x: hidden;
 }
-
+nav .brand-logo {
+    margin-left: -104px !important;
+}
 nav .brand-logo,
 nav ul a,
 nav i {
@@ -26,20 +28,20 @@ nav .button-collapse i {
 }
 
 /** Scrollbar **/
-*::-webkit-scrollbar {
+/**::-webkit-scrollbar {
     background-color: #fff;
     height: 4px;
     width: 12px;
-}
+}*/
 
-*::-webkit-scrollbar-track {
+/**::-webkit-scrollbar-track {
     background-color: #fff
-}
+}*/
 
-*::-webkit-scrollbar-thumb {
+/**::-webkit-scrollbar-thumb {
     background-color: #babac0;
     border-radius: 4px
-}
+}*/
 
 pre {
     font-size: 1em;
@@ -155,6 +157,10 @@ nav ul li.active {
     margin: auto;
 }
 
+ul.side-nav.right-aligned:not(.drawer) {
+    right: 8px !important;
+}
+
 /** TODO: Check **/
 table.table tbody tr.subheader th:first-child, table.table tbody tr.subheader td:first-child {
     min-width: 10% !important;
@@ -224,4 +230,28 @@ table.table tbody tr.expansion td div .content {
 
 table.table tbody tr.expansion td div.expanded {
     border-bottom: none;
+}
+
+/** Data Pager **/
+.data-pager .input-field .select-wrapper input.select-dropdown,
+.data-pager .num-page-panel .input-field input[type=number] {
+    color: white;
+    border-bottom: 1px solid #818181;
+}
+
+.table-container .data-pager {
+    border: none;
+}
+
+.data-pager .action-page-panel i.disabled {
+    background: #424242 !important;
+    color: rgba(153, 153, 153, 0.2) !important;
+}
+
+.data-pager .action-page-panel i {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.data-pager .action-page-panel i:hover {
+    color: rgb(255, 255, 255);
 }

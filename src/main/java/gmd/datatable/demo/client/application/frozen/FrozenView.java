@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package gmd.datatable.demo.client.application.categorized;
+package gmd.datatable.demo.client.application.frozen;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -36,6 +36,8 @@ import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.data.SelectionType;
 import gwt.material.design.client.ui.*;
 import gwt.material.design.client.ui.table.MaterialDataTable;
+import gwt.material.design.client.ui.table.cell.Column;
+import gwt.material.design.client.ui.table.cell.FrozenProperties;
 import gwt.material.design.client.ui.table.cell.TextColumn;
 import gwt.material.design.client.ui.table.cell.WidgetColumn;
 import gwt.material.design.jquery.client.api.JQueryElement;
@@ -43,9 +45,9 @@ import gwt.material.design.jquery.client.api.JQueryElement;
 import javax.inject.Inject;
 import java.util.List;
 
-public class CategorizedView extends ViewImpl implements CategorizedPresenter.MyView {
+public class FrozenView extends ViewImpl implements FrozenPresenter.MyView {
 
-    interface Binder extends UiBinder<Widget, CategorizedView> {
+    interface Binder extends UiBinder<Widget, FrozenView> {
     }
 
     @UiField
@@ -64,7 +66,7 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
     MaterialTextBox tableName;
 
     @Inject
-    CategorizedView(Binder uiBinder) {
+    FrozenView(Binder uiBinder) {
         initWidget(uiBinder.createAndBindUi(this));
     }
 
@@ -100,8 +102,7 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
             public boolean sortable() {
                 return true;
             }
-        }
-            .width("25%"));
+        }.width("200px"));
 
         table.addColumn("Adjective", new TextColumn<Product>() {
             @Override
@@ -113,8 +114,7 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
             public boolean sortable() {
                 return true;
             }
-        }
-            .width("15%"));
+        }.width("200px"));
 
         table.addColumn("Color", new TextColumn<Product>() {
             @Override
@@ -126,8 +126,7 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
             public boolean sortable() {
                 return true;
             }
-        }
-            .width("15%"));
+        }.width("200px"));
 
         table.addColumn("Material", new TextColumn<Product>() {
             @Override
@@ -139,7 +138,21 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
             public boolean sortable() {
                 return true;
             }
-        }.width("15%"));
+        }.width("200px"));
+
+        for (int i = 0; i < 10; i++) {
+            table.addColumn("Company", new TextColumn<Product>() {
+                @Override
+                public String getValue(Product object) {
+                    return object.getDate();
+                }
+
+                @Override
+                public boolean sortable() {
+                    return true;
+                }
+            }.width("200px"));
+        }
 
         table.addColumn("Company", new TextColumn<Product>() {
             @Override
@@ -151,9 +164,8 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
             public boolean sortable() {
                 return true;
             }
-        }
-            .width("20%")
-            .autoSort(true));
+        }.width("200px"));
+
 
         table.addColumn("Price", new TextColumn<Product>() {
             @Override
@@ -165,8 +177,7 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
             public boolean sortable() {
                 return true;
             }
-        }
-            .width("10%"));
+        }.width("200px"));
 
         // Here we are adding a row expansion handler.
         // This is invoked when a row is expanded.

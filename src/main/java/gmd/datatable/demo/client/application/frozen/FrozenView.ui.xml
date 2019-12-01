@@ -24,8 +24,6 @@
 	<m:MaterialPanel>
 		<m:table.MaterialDataTable ui:field="table"
 								   shadow="1"
-								   useCategories="true"
-								   useRowExpansion="true"
 								   height="400px"/>
 		<m:MaterialPanel ui:field="filterPanel">
 			<m:MaterialLabel text="Options" fontSize="2em" marginTop="12"/>

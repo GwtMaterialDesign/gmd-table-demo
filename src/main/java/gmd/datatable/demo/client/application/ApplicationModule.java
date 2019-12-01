@@ -21,7 +21,9 @@ package gmd.datatable.demo.client.application;
 
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 import gmd.datatable.demo.client.application.categorized.CategorizedModule;
+import gmd.datatable.demo.client.application.frozen.FrozenModule;
 import gmd.datatable.demo.client.application.home.HomeModule;
+import gmd.datatable.demo.client.application.paged.PagedModule;
 import gmd.datatable.demo.client.application.standard.StandardModule;
 
 public class ApplicationModule extends AbstractPresenterModule {
@@ -31,6 +33,8 @@ public class ApplicationModule extends AbstractPresenterModule {
         install(new HomeModule());
         install(new StandardModule());
         install(new CategorizedModule());
+        install(new PagedModule());
+        install(new FrozenModule());
 
         bindPresenter(ApplicationPresenter.class, ApplicationPresenter.MyView.class, ApplicationView.class,
             ApplicationPresenter.MyProxy.class);

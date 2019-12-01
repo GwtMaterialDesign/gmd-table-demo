@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package gmd.datatable.demo.client.application.categorized;
+package gmd.datatable.demo.client.application.frozen;
 
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -30,12 +30,11 @@ import gmd.datatable.demo.client.application.ApplicationPresenter;
 import gmd.datatable.demo.client.application.BasePresenter;
 import gmd.datatable.demo.client.generator.DataGenerator;
 import gmd.datatable.demo.client.generator.product.Product;
-import gmd.datatable.demo.client.generator.user.User;
 import gmd.datatable.demo.client.place.NameTokens;
 
 import java.util.List;
 
-public class CategorizedPresenter extends BasePresenter<CategorizedPresenter.MyView, CategorizedPresenter.MyProxy> {
+public class FrozenPresenter extends BasePresenter<FrozenPresenter.MyView, FrozenPresenter.MyProxy> {
     interface MyView extends View, HasRightSideNav {
         void setupTable();
         void setData(List<Product> products);
@@ -43,12 +42,12 @@ public class CategorizedPresenter extends BasePresenter<CategorizedPresenter.MyV
     }
 
     @ProxyStandard
-    @NameToken(NameTokens.CATEGORIZED)
-    interface MyProxy extends ProxyPlace<CategorizedPresenter> {
+    @NameToken(NameTokens.FROZEN)
+    interface MyProxy extends ProxyPlace<FrozenPresenter> {
     }
 
     @Inject
-    CategorizedPresenter(
+    FrozenPresenter(
         EventBus eventBus,
         MyView view,
         MyProxy proxy) {
@@ -59,7 +58,7 @@ public class CategorizedPresenter extends BasePresenter<CategorizedPresenter.MyV
     protected void onBind() {
         super.onBind();
 
-        setHeaderTitle("Categorized", "You can group or categorized your datatable row data easily.", "somelink");
+        setHeaderTitle("Frozen", "Provided a frozen column that has a x-scroll content for horizontal scrolling. For now we just support the LEFT Side Column freezing.", "somelink");
         getView().setupOptions();
         getView().setupTable();
     }

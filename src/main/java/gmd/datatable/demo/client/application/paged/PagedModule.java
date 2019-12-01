@@ -17,13 +17,14 @@
  * limitations under the License.
  * #L%
  */
-package gmd.datatable.demo.client.place;
+package gmd.datatable.demo.client.application.paged;
 
-public class NameTokens {
+import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 
-    public static final String HOME = "/";
-    public static final String STANDARD = "standard";
-    public static final String CATEGORIZED = "categorized";
-    public static final String PAGED = "paged";
-    public static final String FROZEN = "frozen";
+public class PagedModule extends AbstractPresenterModule {
+    @Override
+    protected void configure() {
+        bindPresenter(PagedPresenter.class, PagedPresenter.MyView.class, PagedView.class,
+                PagedPresenter.MyProxy.class);
+    }
 }

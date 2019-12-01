@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package gmd.datatable.demo.client.application.categorized;
+package gmd.datatable.demo.client.application.paged;
 
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -29,26 +29,25 @@ import gmd.datatable.demo.client.HasRightSideNav;
 import gmd.datatable.demo.client.application.ApplicationPresenter;
 import gmd.datatable.demo.client.application.BasePresenter;
 import gmd.datatable.demo.client.generator.DataGenerator;
-import gmd.datatable.demo.client.generator.product.Product;
 import gmd.datatable.demo.client.generator.user.User;
 import gmd.datatable.demo.client.place.NameTokens;
 
 import java.util.List;
 
-public class CategorizedPresenter extends BasePresenter<CategorizedPresenter.MyView, CategorizedPresenter.MyProxy> {
+public class PagedPresenter extends BasePresenter<PagedPresenter.MyView, PagedPresenter.MyProxy> {
     interface MyView extends View, HasRightSideNav {
         void setupTable();
-        void setData(List<Product> products);
+        void setData(List<User> users);
         void setupOptions();
     }
 
     @ProxyStandard
-    @NameToken(NameTokens.CATEGORIZED)
-    interface MyProxy extends ProxyPlace<CategorizedPresenter> {
+    @NameToken(NameTokens.PAGED)
+    interface MyProxy extends ProxyPlace<PagedPresenter> {
     }
 
     @Inject
-    CategorizedPresenter(
+    PagedPresenter(
         EventBus eventBus,
         MyView view,
         MyProxy proxy) {
@@ -59,7 +58,7 @@ public class CategorizedPresenter extends BasePresenter<CategorizedPresenter.MyV
     protected void onBind() {
         super.onBind();
 
-        setHeaderTitle("Categorized", "You can group or categorized your datatable row data easily.", "somelink");
+        setHeaderTitle("Paged", "Using MaterialDataPager, you can easily turn your datatable into paged datatable which is good for large and finite data sets.", "somelink");
         getView().setupOptions();
         getView().setupTable();
     }
@@ -68,6 +67,6 @@ public class CategorizedPresenter extends BasePresenter<CategorizedPresenter.MyV
     protected void onReveal() {
         super.onReveal();
 
-        getView().setData(new DataGenerator().generateProducts(100));
+        getView().setData(new DataGenerator().generateUsers(50));
     }
 }
