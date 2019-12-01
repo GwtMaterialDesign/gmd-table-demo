@@ -19,12 +19,18 @@
   -->
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 			 xmlns:m="urn:import:gwt.material.design.client.ui"
-			 xmlns:table="urn:import:gwt.material.design.client.ui.table"
 >
 
 	<m:MaterialPanel>
+		<m:MaterialLabel text="Categorized DataTable	" fontSize="2.4em"/>
+		<m:MaterialLabel text="You group or categorized your datatable row data easily."/>
+		<m:MaterialPanel paddingTop="20" paddingBottom="20">
+			<m:MaterialLink text="Source Code" iconType="CODE"/>
+		</m:MaterialPanel>
 		<m:table.MaterialDataTable ui:field="table"
 								   shadow="1"
+								   useCategories="true"
+								   useRowExpansion="true"
 								   height="600px"/>
 		<m:MaterialPanel ui:field="filterPanel">
 			<m:MaterialLabel text="Options" fontSize="2em" marginTop="12"/>
@@ -35,7 +41,9 @@
 				<m:MaterialListValueBox ui:field="selectionType" placeholder="Selection Type" fieldType="OUTLINED"/>
 				<m:MaterialListValueBox ui:field="density" placeholder="Density" fieldType="OUTLINED"/>
 				<m:MaterialCheckBox ui:field="stickyHeader" text="Enable Sticky Header" marginBottom="12"/>
-				<m:MaterialCheckBox ui:field="striped" text="Apply Striped Style" />
+				<m:MaterialCheckBox ui:field="striped" text="Apply Striped Style" marginBottom="12"/>
+				<m:MaterialCheckBox ui:field="useCategories" text="Categorized Data" value="true" marginBottom="12"/>
+				<m:MaterialCheckBox ui:field="rowExpansion" text="Use Row Expansion" value="true" marginBottom="12"/>
 			</m:MaterialRow>
 		</m:MaterialPanel>
 	</m:MaterialPanel>

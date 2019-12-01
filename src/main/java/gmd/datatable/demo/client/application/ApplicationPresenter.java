@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,10 +27,15 @@ import com.gwtplatform.mvp.client.annotations.ProxyStandard;
 import com.gwtplatform.mvp.client.presenter.slots.NestedSlot;
 import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.client.proxy.Proxy;
+import gmd.datatable.demo.client.events.PageRevealEvent;
+import gwt.material.design.client.theme.dark.ColorSchemeChangeEvent;
+import gwt.material.design.client.ui.MaterialToast;
 
-public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView, ApplicationPresenter.MyProxy> {
+public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView, ApplicationPresenter.MyProxy>
+    implements PageRevealEvent.PageRevealChangeHandler {
 
     interface MyView extends View {
+        void updateSideNavContent(View view);
     }
 
     private PlaceManager placeManager;
@@ -54,10 +59,17 @@ public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView,
     @Override
     protected void onBind() {
         super.onBind();
+
+        addRegisteredHandler(PageRevealEvent.TYPE, this);
     }
 
     @Override
     protected void onReveal() {
         super.onReveal();
+    }
+
+    @Override
+    public void onPageRevealChange(PageRevealEvent event) {
+        getView().updateSideNavContent(event.getView());
     }
 }

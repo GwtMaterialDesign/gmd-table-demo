@@ -17,36 +17,38 @@
  * limitations under the License.
  * #L%
  */
-package gmd.datatable.demo.client.application.home;
+package gmd.datatable.demo.client.application.categorized;
 
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
-import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyStandard;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
+import gmd.datatable.demo.client.HasRightSideNav;
 import gmd.datatable.demo.client.application.ApplicationPresenter;
 import gmd.datatable.demo.client.application.BasePresenter;
+import gmd.datatable.demo.client.generator.DataGenerator;
+import gmd.datatable.demo.client.generator.product.Product;
+import gmd.datatable.demo.client.generator.user.User;
 import gmd.datatable.demo.client.place.NameTokens;
-import gmd.datatable.demo.client.widget.Dashboard;
-import gwt.material.design.client.constants.Color;
 
-import java.util.Arrays;
 import java.util.List;
 
-public class HomePresenter extends BasePresenter<HomePresenter.MyView, HomePresenter.MyProxy> {
-    interface MyView extends View {
-        void setDashboard(List<Dashboard> dashboards);
+public class CategorizedPresenter extends BasePresenter<CategorizedPresenter.MyView, CategorizedPresenter.MyProxy> {
+    interface MyView extends View, HasRightSideNav {
+        void setupTable();
+        void setData(List<Product> products);
+        void setupOptions();
     }
 
     @ProxyStandard
-    @NameToken(NameTokens.HOME)
-    interface MyProxy extends ProxyPlace<HomePresenter> {
+    @NameToken(NameTokens.CATEGORIZED)
+    interface MyProxy extends ProxyPlace<CategorizedPresenter> {
     }
 
     @Inject
-    HomePresenter(
+    CategorizedPresenter(
         EventBus eventBus,
         MyView view,
         MyProxy proxy) {
@@ -57,15 +59,14 @@ public class HomePresenter extends BasePresenter<HomePresenter.MyView, HomePrese
     protected void onBind() {
         super.onBind();
 
-
-        getView().setDashboard(Arrays.asList(
-            new Dashboard("Standard", "Native", NameTokens.STANDARD, Color.RED),
-            new Dashboard("Categorized", "Native", NameTokens.CATEGORIZED, Color.AMBER)
-        ));
+        getView().setupOptions();
+        getView().setupTable();
     }
 
     @Override
     protected void onReveal() {
         super.onReveal();
+
+        getView().setData(new DataGenerator().generateProducts(100));
     }
 }

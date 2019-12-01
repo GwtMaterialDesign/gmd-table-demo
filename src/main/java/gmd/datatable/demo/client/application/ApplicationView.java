@@ -24,17 +24,16 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.ViewImpl;
+import gmd.datatable.demo.client.HasRightSideNav;
 import gmd.datatable.demo.client.resources.AppResources;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.pwa.PwaManager;
 import gwt.material.design.client.pwa.push.js.Notification;
-import gwt.material.design.client.ui.MaterialNavSection;
-import gwt.material.design.client.ui.MaterialPanel;
-import gwt.material.design.client.ui.MaterialSideNavDrawer;
-import gwt.material.design.client.ui.MaterialToast;
+import gwt.material.design.client.ui.*;
 
 public class ApplicationView extends ViewImpl implements ApplicationPresenter.MyView {
 
@@ -45,10 +44,13 @@ public class ApplicationView extends ViewImpl implements ApplicationPresenter.My
     MaterialNavSection navSection;
 
     @UiField
-    MaterialSideNavDrawer sideNav;
+    MaterialPanel mainContainer;
 
     @UiField
-    MaterialPanel mainContainer;
+    MaterialSideNavContent sideContent;
+
+    @UiField
+    MaterialSideNavPush sidenav;
 
     @Inject
     ApplicationView(Binder uiBinder) {
@@ -77,5 +79,13 @@ public class ApplicationView extends ViewImpl implements ApplicationPresenter.My
 
         // Remove Splashscreen once js files are loaded
         Document.get().getElementById("splashscreen").removeFromParent();
+    }
+
+    @Override
+    public void updateSideNavContent(View view) {
+        sideContent.clear();
+        if (view instanceof HasRightSideNav) {
+            sideContent.add(((HasRightSideNav) view).getSideContent());
+        }
     }
 }

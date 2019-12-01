@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,22 +17,14 @@
  * limitations under the License.
  * #L%
  */
-package gmd.datatable.demo.client.application;
+package gmd.datatable.demo.client.application.categorized;
 
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
-import gmd.datatable.demo.client.application.categorized.CategorizedModule;
-import gmd.datatable.demo.client.application.home.HomeModule;
-import gmd.datatable.demo.client.application.standard.StandardModule;
 
-public class ApplicationModule extends AbstractPresenterModule {
-
+public class CategorizedModule extends AbstractPresenterModule {
     @Override
     protected void configure() {
-        install(new HomeModule());
-        install(new StandardModule());
-        install(new CategorizedModule());
-
-        bindPresenter(ApplicationPresenter.class, ApplicationPresenter.MyView.class, ApplicationView.class,
-            ApplicationPresenter.MyProxy.class);
+        bindPresenter(CategorizedPresenter.class, CategorizedPresenter.MyView.class, CategorizedView.class,
+                CategorizedPresenter.MyProxy.class);
     }
 }

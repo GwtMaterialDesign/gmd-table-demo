@@ -21,22 +21,24 @@ package gmd.datatable.demo.client.application.standard;
 
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
-import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyStandard;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
+import gmd.datatable.demo.client.HasRightSideNav;
 import gmd.datatable.demo.client.application.ApplicationPresenter;
+import gmd.datatable.demo.client.application.BasePresenter;
 import gmd.datatable.demo.client.generator.DataGenerator;
-import gmd.datatable.demo.client.generator.User;
+import gmd.datatable.demo.client.generator.user.User;
 import gmd.datatable.demo.client.place.NameTokens;
 
 import java.util.List;
 
-public class StandardPresenter extends Presenter<StandardPresenter.MyView, StandardPresenter.MyProxy> {
-    interface MyView extends View {
+public class StandardPresenter extends BasePresenter<StandardPresenter.MyView, StandardPresenter.MyProxy> {
+    interface MyView extends View, HasRightSideNav {
         void setupTable();
         void setData(List<User> users);
+        void setupOptions();
     }
 
     @ProxyStandard
@@ -56,13 +58,14 @@ public class StandardPresenter extends Presenter<StandardPresenter.MyView, Stand
     protected void onBind() {
         super.onBind();
 
-
+        getView().setupOptions();
+        getView().setupTable();
     }
 
     @Override
     protected void onReveal() {
         super.onReveal();
 
-        getView().setData(new DataGenerator().generate(10));
+        getView().setData(new DataGenerator().generateUsers(50));
     }
 }

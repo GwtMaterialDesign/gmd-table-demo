@@ -1,44 +1,36 @@
-package gmd.datatable.demo.client.generator;
+package gmd.datatable.demo.client.generator.user;
 
 public class User {
 
-    private String firstName;
-    private String lastName;
+    private String name;
     private String email;
     private String phone;
     private String company;
     private String address;
     private String city;
-    private String country;
+    private String zipCode;
+    private String image;
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String phone, String company, String address, String city, String country) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String image, String name, String email, String phone, String company, String address, String city, String zipCode) {
+        this.image = image;
+        this.name = name;
         this.email = email;
         this.phone = phone;
         this.company = company;
         this.address = address;
         this.city = city;
-        this.country = country;
+        this.zipCode = zipCode;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -81,11 +73,19 @@ public class User {
         this.city = city;
     }
 
-    public String getCountry() {
-        return country;
+    public String getZipCode() {
+        return zipCode;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

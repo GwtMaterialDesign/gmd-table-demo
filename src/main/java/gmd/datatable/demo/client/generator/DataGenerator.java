@@ -1,5 +1,9 @@
 package gmd.datatable.demo.client.generator;
 
+import gmd.datatable.demo.client.generator.product.Product;
+import gmd.datatable.demo.client.generator.product.ProductGenerator;
+import gmd.datatable.demo.client.generator.user.User;
+import gmd.datatable.demo.client.generator.user.UserGenerator;
 import gmd.datatable.demo.client.resources.AppResources;
 import gwt.material.design.client.MaterialDesign;
 
@@ -12,43 +16,20 @@ public class DataGenerator {
         MaterialDesign.injectJs(AppResources.INSTANCE.fakerJs());
     }
 
-    public List<User> generate(int total) {
+    public List<User> generateUsers(int total) {
         List<User> users = new ArrayList<>();
         for (int i = 0; i < total; i++) {
-            users.add(new User(firstName(), lastName(), email(), phone(), company(), address(), city(), country()));
+            users.add(UserGenerator.generate());
         }
         return users;
     }
 
-    protected static native String firstName() /*-{
-        return $wnd.faker.name.findName();
-    }-*/;
+    public List<Product> generateProducts(int total) {
+        List<Product> products = new ArrayList<>();
+        for (int i = 0; i < total; i++) {
+            products.add(ProductGenerator.generate());
+        }
+        return products;
+    }
 
-    protected static native String lastName() /*-{
-        return $wnd.faker.name.lastName();
-    }-*/;
-
-    protected static native String email() /*-{
-        return $wnd.faker.internet.email();
-    }-*/;
-
-    protected static native String phone() /*-{
-        return $wnd.faker.phone.phoneNumber();
-    }-*/;
-
-    protected static native String company() /*-{
-        return $wnd.faker.company.companyName();
-    }-*/;
-
-    protected static native String address() /*-{
-        return $wnd.faker.address.streetAddress();
-    }-*/;
-
-    protected static native String city() /*-{
-        return $wnd.faker.address.city();
-    }-*/;
-
-    protected static native String country() /*-{
-        return $wnd.faker.address.country();
-    }-*/;
 }

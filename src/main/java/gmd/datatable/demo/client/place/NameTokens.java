@@ -23,5 +23,6 @@ public class NameTokens {
 
     public static final String HOME = "/";
     public static final String STANDARD = "standard";
+    public static final String CATEGORIZED = "categorized";
     public static final String DROPZONE = "dropzone";
 }
