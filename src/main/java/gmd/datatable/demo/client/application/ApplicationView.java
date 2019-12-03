@@ -35,6 +35,8 @@ import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.pwa.PwaManager;
 import gwt.material.design.client.pwa.push.js.Notification;
+import gwt.material.design.client.pwa.serviceworker.ServiceWorkerManager;
+import gwt.material.design.client.pwa.serviceworker.js.ServiceWorkerOption;
 import gwt.material.design.client.theme.dark.CoreDarkThemeLoader;
 import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.client.theme.dark.DarkThemeManager;
@@ -78,8 +80,12 @@ public class ApplicationView extends ViewImpl implements ApplicationPresenter.My
 
         // Enable PWA
         if (PwaManager.isPwaSupported()) {
+            ServiceWorkerManager manager = new ServiceWorkerManager("/gmd-table-demo/service-worker.js");
+            ServiceWorkerOption option = ServiceWorkerOption.create();
+            option.setScope("/gmd-table-demo/");
+            manager.setOption(option);
             PwaManager.getInstance()
-                    .setServiceWorker("service-worker.js")
+                    .setServiceWorker(manager)
                     .setThemeColor(ColorHelper.setupComputedBackgroundColor(Color.BLUE_DARKEN_3))
                     .setWebManifest("manifest.url")
                     .load();
