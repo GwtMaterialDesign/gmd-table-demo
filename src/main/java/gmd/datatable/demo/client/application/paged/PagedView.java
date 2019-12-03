@@ -183,7 +183,10 @@ public class PagedView extends ViewImpl implements PagedPresenter.MyView {
         density.add(DisplayDensity.DEFAULT);
         density.add(DisplayDensity.COMFORTABLE);
         density.add(DisplayDensity.COMPACT);
-        density.addValueChangeHandler(event -> table.setDensity(event.getValue()));
+        density.addValueChangeHandler(event -> {
+            table.setDensity(event.getValue());
+            reload();
+        });
     }
 
     @UiHandler("stickyHeader")
@@ -208,5 +211,10 @@ public class PagedView extends ViewImpl implements PagedPresenter.MyView {
     @UiHandler("last")
     void last(ClickEvent e) {
         pager.lastPage();
+    }
+
+    public void reload() {
+        table.getView().setRedraw(true);
+        table.getView().refresh();
     }
 }

@@ -152,7 +152,10 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         density.add(DisplayDensity.DEFAULT);
         density.add(DisplayDensity.COMFORTABLE);
         density.add(DisplayDensity.COMPACT);
-        density.addValueChangeHandler(event -> table.setDensity(event.getValue()));
+        density.addValueChangeHandler(event -> {
+            table.setDensity(event.getValue());
+            reload();
+        });
     }
 
     @UiHandler("stickyHeader")
@@ -167,5 +170,10 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         } else {
             table.getScaffolding().getTable().removeStyleName("striped");
         }
+    }
+
+    public void reload() {
+        table.getView().setRedraw(true);
+        table.getView().refresh();
     }
 }

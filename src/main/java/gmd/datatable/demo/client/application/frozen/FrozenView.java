@@ -32,14 +32,10 @@ import gmd.datatable.demo.client.application.categorized.components.ProductRowFa
 import gmd.datatable.demo.client.generator.product.Product;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.density.DisplayDensity;
-import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.data.SelectionType;
 import gwt.material.design.client.ui.*;
 import gwt.material.design.client.ui.table.MaterialDataTable;
-import gwt.material.design.client.ui.table.cell.Column;
-import gwt.material.design.client.ui.table.cell.FrozenProperties;
 import gwt.material.design.client.ui.table.cell.TextColumn;
-import gwt.material.design.client.ui.table.cell.WidgetColumn;
 import gwt.material.design.jquery.client.api.JQueryElement;
 
 import javax.inject.Inject;
@@ -230,7 +226,10 @@ public class FrozenView extends ViewImpl implements FrozenPresenter.MyView {
         density.add(DisplayDensity.DEFAULT);
         density.add(DisplayDensity.COMFORTABLE);
         density.add(DisplayDensity.COMPACT);
-        density.addValueChangeHandler(event -> table.setDensity(event.getValue()));
+        density.addValueChangeHandler(event -> {
+            table.setDensity(event.getValue());
+            reload();
+        });
     }
 
     @UiHandler("stickyHeader")
@@ -250,16 +249,16 @@ public class FrozenView extends ViewImpl implements FrozenPresenter.MyView {
     @UiHandler("useCategories")
     void useCategories(ValueChangeEvent<Boolean> event) {
         table.setUseCategories(event.getValue());
-        refresh();
+        reload();
     }
 
     @UiHandler("rowExpansion")
     void rowExpansion(ValueChangeEvent<Boolean> event) {
         table.setUseRowExpansion(event.getValue());
-        refresh();
+        reload();
     }
 
-    public void refresh() {
+    public void reload() {
         table.getView().setRedraw(true);
         table.getView().refresh();
     }
