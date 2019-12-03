@@ -59,7 +59,6 @@ public class CategorizedPresenter extends BasePresenter<CategorizedPresenter.MyV
     protected void onBind() {
         super.onBind();
 
-        setHeaderTitle("Categorized", "You can group or categorized your datatable row data easily.", "somelink");
         getView().setupOptions();
         getView().setupTable();
     }
@@ -69,5 +68,6 @@ public class CategorizedPresenter extends BasePresenter<CategorizedPresenter.MyV
         super.onReveal();
 
         getView().setData(new DataGenerator().generateProducts(100));
+        setHeaderTitle("Categorized", "You can group or categorized your datatable row data easily.", "somelink");
     }
 }

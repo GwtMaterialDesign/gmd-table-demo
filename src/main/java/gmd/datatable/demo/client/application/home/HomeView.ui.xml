@@ -21,7 +21,18 @@
 			 xmlns:m="urn:import:gwt.material.design.client.ui"
 			 xmlns:ma="urn:import:gwt.material.design.addins.client">
 
-	<m:MaterialPanel>
-		<m:MaterialRow ui:field="row" />
+	<m:MaterialPanel addStyleNames="container">
+		<m:MaterialRow padding="40" textAlign="CENTER">
+			<m:MaterialImage url="https://gwtmaterialdesign.github.io/gmd-core-demo/images/datatable-logo.png" alt="logo" width="120px"/>
+			<m:MaterialLabel text="GMD DataTable 2.3" fontWeight="BOLD" fontSize="3em"/>
+			<m:MaterialLabel text="Data tables display sets of data across rows and columns." secondary="true"/>
+			<m:MaterialRow marginTop="20">
+				<m:MaterialLink text="Github Repo" iconType="CODE" display="INLINE_BLOCK" href="https://github.com/GwtMaterialDesign/gwt-material-table" target="_blank" marginRight="32"/>
+				<m:MaterialLink text="Gitter Channel" iconType="INSERT_CHART" display="INLINE_BLOCK" href="https://gitter.im/GwtMaterialDesign/gwt-material" target="_blank" />
+			</m:MaterialRow>
+		</m:MaterialRow>
+		<m:MaterialLabel text="Demos and Documentation" fontSize="2em"/>
+		<m:MaterialLabel text="Get Started on how to build your first datatable." secondary="true"/>
+		<m:MaterialRow ui:field="row" marginTop="32" marginBottom="0"/>
 	</m:MaterialPanel>
 </ui:UiBinder>

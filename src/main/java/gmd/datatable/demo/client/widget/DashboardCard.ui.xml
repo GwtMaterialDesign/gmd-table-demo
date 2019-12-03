@@ -21,10 +21,18 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 			 xmlns:m="urn:import:gwt.material.design.client.ui">
 
-	<m:MaterialColumn grid="s3" hoverable="true" paddingTop="32" paddingBottom="32" textAlign="CENTER" waves="DEFAULT">
-		<m:MaterialLabel ui:field="symbol" addStyleNames="circular-label" circle="true" width="60px" height="60px" lineHeight="60.0" textAlign="CENTER"
-						 backgroundColor="PURPLE_LIGHTEN_4" fontSize="1.6em" textColor="PURPLE" marginBottom="20"/>
-		<m:MaterialLabel ui:field="name" fontSize="1.2em"/>
-		<m:MaterialLabel ui:field="description" />
+	<m:MaterialColumn grid="s12 m12 l4" textAlign="CENTER" >
+		<m:MaterialCard ui:field="card" padding="20" display="BLOCK" minHeight="120px">
+			<m:MaterialRow marginBottom="0">
+				<m:MaterialColumn grid="s4">
+					<m:MaterialLabel ui:field="symbol" addStyleNames="circular-label" circle="true" width="60px" height="60px" lineHeight="60.0" textAlign="CENTER"
+									 backgroundColor="PURPLE_LIGHTEN_4" fontSize="1.6em" textColor="PURPLE"/>
+				</m:MaterialColumn>
+				<m:MaterialColumn grid="s8" textAlign="LEFT">
+					<m:MaterialLabel ui:field="name" fontSize="1.2em"/>
+					<m:MaterialLabel ui:field="description" secondary="true"/>
+				</m:MaterialColumn>
+			</m:MaterialRow>
+		</m:MaterialCard>
 	</m:MaterialColumn>
 </ui:UiBinder> 

@@ -21,10 +21,10 @@ package gmd.datatable.demo.client.application.home;
 
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
-import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyStandard;
+import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import gmd.datatable.demo.client.application.ApplicationPresenter;
 import gmd.datatable.demo.client.application.BasePresenter;
@@ -40,6 +40,8 @@ public class HomePresenter extends BasePresenter<HomePresenter.MyView, HomePrese
         void setDashboard(List<Dashboard> dashboards);
     }
 
+    private PlaceManager placeManager;
+
     @ProxyStandard
     @NameToken(NameTokens.HOME)
     interface MyProxy extends ProxyPlace<HomePresenter> {
@@ -49,8 +51,11 @@ public class HomePresenter extends BasePresenter<HomePresenter.MyView, HomePrese
     HomePresenter(
         EventBus eventBus,
         MyView view,
-        MyProxy proxy) {
+        MyProxy proxy,
+        PlaceManager placeManager) {
         super(eventBus, view, proxy, ApplicationPresenter.SLOT_MAIN);
+
+        this.placeManager = placeManager;
     }
 
     @Override
@@ -59,8 +64,12 @@ public class HomePresenter extends BasePresenter<HomePresenter.MyView, HomePrese
 
 
         getView().setDashboard(Arrays.asList(
-            new Dashboard("Standard", "Native", NameTokens.STANDARD, Color.RED),
-            new Dashboard("Categorized", "Native", NameTokens.CATEGORIZED, Color.AMBER)
+            new Dashboard(placeManager, "Standard", "Simple DataTable implementation", NameTokens.STANDARD, Color.RED),
+            new Dashboard(placeManager, "Categorized", "Categorized your rows.", NameTokens.CATEGORIZED, Color.AMBER),
+            new Dashboard(placeManager, "Paged", "Provided a data pager for datatable.", NameTokens.PAGED, Color.PURPLE),
+            new Dashboard(placeManager, "Frozen", "Provided a frozen column.", NameTokens.FROZEN, Color.GREEN),
+            new Dashboard(placeManager, "Infinite", "Provided Table Rows Infinite Scrolling. ", NameTokens.INFINITE, Color.ORANGE),
+            new Dashboard(placeManager, "Customized", "Build your desired Table Look and Feel.", NameTokens.CUSTOMIZED, Color.BLUE)
         ));
     }
 

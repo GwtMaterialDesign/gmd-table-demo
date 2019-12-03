@@ -45,11 +45,8 @@ public class HomeView extends ViewImpl implements HomePresenter.MyView {
 
     @Override
     public void setDashboard(List<Dashboard> dashboards) {
-        row.clear();
-
         for (Dashboard dashboard : dashboards) {
-            DashboardCard card = new DashboardCard(dashboard);
-            row.add(card);
+            row.add(new DashboardCard(dashboard));
         }
     }
 }

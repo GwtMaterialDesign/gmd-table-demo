@@ -25,7 +25,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
 import gwt.material.design.client.base.helper.ColorHelper;
+import gwt.material.design.client.ui.MaterialCard;
 import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialLabel;
 
@@ -35,7 +37,11 @@ public class DashboardCard extends Composite {
     private final Dashboard dashboard;
 
     @UiField
+    MaterialCard card;
+
+    @UiField
     MaterialLabel symbol, name, description;
+
 
     interface DashboardCardUiBinder extends UiBinder<MaterialColumn, DashboardCard> {
     }
@@ -56,6 +62,14 @@ public class DashboardCard extends Composite {
 
         symbol.setBackgroundColor(ColorHelper.addShade(dashboard.getColor(), ColorHelper.Shade.LIGHTEN, 5));
         symbol.setTextColor(dashboard.getColor());
+
+        card.addClickHandler(event -> {
+            PlaceRequest placeRequest = new PlaceRequest.Builder()
+                .nameToken(dashboard.getLink())
+                .build();
+
+            dashboard.getPlaceManager().revealPlace(placeRequest);
+        });
     }
 
     @Override

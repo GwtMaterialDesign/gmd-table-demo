@@ -26,4 +26,6 @@ public class NameTokens {
     public static final String CATEGORIZED = "categorized";
     public static final String PAGED = "paged";
     public static final String FROZEN = "frozen";
+    public static final String INFINITE = "infinite";
+    public static final String CUSTOMIZED = "customized";
 }

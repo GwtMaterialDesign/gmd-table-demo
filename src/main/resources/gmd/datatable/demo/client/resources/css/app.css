@@ -5,9 +5,7 @@
 html, body {
     overflow-x: hidden;
 }
-nav .brand-logo {
-    margin-left: -104px !important;
-}
+
 nav .brand-logo,
 nav ul a,
 nav i {
@@ -48,6 +46,10 @@ pre {
     background: #f0f5fe;
     padding: 20px;
     white-space: pre-line;
+}
+
+#homeview .filter {
+    display: none !important;
 }
 
 /** Theme Icon **/
@@ -157,101 +159,14 @@ nav ul li.active {
     margin: auto;
 }
 
-ul.side-nav.right-aligned:not(.drawer) {
-    right: 8px !important;
-}
-
 /** TODO: Check **/
 table.table tbody tr.subheader th:first-child, table.table tbody tr.subheader td:first-child {
     min-width: 10% !important;
     max-width: 10% !important;
 }
 
-/** TODO: Move to table#dark.css **/
-.table-container .top-panel,
-.table-container,
-table.table thead tr th {
-    background-color: #424242;
-    color: #ffffff;
-}
-
-table.table tbody td {
-    color: #ffffff;
-}
-
-.table-container .top-panel {
-    border-bottom: 2px solid #4a4a4a;
-}
-
-thead {
-    border-bottom: none !important;
-}
-
-table tr.stickyExclude {
-    height: 2px;
-    background-color: transparent !important;
-}
-
-table.table tbody tr.data-row {
-    border-bottom: 1px solid #4a4a4a;
-}
-
-table.table tbody tr.data-row:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-table.table tbody tr.selected, table.table tbody tr.selected td {
-    background-color: rgba(255, 255, 255, 0.04) !important;
-}
-
-table.striped > tbody > tr:nth-child(odd) {
-    background-color: #4a4a4a;
-}
-
-table.table tbody tr.subheader {
-    background-color: #424242;
-    border-bottom: 1px solid #525252;
-    color: #ffffff;
-}
-
-table.table tbody > div {
-    background: transparent !important;
-}
-
-table.table thead tr th.sortable:hover,
-table.table thead tr th,
-table.table thead th.selected {
-    color: rgba(255, 255, 255, 0.52);
-}
-
-table.table tbody tr.expansion td div .content {
-    background-color: #4a4a4a;
-}
-
-table.table tbody tr.expansion td div.expanded {
-    border-bottom: none;
-}
-
-/** Data Pager **/
-.data-pager .input-field .select-wrapper input.select-dropdown,
-.data-pager .num-page-panel .input-field input[type=number] {
-    color: white;
-    border-bottom: 1px solid #818181;
-}
-
-.table-container .data-pager {
-    border: none;
-}
-
-.data-pager .action-page-panel i.disabled {
-    background: #424242 !important;
-    color: rgba(153, 153, 153, 0.2) !important;
-}
-
-.data-pager .action-page-panel i {
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.data-pager .action-page-panel i:hover {
-    color: rgb(255, 255, 255);
+@media only screen and (max-width: 600px) {
+    nav .brand-logo {
+        left: 80px !important;
+    }
 }

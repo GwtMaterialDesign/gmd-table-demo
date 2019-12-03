@@ -23,11 +23,13 @@
 
 	<m:MaterialPanel>
 		<m:MaterialRow>
-			<m:MaterialLabel ui:field="title" fontSize="2.4em" grid="s12"/>
-			<m:MaterialLabel ui:field="description" grid="s12 m8"/>
-			<m:MaterialPanel paddingTop="20" paddingBottom="20" grid="s12">
-				<m:MaterialLink ui:field="sourceCode" text="Source Code" iconType="CODE"/>
-			</m:MaterialPanel>
+			<m:MaterialColumn grid="s12 m10" offset="m1">
+				<m:MaterialLabel ui:field="title" fontSize="2.4em" grid="s12"/>
+				<m:MaterialLabel ui:field="description" grid="s12 m8"/>
+				<m:MaterialPanel paddingTop="20" paddingBottom="20" grid="s12">
+					<m:MaterialLink ui:field="sourceCode" text="Source Code" iconType="CODE"/>
+				</m:MaterialPanel>
+			</m:MaterialColumn>
 		</m:MaterialRow>
 	</m:MaterialPanel>
 </ui:UiBinder> 

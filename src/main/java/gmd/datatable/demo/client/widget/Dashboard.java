@@ -1,5 +1,6 @@
 package gmd.datatable.demo.client.widget;
 
+import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import gwt.material.design.client.constants.Color;
 
 public class Dashboard {
@@ -8,12 +9,14 @@ public class Dashboard {
     private String description;
     private String link;
     private Color color;
+    private PlaceManager placeManager;
 
-    public Dashboard(String name, String description, String link, Color color) {
+    public Dashboard(PlaceManager placeManager, String name, String description, String link, Color color) {
         this.name = name;
         this.description = description;
         this.link = link;
         this.color = color;
+        this.placeManager = placeManager;
     }
 
     public String getName() {
@@ -46,5 +49,13 @@ public class Dashboard {
 
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    public PlaceManager getPlaceManager() {
+        return placeManager;
+    }
+
+    public void setPlaceManager(PlaceManager placeManager) {
+        this.placeManager = placeManager;
     }
 }

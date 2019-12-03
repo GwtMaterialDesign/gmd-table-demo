@@ -23,20 +23,24 @@
 >
 
 	<m:MaterialPanel>
-		<m:table.MaterialDataTable ui:field="table"
-								   shadow="1"
-								   height="400px"/>
-		<m:MaterialPanel ui:field="filterPanel">
-			<m:MaterialLabel text="Options" fontSize="2em" marginTop="12"/>
-			<m:MaterialLabel text="Play with the options to customize datatable" />
+		<m:MaterialRow>
+			<m:MaterialColumn grid="s12 m10" offset="m1">
+				<m:table.MaterialDataTable ui:field="table"
+										   shadow="1"
+										   height="400px"/>
+				<m:MaterialPanel ui:field="filterPanel">
+					<m:MaterialLabel text="Options" fontSize="2em" marginTop="12"/>
+					<m:MaterialLabel text="Play with the options to customize datatable" />
 
-			<m:MaterialRow marginTop="80">
-				<m:MaterialTextBox ui:field="tableName" label="Table Title" text="Customers" fieldType="OUTLINED"/>
-				<m:MaterialListValueBox ui:field="selectionType" placeholder="Selection Type" fieldType="OUTLINED"/>
-				<m:MaterialListValueBox ui:field="density" placeholder="Density" fieldType="OUTLINED"/>
-				<m:MaterialCheckBox ui:field="stickyHeader" text="Enable Sticky Header" marginBottom="12"/>
-				<m:MaterialCheckBox ui:field="striped" text="Apply Striped Style" />
-			</m:MaterialRow>
-		</m:MaterialPanel>
+					<m:MaterialRow marginTop="80">
+						<m:MaterialTextBox ui:field="tableName" label="Table Title" text="Customers" fieldType="OUTLINED"/>
+						<m:MaterialListValueBox ui:field="selectionType" placeholder="Selection Type" fieldType="OUTLINED"/>
+						<m:MaterialListValueBox ui:field="density" placeholder="Density" fieldType="OUTLINED"/>
+						<m:MaterialCheckBox ui:field="stickyHeader" text="Enable Sticky Header" marginBottom="12"/>
+						<m:MaterialCheckBox ui:field="striped" text="Apply Striped Style" />
+					</m:MaterialRow>
+				</m:MaterialPanel>
+			</m:MaterialColumn>
+		</m:MaterialRow>
 	</m:MaterialPanel>
 </ui:UiBinder>

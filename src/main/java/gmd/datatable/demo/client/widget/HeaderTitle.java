@@ -1,4 +1,4 @@
-package gmd.datatable.demo.client.widget.test;
+package gmd.datatable.demo.client.widget;
 
 /*
  * #%L
@@ -55,7 +55,8 @@ public class HeaderTitle extends Composite {
     public void setDetails(String title, String description, String link) {
         this.title.setText(title);
         this.description.setText(description);
-        this.sourceCode.setText(link);
+        this.sourceCode.setHref(link);
+        this.sourceCode.setTarget("_blank");
     }
 
     @Override
