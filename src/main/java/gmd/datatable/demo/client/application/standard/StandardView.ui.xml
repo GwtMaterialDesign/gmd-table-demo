@@ -20,6 +20,8 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 			 xmlns:m="urn:import:gwt.material.design.client.ui"
 			 xmlns:table="urn:import:gwt.material.design.client.ui.table"
+			 xmlns:g="urn:import:com.google.gwt.user.client.ui"
+			 xmlns:widget="urn:import:gmd.datatable.demo.client.application.widget"
 >
 
 	<m:MaterialPanel>
@@ -27,7 +29,174 @@
 			<m:MaterialColumn grid="s12 m10" offset="m1">
 				<m:table.MaterialDataTable ui:field="table"
 										   shadow="1"
-										   height="400px"/>
+										   height="400px"
+										   marginBottom="80"/>
+
+				<!-- Events -->
+				<widget:CodeSection sectionTitle="Events" description="All events are logged below.">
+					<m:MaterialCard >
+						<m:MaterialCardContent>
+							<m:MaterialPanel ui:field="events" height="200px" overflow="AUTO"></m:MaterialPanel>
+						</m:MaterialCardContent>
+					</m:MaterialCard>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="DataTable Events">
+					<g:HTMLPanel>
+						<blockquote>
+							<p><b>Row Select Event - </b><span>Add a row select handler, called when a user selects a row.</span></p>
+							<p><b>Sort Column Event - </b><span>Add a sort column handler, called when a user sorts a column.</span></p>
+							<p><b>Row Count Change Event - </b><span>Add a row count change handler, called when the row count changes.</span></p>
+							<p><b>Category Opened Event - </b><span>Add category opened handler, called when a category is opened.</span></p>
+							<p><b>Category Closed Event - </b><span>Add category closed handler, called when a category is closed.</span></p>
+							<p><b>Row Double Click Event - </b><span>Add a row double click handler, called when a row is double clicked.</span></p>
+							<p><b>Select All Event - </b><span>Add a select all handler, called when all rows were selected</span></p>
+							<p><b>Row Long Press Event - </b><span>Add a row long press handler, called when a row is long pressed.</span></p>
+							<p><b>Row Short Press Event - </b><span>Add a row short press handler, called when a row is short pressed.</span></p>
+							<p><b>Selection Event - </b><span>Add a selection handler, called when a row is selected</span></p>
+							<p><b>Row Context Menu - </b><span>Add a row context menu handler, called when user right click a row to open context menu.</span></p>
+
+							<p><b>Rendered Event - </b><span>Add a row context menu handler, called when user right click a row to open context menu.</span></p>
+							<p><b>Components Rendered Event - </b><span>Called each time when components are rendered, which includes sorting renders and refreshView() renders.</span></p></blockquote>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Properties">
+					<g:HTMLPanel>
+						<blockquote>
+							<p><b>height - </b><span> sets the height of the datatable</span></p>
+							<p><b>useStickyHeader - </b><span> Enable the use of sticky table header bar.</span></p>
+							<p><b>useCategories - </b><span> Allow the data view to generate categories, or use added categories for row data. </span></p>
+							<p><b>selectionType - </b><span> Set the data views row selection type.</span></p>
+							<p><b>useLoadOverlay - </b><span> Use the loading overlay mask.</span></p>
+							<p><b>useRowExpansion - </b><span> Use row expansion functionality, giving the user a way to expand rows for extra information.</span></p>
+						</blockquote>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Table Scaffolding" description="Get all table component element by calling table.getScaffolding()">
+					<g:HTMLPanel>
+						<blockquote>
+							<p><b>getTableBody() - </b><span> Where the Table Header, Row and column were rendered.</span></p>
+							<p><b>getTopPanel() - </b><span> Parent of Info Panel</span></p>
+							<p><b>getInfoPanel() - </b><span> Parent of Table Title </span></p>
+							<p><b>getToolPanel() - </b><span> Contains the stretch and column filter icons.</span></p>
+							<p><b>getXScrollPanel() - </b><span> Horizontal scroll</span></p>
+							<p><b>getTable() - </b><span> The table element that wraps the table body</span></p>
+						</blockquote>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Selection Types" description="Choose your selection requirement within your table rows.">
+					<g:HTMLPanel>
+						<blockquote>
+							<p><b>NONE - </b><span> No Row selection is applied.</span></p>
+							<p><b>SINGLE - </b><span> Added a single selection box within your rows.</span></p>
+							<p><b>MULTIPLE - </b><span> Added a multiple selection box within your rows.</span></p>
+						</blockquote>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Striped" description="Others call it zebra rows">
+					<g:HTMLPanel>
+						<blockquote>
+							<p><b>addStyleName("striped") - </b><span> Will apply a striped / zebra row design.</span></p>
+						</blockquote>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Density" description="Applied Row Height depends on Density by calling table.setDensity(Density);">
+					<g:HTMLPanel>
+						<blockquote>
+							<p><b>DEFAULT - </b><span> Will apply a row height of 55px</span></p>
+							<p><b>COMFORTABLE - </b><span> Will apply a row height of 40px</span></p>
+							<p><b>COMPACT - </b><span> Will apply a row height of 20px</span></p>
+						</blockquote>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Adding Columns" description="You can easily add data table columns by calling table.addColumn(). Also you can setup the sort comparator on each column.">
+					<g:HTMLPanel>
+						<pre class="java">
+table.addColumn("First Name", new TextColumn&lt;User>() {
+ @Override
+  public String getValue(User object) {
+   return object.getName();
+ }
+});
+						</pre>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Adding Widget Columns" description="You can easily add any Material Design widget column.">
+					<g:HTMLPanel>
+						<pre class="java">
+table.addColumn("Image", new WidgetColumn&lt;User, MaterialPanel>() {
+	@Override
+	public MaterialPanel getValue(User object) {
+		MaterialPanel panel = new MaterialPanel();
+		MaterialImage image = new MaterialImage();
+		image.setUrl(object.getImage());
+		image.setWidth("32px");
+		image.setHeight("32px");
+		image.setCircle(true);
+		panel.add(image);
+		return panel;
+	}
+});
+						</pre>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Sortable Columns" description="Make this column auto sort on rendering, if multiple columns are auto sorting it will be based on the first one set to auto sort.">
+					<g:HTMLPanel>
+						<pre class="java">
+table.addColumn("First Name", new TextColum&lt;User>() {
+	@Override
+	public String getValue(User object) {
+		return object.getName();
+	}
+
+	@Override
+	public boolean sortable() {
+		return true;
+	}
+});
+						</pre>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Set Row Data" description="Set the row data bound to datatable">
+					<g:HTMLPanel>
+						<blockquote>
+							<p><b>table.setRowData(0, people);  </b></p>
+						</blockquote>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Field Updater" description="Same with GWT CellTable / DataTable we also have implemented on how to setFieldUpdater easily.">
+					<g:HTMLPanel>
+						<pre class="java">
+textColumn.setFieldUpdater(new FieldUpdater() {
+	 @Override
+	 public void update(int i, Object o, Object o2) {
+	  	// Some updates here
+	 }
+});
+						</pre>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Refreshing and Redrawing the table" description="When Updating fields (Specially when using textbox) on DataTable you can refresh the datable easily.">
+					<g:HTMLPanel>
+						<blockquote>
+							<p><b>table.getView().setRedraw(true);   </b><span>Set redraw data view elements.</span></p>
+							<p><b>table.getView().refresh();  </b><span>Invoke a view refresh.</span></p>
+						</blockquote>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<!-- Filter Panel -->
 				<m:MaterialPanel ui:field="filterPanel">
 					<m:MaterialLabel text="Options" fontSize="2em" marginTop="12"/>
 					<m:MaterialLabel text="Play with the options to customize datatable" />
@@ -42,5 +211,6 @@
 				</m:MaterialPanel>
 			</m:MaterialColumn>
 		</m:MaterialRow>
+
 	</m:MaterialPanel>
 </ui:UiBinder>

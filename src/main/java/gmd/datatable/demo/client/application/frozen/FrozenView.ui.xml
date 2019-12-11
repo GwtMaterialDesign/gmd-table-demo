@@ -19,6 +19,8 @@
   -->
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 			 xmlns:m="urn:import:gwt.material.design.client.ui"
+			 xmlns:widget="urn:import:gmd.datatable.demo.client.application.widget"
+			 xmlns:g="urn:import:com.google.gwt.user.client.ui"
 >
 
 	<m:MaterialPanel>
@@ -27,6 +29,40 @@
 				<m:table.MaterialDataTable ui:field="table"
 										   shadow="1"
 										   height="400px"/>
+
+				<widget:CodeSection sectionTitle="Properties" marginTop="80">
+					<g:HTMLPanel>
+						<blockquote>
+							<p style="margin-bottom: 12px;"><b> Set your useStickHeader to false </b></p>
+
+							<p style="margin-bottom: 12px;"><b> RIGHT Frozen Column does not support yet </b></p>
+						</blockquote>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Setting Up" description="Follow the code below to define a frozen column" marginTop="80">
+					<g:HTMLPanel>
+						<pre class="java">
+table.addColumn("Product Name", new TextColumn&lt;Product>() {
+	@Override
+	public String getValue(Product object) {
+		return object.getProductName();
+	}
+}.width("200px")
+.frozenProperties(new FrozenProperties("100px", "55px")));
+
+table.addColumn("Adjective", new TextColumn&lt;Product>() {
+	@Override
+	public String getValue(Product object) {
+		return object.getProductAdjective();
+	}
+}.width("200px")
+.frozenProperties(new FrozenProperties("100px", "55px")));
+						</pre>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<!-- Filters -->
 				<m:MaterialPanel ui:field="filterPanel">
 					<m:MaterialLabel text="Options" fontSize="2em" marginTop="12"/>
 					<m:MaterialLabel text="Play with the options to customize datatable" />

@@ -28,11 +28,18 @@ import com.gwtplatform.mvp.client.presenter.slots.NestedSlot;
 import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.client.proxy.Proxy;
 import gmd.datatable.demo.client.events.PageRevealEvent;
+import gmd.datatable.demo.client.resources.AppResources;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.theme.dark.ColorSchemeChangeEvent;
 import gwt.material.design.client.ui.MaterialToast;
 
 public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView, ApplicationPresenter.MyProxy>
     implements PageRevealEvent.PageRevealChangeHandler {
+
+    static {
+        MaterialDesignBase.injectCss(AppResources.INSTANCE.highlightCSs());
+        MaterialDesignBase.injectJs(AppResources.INSTANCE.highlightJs());
+    }
 
     interface MyView extends View {
         void updateSideNavContent(View view);

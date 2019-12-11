@@ -8,12 +8,19 @@ import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import gmd.datatable.demo.client.events.PageRevealEvent;
+import gmd.datatable.demo.client.resources.AppResources;
 import gmd.datatable.demo.client.widget.HeaderTitle;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 
 public class BasePresenter<V extends View, Proxy_ extends Proxy<?>> extends Presenter<V, Proxy_> {
 
     protected HeaderTitle headerTitle;
+
+    static {
+        MaterialDesignBase.injectCss(AppResources.INSTANCE.highlightCSs());
+        MaterialDesignBase.injectJs(AppResources.INSTANCE.highlightJs());
+    }
 
     public BasePresenter(EventBus eventBus, V view, Proxy_ proxy, GwtEvent.Type<RevealContentHandler<?>> slot) {
         super(eventBus, view, proxy, slot);
@@ -36,10 +43,19 @@ public class BasePresenter<V extends View, Proxy_ extends Proxy<?>> extends Pres
         headerTitle.setVisible(false);
         PageRevealEvent.fire(this, getView());
         RootPanel.get().getElement().setId(getView().getClass().getSimpleName().toLowerCase());
+        initPre();
     }
 
     public void setHeaderTitle(String title, String description, String link) {
         headerTitle.setDetails(title, description, link);
         headerTitle.setVisible(true);
     }
+
+    public static native void initPre() /*-{
+        $wnd.jQuery(document).ready(function() {
+            $wnd.jQuery('pre').each(function(i, block) {
+                $wnd.hljs.highlightBlock(block);
+            });
+        });
+    }-*/;
 }

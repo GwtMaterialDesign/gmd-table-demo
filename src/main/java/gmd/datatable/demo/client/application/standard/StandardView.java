@@ -19,7 +19,9 @@
  */
 package gmd.datatable.demo.client.application.standard;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -28,16 +30,16 @@ import com.gwtplatform.mvp.client.ViewImpl;
 import gmd.datatable.demo.client.generator.user.User;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.density.DisplayDensity;
+import gwt.material.design.client.base.helper.ScrollHelper;
+import gwt.material.design.client.constants.OffsetPosition;
 import gwt.material.design.client.data.SelectionType;
-import gwt.material.design.client.ui.MaterialImage;
-import gwt.material.design.client.ui.MaterialListValueBox;
-import gwt.material.design.client.ui.MaterialPanel;
-import gwt.material.design.client.ui.MaterialTextBox;
+import gwt.material.design.client.ui.*;
 import gwt.material.design.client.ui.table.MaterialDataTable;
 import gwt.material.design.client.ui.table.cell.TextColumn;
 import gwt.material.design.client.ui.table.cell.WidgetColumn;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.List;
 
 public class StandardView extends ViewImpl implements StandardPresenter.MyView {
@@ -59,6 +61,9 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
 
     @UiField
     MaterialTextBox tableName;
+
+    @UiField
+    MaterialPanel events;
 
     @Inject
     StandardView(Binder uiBinder) {
@@ -86,6 +91,11 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
             @Override
             public String getValue(User object) {
                 return object.getName();
+            }
+
+            @Override
+            public boolean sortable() {
+                return true;
             }
         });
 
@@ -123,6 +133,70 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
                 return object.getZipCode();
             }
         });
+
+        // Add a row select handler, called when a user selects a row.
+        table.addRowSelectHandler(event -> {
+            log("RowSelectEvent", event.getModel().getName() + ": " + event.isSelected());
+        });
+
+        // Add a sort column handler, called when a user sorts a column.
+        table.addColumnSortHandler(event -> {
+            log("ColumnSortEvent", "Sorted: " + event.getSortContext().getSortDir() + ", columnIndex: " + event.getColumnIndex());
+            table.getView().refresh();
+        });
+
+        // Add category opened handler, called when a category is opened.
+        table.addCategoryOpenedHandler(event -> {
+            log("CategoryOpenedEvent", "Category Opened: " + event.getName());
+        });
+
+        // Add category closed handler, called when a category is closed.
+        table.addCategoryClosedHandler(event -> {
+            log("CategoryClosedEvent", "Category Closed: " + event.getName());
+        });
+
+        // Add a row double click handler, called when a row is double clicked.
+        table.addRowDoubleClickHandler(event -> {
+            log("RowDoubleClickEvent", "Row Double Clicked: " + event.getModel().getName() + ", x:" + event.getMouseEvent().getPageX() + ", y: " + event.getMouseEvent().getPageY());
+        });
+
+        // Configure the tables long press duration configuration.
+        // The short press is when a click is held less than this duration.
+        table.setLongPressDuration(400);
+
+        // Add a row long press handler, called when a row is long pressed.
+        table.addRowLongPressHandler(event -> {
+            log("RowLongPressEvent", "Row Long Pressed: " + event.getModel().getName() + ", x:" + event.getMouseEvent().getPageX() + ", y: " + event.getMouseEvent().getPageY());
+        });
+
+        // Add a row short press handler, called when a row is short pressed.
+        table.addRowShortPressHandler(event -> {
+            log("RowShortPressEvent", "Row Short Pressed: " + event.getModel().getName() + ", x:" + event.getMouseEvent().getPageX() + ", y: " + event.getMouseEvent().getPageY());
+        });
+
+        // Add rendered handler, called when 'setRowData' calls finish rendering.
+        // Guaranteed to only be called once from the data set render, ignoring sort renders and refreshView renders.
+        table.addRenderedHandler(e -> {
+            log("RenderedEvent", "Table Rendered");
+        });
+
+        // Add components rendered handler, Called each time when components are rendered,
+        // which includes sorting renders and refreshView() renders.
+        table.addComponentsRenderedHandler(e -> {
+            log("ComponentsRenderedEvent", "Data Table Components Rendered");
+        });
+    }
+
+    protected void log(String eventName, String description) {
+        MaterialLabel label = new MaterialLabel("[" + DateTimeFormat.getFormat(DateTimeFormat.PredefinedFormat.DATE_TIME_SHORT).format(new Date()) + "] " +
+            " " + eventName + " - " + description);
+        label.setFontSize("0.8em");
+        events.add(label);
+
+        ScrollHelper scrollHelper = new ScrollHelper();
+        scrollHelper.setOffsetPosition(OffsetPosition.BOTTOM);
+        scrollHelper.setContainer(events);
+        scrollHelper.scrollTo(label);
     }
 
     @Override
@@ -132,6 +206,7 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
 
     @Override
     public void setData(List<User> users) {
+        events.clear();
         table.getTableTitle().setText("Customers");
         table.setRowData(0, users);
         table.getView().refresh();

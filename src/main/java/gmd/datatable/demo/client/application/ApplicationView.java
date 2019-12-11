@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,6 @@
  */
 package gmd.datatable.demo.client.application;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -32,13 +31,12 @@ import gmd.datatable.demo.client.resources.AppResources;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.TableDarkThemeLoader;
 import gwt.material.design.client.base.helper.ColorHelper;
+import gwt.material.design.client.base.viewport.Resolution;
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.js.Window;
 import gwt.material.design.client.pwa.PwaManager;
 import gwt.material.design.client.pwa.push.js.Notification;
-import gwt.material.design.client.pwa.serviceworker.ServiceWorkerManager;
-import gwt.material.design.client.pwa.serviceworker.js.ServiceWorkerOption;
 import gwt.material.design.client.theme.dark.CoreDarkThemeLoader;
-import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.client.theme.dark.DarkThemeManager;
 import gwt.material.design.client.ui.*;
 
@@ -80,15 +78,11 @@ public class ApplicationView extends ViewImpl implements ApplicationPresenter.My
 
         // Enable PWA
         if (PwaManager.isPwaSupported()) {
-            ServiceWorkerManager manager = new ServiceWorkerManager("/gmd-table-demo/service-worker.js");
-            ServiceWorkerOption option = ServiceWorkerOption.create();
-            option.setScope("/gmd-table-demo/");
-            manager.setOption(option);
             PwaManager.getInstance()
-                    .setServiceWorker(manager)
-                    .setThemeColor(ColorHelper.setupComputedBackgroundColor(Color.BLUE_DARKEN_3))
-                    .setWebManifest("manifest.url")
-                    .load();
+                .setServiceWorker(new AppServiceWorkerManager())
+                .setThemeColor(ColorHelper.setupComputedBackgroundColor(Color.BLUE_DARKEN_3))
+                .setWebManifest("manifest.url")
+                .load();
 
             // Will request a notification
             Notification.requestPermission(status -> MaterialToast.fireToast("Permission Status: " + status));
@@ -104,15 +98,18 @@ public class ApplicationView extends ViewImpl implements ApplicationPresenter.My
     @Override
     public void updateSideNavContent(View view) {
         sideContent.clear();
+
         if (view instanceof HasRightSideNav) {
             sideContent.add(((HasRightSideNav) view).getSideContent());
             sidenav.setVisible(true);
             filter.setVisible(true);
-            Scheduler.get().scheduleDeferred(() -> sidenav.open());
+            if (!Window.matchMedia(Resolution.TABLET_AND_MOBILE.asMediaQuery())) {
+                sidenav.open();
+            }
         } else {
-            Scheduler.get().scheduleDeferred(() -> sidenav.close());
             filter.setVisible(false);
             sidenav.setVisible(false);
+            sidenav.close();
         }
     }
 }

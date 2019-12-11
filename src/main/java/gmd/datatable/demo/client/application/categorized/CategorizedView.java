@@ -19,6 +19,7 @@
  */
 package gmd.datatable.demo.client.application.categorized;
 
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -200,6 +201,10 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
         table.getTableTitle().setText("Products");
         table.setRowData(0, products);
         table.getView().refresh();
+
+        /*table.openCategory();
+        table.openAllCategories();
+        table.*/
     }
 
     @Override
@@ -247,6 +252,26 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
     void rowExpansion(ValueChangeEvent<Boolean> event) {
         table.setUseRowExpansion(event.getValue());
         reload();
+    }
+
+    @UiHandler("openSingleCategory")
+    void openSingleCategory(ClickEvent event) {
+        table.openCategory(table.getView().getCategories().get(0));
+    }
+
+    @UiHandler("closeSingleCategory")
+    void closeSingleCategory(ClickEvent event) {
+        table.closeCategory(table.getView().getCategories().get(0));
+    }
+
+    @UiHandler("openAllCategories")
+    void openAllCategories(ClickEvent event) {
+        table.openAllCategories();
+    }
+
+    @UiHandler("closeAllCategories")
+    void closeAllCategories(ClickEvent event) {
+        table.closeAllCategories();
     }
 
     public void reload() {

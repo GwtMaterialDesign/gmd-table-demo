@@ -55,7 +55,7 @@ public class HeaderTitle extends Composite {
     public void setDetails(String title, String description, String link) {
         this.title.setText(title);
         this.description.setText(description);
-        this.sourceCode.setHref(link);
+        this.sourceCode.setHref("https://github.com/GwtMaterialDesign/gmd-table-demo/tree/master/src/main/java/gmd/datatable/demo/client/application/" + link);
         this.sourceCode.setTarget("_blank");
     }
 

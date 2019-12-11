@@ -19,6 +19,8 @@
   -->
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 			 xmlns:m="urn:import:gwt.material.design.client.ui"
+			 xmlns:widget="urn:import:gmd.datatable.demo.client.application.widget"
+			 xmlns:g="urn:import:com.google.gwt.user.client.ui"
 >
 
 	<m:MaterialPanel>
@@ -27,6 +29,74 @@
 				<m:table.MaterialDataTable ui:field="table"
 										   shadow="1"
 										   height="400px"/>
+
+				<widget:CodeSection sectionTitle="Setting Up" description="Below is how you will define your data pager and incorporate with your datatable" marginTop="80">
+					<g:HTMLPanel>
+						<pre class="java">
+// Setup DataTable Pager
+dataSource = new ListDataSource&lt;>();
+dataSource.add(0, users);
+pager.setTable(table);
+pager.setDataSource(dataSource);
+table.add(pager);
+						</pre>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Properties">
+					<g:HTMLPanel>
+						<blockquote>
+							<p style="margin-bottom: 12px;"><b> getCurrentPage() - </b><span>Get the current page.</span></p>
+
+							<p style="margin-bottom: 12px;"><b> getNumPages() - </b><span>Use row expansion functionality, giving the user a way to expand rows for extra information.</span></p>
+
+							<p style="margin-bottom: 12px;"><b>next() - </b><span>Go to next page</span></p>
+
+							<p style="margin-bottom: 12px;"><b> previous() - </b><span>Go to Previos page</span></p>
+
+							<p style="margin-bottom: 12px;"><b> firstPage() - </b><span>Go to First page</span></p>
+
+							<p style="margin-bottom: 12px;"><b> lastPage() - </b><span>Go to Last page</span></p>
+
+							<p style="margin-bottom: 12px;"><b> useRowCountOptions="false" - </b><span>Disable the number of rows selection</span></p>
+						</blockquote>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Page Selection" description="You can change the selection type of your Page values by calling pager.setPageSelection(VALUE)">
+					<g:HTMLPanel>
+						<blockquote>
+							<p style="margin-bottom: 12px;"><b> new PageNumberBox() - </b><span>Will convert your current page selection widget to a number box</span></p>
+
+							<p style="margin-bottom: 12px;"><b> new PageListBox() - </b><span>Will convert your current page selection widget to a list box</span></p>
+						</blockquote>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Locale Provider" description="You can also support internationalization or i18n to your page.">
+					<g:HTMLPanel>
+						<pre class="java">
+pager.setLocaleProvider(new DataPagerLocaleProvider() {
+	@Override
+	public String RowsPerPage() {
+		return "Rows Per Page";
+	}
+
+	@Override
+	public String Page() {
+		return "Page";
+	}
+
+	@Override
+	public String of() {
+		return "of";
+	}
+});
+						</pre>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<!-- Filters -->
 				<m:MaterialPanel ui:field="filterPanel">
 					<m:MaterialLabel text="Options" fontSize="2em" marginTop="12"/>
 					<m:MaterialLabel text="Play with the options to customize datatable" />
@@ -35,6 +105,7 @@
 						<m:MaterialTextBox ui:field="tableName" label="Table Title" text="Customers" fieldType="OUTLINED"/>
 						<m:MaterialListValueBox ui:field="selectionType" placeholder="Selection Type" fieldType="OUTLINED"/>
 						<m:MaterialListValueBox ui:field="density" placeholder="Density" fieldType="OUTLINED"/>
+						<m:MaterialListValueBox ui:field="pageSelection" placeholder="Page Selection" fieldType="OUTLINED"/>
 						<m:MaterialCheckBox ui:field="stickyHeader" text="Enable Sticky Header" marginBottom="12"/>
 						<m:MaterialCheckBox ui:field="striped" text="Apply Striped Style" />
 					</m:MaterialRow>

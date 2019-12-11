@@ -66,7 +66,7 @@ public class FrozenPresenter extends BasePresenter<FrozenPresenter.MyView, Froze
     protected void onReveal() {
         super.onReveal();
 
-        setHeaderTitle("Frozen", "Provided a frozen column that has a x-scroll content for horizontal scrolling. For now we just support the LEFT Side Column freezing.", "somelink");
+        setHeaderTitle("Frozen", "Provided a frozen column that has a x-scroll content for horizontal scrolling. For now we just support the LEFT Side Column freezing.", "frozen");
         getView().setData(new DataGenerator().generateProducts(100));
     }
 }

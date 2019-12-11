@@ -66,7 +66,7 @@ public class PagedPresenter extends BasePresenter<PagedPresenter.MyView, PagedPr
     protected void onReveal() {
         super.onReveal();
 
-        setHeaderTitle("Paged", "Using MaterialDataPager, you can easily turn your datatable into paged datatable which is good for large and finite data sets.", "somelink");
+        setHeaderTitle("Paged", "Using MaterialDataPager, you can easily turn your datatable into paged datatable which is good for large and finite data sets.", "paged");
         getView().setData(new DataGenerator().generateUsers(52));
     }
 }

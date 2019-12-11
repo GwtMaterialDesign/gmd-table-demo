@@ -19,6 +19,7 @@
  */
 package gmd.datatable.demo.client.application.frozen;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -35,6 +36,8 @@ import gwt.material.design.client.base.density.DisplayDensity;
 import gwt.material.design.client.data.SelectionType;
 import gwt.material.design.client.ui.*;
 import gwt.material.design.client.ui.table.MaterialDataTable;
+import gwt.material.design.client.ui.table.cell.Column;
+import gwt.material.design.client.ui.table.cell.FrozenProperties;
 import gwt.material.design.client.ui.table.cell.TextColumn;
 import gwt.material.design.jquery.client.api.JQueryElement;
 
@@ -94,11 +97,8 @@ public class FrozenView extends ViewImpl implements FrozenPresenter.MyView {
                 return object.getProductName();
             }
 
-            @Override
-            public boolean sortable() {
-                return true;
-            }
-        }.width("200px"));
+        }.width("200px")
+        .frozenProperties(new FrozenProperties("100px", "55px")));
 
         table.addColumn("Adjective", new TextColumn<Product>() {
             @Override
@@ -106,11 +106,8 @@ public class FrozenView extends ViewImpl implements FrozenPresenter.MyView {
                 return object.getProductAdjective();
             }
 
-            @Override
-            public boolean sortable() {
-                return true;
-            }
-        }.width("200px"));
+        }.width("200px")
+        .frozenProperties(new FrozenProperties("100px", "55px")));
 
         table.addColumn("Color", new TextColumn<Product>() {
             @Override
@@ -208,7 +205,7 @@ public class FrozenView extends ViewImpl implements FrozenPresenter.MyView {
     public void setData(List<Product> products) {
         table.getTableTitle().setText("Products");
         table.setRowData(0, products);
-        table.getView().refresh();
+        reload();
     }
 
     @Override

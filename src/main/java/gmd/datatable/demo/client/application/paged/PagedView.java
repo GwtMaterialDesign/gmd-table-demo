@@ -37,6 +37,9 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.pager.DataPagerLocaleProvider;
 import gwt.material.design.client.ui.pager.MaterialDataPager;
+import gwt.material.design.client.ui.pager.actions.AbstractPageSelection;
+import gwt.material.design.client.ui.pager.actions.PageListBox;
+import gwt.material.design.client.ui.pager.actions.PageNumberBox;
 import gwt.material.design.client.ui.table.MaterialDataTable;
 import gwt.material.design.client.ui.table.cell.TextColumn;
 import gwt.material.design.client.ui.table.cell.WidgetColumn;
@@ -60,6 +63,9 @@ public class PagedView extends ViewImpl implements PagedPresenter.MyView {
 
     @UiField
     MaterialListValueBox<DisplayDensity> density;
+
+    @UiField
+    MaterialListValueBox<AbstractPageSelection> pageSelection;
 
     @UiField
     MaterialTextBox tableName;
@@ -186,6 +192,13 @@ public class PagedView extends ViewImpl implements PagedPresenter.MyView {
         density.addValueChangeHandler(event -> {
             table.setDensity(event.getValue());
             reload();
+        });
+
+        pageSelection.addItem( new PageNumberBox(), "Page NumberBox");
+        pageSelection.addItem( new PageListBox(), "Page ListBox");
+        pageSelection.addValueChangeHandler(event -> {
+            pager.setPageSelection(event.getValue());
+            pager.reload();
         });
     }
 

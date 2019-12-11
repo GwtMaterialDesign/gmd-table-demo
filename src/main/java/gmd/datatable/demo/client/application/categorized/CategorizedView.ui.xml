@@ -19,6 +19,8 @@
   -->
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 			 xmlns:m="urn:import:gwt.material.design.client.ui"
+			 xmlns:g="urn:import:com.google.gwt.user.client.ui"
+			 xmlns:widget="urn:import:gmd.datatable.demo.client.application.widget"
 >
 
 	<m:MaterialPanel>
@@ -28,7 +30,84 @@
 										   shadow="1"
 										   useCategories="true"
 										   useRowExpansion="true"
-										   height="400px"/>
+										   height="400px"
+				  						   marginBottom="80"/>
+
+				<widget:CodeSection sectionTitle="Get Started" description="Requirements to build your categorized datatable. For the java classes, you can browse theme from the Java Source above">
+					<g:HTMLPanel>
+						<blockquote>
+							<p style="margin-bottom: 12px;"><b> useCategories="true" or table.setUseCategories(true) - </b><span>In order to support DataTable categories you must enable the useCategories flag
+							either on xml or java</span></p>
+
+							<p style="margin-bottom: 12px;"><b> useRowExpansion="true" - </b><span>Use row expansion functionality, giving the user a way to expand rows for extra information.</span></p>
+
+							<p style="margin-bottom: 12px;"><b>table.setRowFactory(new ProductRowFactory()); - </b><span>We will define our own person row factory to generate the category name.
+								This can be used to generate your own RowComponent's too, if custom functionality is required.</span></p>
+
+							<p style="margin-bottom: 12px;"><b> table.setCategoryFactory(new CustomCategoryFactory()); - </b><span>If we want to generate all our categories using CustomCategoryComponent
+								We can define our own CategoryComponentFactory. There we can define our own CategoryComponent implementations.</span></p>
+
+							<p style="margin-bottom: 12px;"><b> table.setRenderer(new CustomRenderer&lt;>()); - </b><span>// It is possible to create your own custom renderer per
+								table When you use the BaseRenderer you can override certain draw methods to create elements the way you would like.</span></p>
+						</blockquote>
+					</g:HTMLPanel>
+					<m:MaterialLink text="Java Sources" iconType="LINK" target="_blank" href="https://github.com/GwtMaterialDesign/gmd-table-demo/tree/master/src/main/java/gmd/datatable/demo/client/application/categorized/components" />
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Adding Categories" description="You can easily add categories by calling table.addCategory(String).">
+					<g:HTMLPanel>
+						<pre class="java">
+table.addCategory("New Category");
+						</pre>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Open / Close Category" description="Open an existing Category.">
+					<g:HTMLPanel>
+						<pre class="java">
+CategoryComponent category = table.getView().getCategories().get(0);
+table.openCategory(category);
+table.closeCategory(category);
+						</pre>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Open / Close All Category" description="Open an existing Category.">
+					<g:HTMLPanel>
+						<pre class="java">
+table.openAllCategories();
+table.closeAllCategories();
+						</pre>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Use Row Expansion" description=" Here we are adding a row expansion handler. This is invoked when a row is expanded.">
+					<g:HTMLPanel>
+						<pre class="java">
+table.addRowExpandingHandler(event -> {
+	// Fake Async Task
+	// This is demonstrating a fake asynchronous call to load
+	// the data inside the expansion element.
+	new Timer() {
+		@Override
+		public void run() {
+			// Clear the content first.
+			JQueryElement element = event.getExpansion().getContent().empty();
+			// Assign the jquery element to a GMD Widget
+			MaterialWidget content = new MaterialWidget(element);
+			content.setPadding(20);
+			content.add(new MaterialTitle("Expanded Panel", "Lorem ipsum dolor emet"));
+
+			// Hide the expansion elements overlay section.
+			// The overlay is retrieved using RowExpansion#getOverlay()
+			event.getExpansion().getOverlay().css("display", "none");
+		}
+	}.schedule(2000);
+});
+						</pre>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
 				<m:MaterialPanel ui:field="filterPanel">
 					<m:MaterialLabel text="Options" fontSize="2em" marginTop="12"/>
 					<m:MaterialLabel text="Play with the options to customize datatable" />
@@ -42,6 +121,20 @@
 						<m:MaterialCheckBox ui:field="useCategories" text="Categorized Data" value="true" marginBottom="12"/>
 						<m:MaterialCheckBox ui:field="rowExpansion" text="Use Row Expansion" value="true" marginBottom="12"/>
 					</m:MaterialRow>
+
+					<m:MaterialLabel text="Open First Category" />
+					<m:MaterialRow marginTop="20">
+						<m:MaterialButton ui:field="openSingleCategory" type="OUTLINED" text="Open First" grid="s6" waves="LIGHT"/>
+						<m:MaterialButton ui:field="closeSingleCategory" type="OUTLINED" text="Close First" grid="s6" waves="LIGHT"/>
+					</m:MaterialRow>
+
+					<m:MaterialLabel text="Open First Category" />
+					<m:MaterialRow marginTop="20">
+						<m:MaterialButton ui:field="openAllCategories" type="OUTLINED" text="Open All" grid="s6" waves="LIGHT"/>
+						<m:MaterialButton ui:field="closeAllCategories" type="OUTLINED" text="Close All" grid="s6" waves="LIGHT"/>
+					</m:MaterialRow>
+
+
 				</m:MaterialPanel>
 			</m:MaterialColumn>
 		</m:MaterialRow>

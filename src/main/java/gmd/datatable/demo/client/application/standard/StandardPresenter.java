@@ -67,6 +67,6 @@ public class StandardPresenter extends BasePresenter<StandardPresenter.MyView, S
         super.onReveal();
 
         getView().setData(new DataGenerator().generateUsers(50));
-        setHeaderTitle("Standard", "Simple DataTable implementation", "somelink");
+        setHeaderTitle("Standard", "Simple DataTable implementation", "standard");
     }
 }
