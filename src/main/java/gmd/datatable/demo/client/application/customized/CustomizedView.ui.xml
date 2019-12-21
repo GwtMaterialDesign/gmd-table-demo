@@ -1,0 +1,66 @@
+<!--
+  #%L
+  GwtMaterial
+  %%
+  Copyright (C) 2015 - 2017 GwtMaterialDesign
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+			 xmlns:m="urn:import:gwt.material.design.client.ui"
+			 xmlns:g="urn:import:com.google.gwt.user.client.ui"
+			 xmlns:widget="urn:import:gmd.datatable.demo.client.application.widget"
+>
+
+	<m:MaterialPanel>
+		<m:MaterialRow>
+			<m:MaterialColumn grid="s12 m10" offset="m1">
+				<m:table.MaterialDataTable ui:field="table"
+										   shadow="1"
+										   height="400px"
+										   marginBottom="80"/>
+
+				<widget:CodeSection sectionTitle="Table 13Scaffolding" description="Get all table component element by calling table.getScaffolding()">
+					<g:HTMLPanel>
+						<blockquote>
+							<p><b>getTableBody() - </b><span> Where the Table Header, Row and column were rendered.</span></p>
+							<p><b>getTopPanel() - </b><span> Parent of Info Panel</span></p>
+							<p><b>getInfoPanel() - </b><span> Parent of Table Title </span></p>
+							<p><b>getToolPanel() - </b><span> Contains the stretch and column filter icons.</span></p>
+							<p><b>getXScrollPanel() - </b><span> Horizontal scroll</span></p>
+							<p><b>getTable() - </b><span> The table element that wraps the table body</span></p>
+						</blockquote>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+
+
+				<!-- Filter Panel -->
+				<m:MaterialPanel ui:field="filterPanel">
+					<m:MaterialLabel text="Options" fontSize="2em" marginTop="12"/>
+					<m:MaterialLabel text="Play with the options to customize datatable" />
+
+					<m:MaterialRow marginTop="80">
+						<m:MaterialTextBox ui:field="tableName" label="Table Title" text="Customers" fieldType="OUTLINED"/>
+						<m:MaterialListValueBox ui:field="selectionType" placeholder="Selection Type" fieldType="OUTLINED"/>
+						<m:MaterialListValueBox ui:field="density" placeholder="Density" fieldType="OUTLINED"/>
+						<m:MaterialCheckBox ui:field="stickyHeader" text="Enable Sticky Header" marginBottom="12"/>
+						<m:MaterialCheckBox ui:field="striped" text="Apply Striped Style" />
+					</m:MaterialRow>
+				</m:MaterialPanel>
+			</m:MaterialColumn>
+		</m:MaterialRow>
+
+	</m:MaterialPanel>
+</ui:UiBinder>

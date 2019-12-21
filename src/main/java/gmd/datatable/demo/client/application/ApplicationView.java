@@ -20,6 +20,7 @@
 package gmd.datatable.demo.client.application;
 
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Widget;
@@ -40,6 +41,8 @@ import gwt.material.design.client.theme.dark.CoreDarkThemeLoader;
 import gwt.material.design.client.theme.dark.DarkThemeManager;
 import gwt.material.design.client.ui.*;
 
+import java.util.Date;
+
 public class ApplicationView extends ViewImpl implements ApplicationPresenter.MyView {
 
     interface Binder extends UiBinder<Widget, ApplicationView> {
@@ -59,6 +62,9 @@ public class ApplicationView extends ViewImpl implements ApplicationPresenter.My
 
     @UiField
     MaterialSideNavPush sidenav;
+
+    @UiField
+    MaterialLabel copyright;
 
     @Inject
     ApplicationView(Binder uiBinder) {
@@ -93,6 +99,8 @@ public class ApplicationView extends ViewImpl implements ApplicationPresenter.My
 
         // Remove Splashscreen once js files are loaded
         Document.get().getElementById("splashscreen").removeFromParent();
+
+        copyright.setText("Copyright @ " + DateTimeFormat.getFormat("yyyy").format(new Date()) + " GMD Project");
     }
 
     @Override

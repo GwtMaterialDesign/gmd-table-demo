@@ -58,5 +58,9 @@
                 <m:MaterialPanel ui:field="mainContainer"/>
             </m:MaterialRow>
         </m:MaterialContainer>
+
+        <m:MaterialPanel padding="32" textAlign="CENTER">
+            <m:MaterialLabel ui:field="copyright" secondary="true"/>
+        </m:MaterialPanel>
     </m:MaterialPanel>
 </ui:UiBinder>
