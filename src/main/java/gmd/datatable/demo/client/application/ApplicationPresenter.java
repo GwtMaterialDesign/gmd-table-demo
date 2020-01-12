@@ -19,6 +19,7 @@
  */
 package gmd.datatable.demo.client.application;
 
+import com.google.gwt.dom.client.Document;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.Presenter;
@@ -30,7 +31,14 @@ import com.gwtplatform.mvp.client.proxy.Proxy;
 import gmd.datatable.demo.client.events.PageRevealEvent;
 import gmd.datatable.demo.client.resources.AppResources;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.TableDarkThemeLoader;
+import gwt.material.design.client.base.helper.ColorHelper;
+import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.pwa.PwaManager;
+import gwt.material.design.client.pwa.push.js.Notification;
 import gwt.material.design.client.theme.dark.ColorSchemeChangeEvent;
+import gwt.material.design.client.theme.dark.CoreDarkThemeLoader;
+import gwt.material.design.client.theme.dark.DarkThemeManager;
 import gwt.material.design.client.ui.MaterialToast;
 
 public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView, ApplicationPresenter.MyProxy>
@@ -68,6 +76,30 @@ public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView,
         super.onBind();
 
         addRegisteredHandler(PageRevealEvent.TYPE, this);
+
+        // Dark Theme Mode
+        DarkThemeManager.get()
+            .register(new CoreDarkThemeLoader())
+            .register(new TableDarkThemeLoader())
+            .load();
+
+        // Enable PWA
+        if (PwaManager.isPwaSupported()) {
+            PwaManager.getInstance()
+                .setServiceWorker(new AppServiceWorkerManager())
+                .setThemeColor(ColorHelper.setupComputedBackgroundColor(Color.BLUE_DARKEN_3))
+                .setWebManifest("manifest.url")
+                .load();
+
+            // Will request a notification
+            Notification.requestPermission(status -> MaterialToast.fireToast("Permission Status: " + status));
+        }
+
+        // Inject Resources
+        MaterialDesignBase.injectCss(AppResources.INSTANCE.appCss());
+
+        // Remove Splashscreen once js files are loaded
+        Document.get().getElementById("splashscreen").removeFromParent();
     }
 
     @Override

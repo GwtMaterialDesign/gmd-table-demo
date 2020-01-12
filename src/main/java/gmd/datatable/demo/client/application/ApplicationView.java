@@ -76,30 +76,6 @@ public class ApplicationView extends ViewImpl implements ApplicationPresenter.My
     protected void onAttach() {
         super.onAttach();
 
-        // Dark Theme Mode
-        DarkThemeManager.get()
-            .register(new CoreDarkThemeLoader())
-            .register(new TableDarkThemeLoader())
-            .load();
-
-        // Enable PWA
-        if (PwaManager.isPwaSupported()) {
-            PwaManager.getInstance()
-                .setServiceWorker(new AppServiceWorkerManager())
-                .setThemeColor(ColorHelper.setupComputedBackgroundColor(Color.BLUE_DARKEN_3))
-                .setWebManifest("manifest.url")
-                .load();
-
-            // Will request a notification
-            Notification.requestPermission(status -> MaterialToast.fireToast("Permission Status: " + status));
-        }
-
-        // Inject Resources
-        MaterialDesignBase.injectCss(AppResources.INSTANCE.appCss());
-
-        // Remove Splashscreen once js files are loaded
-        Document.get().getElementById("splashscreen").removeFromParent();
-
         copyright.setText("Copyright @ " + DateTimeFormat.getFormat("yyyy").format(new Date()) + " GMD Project");
     }
 

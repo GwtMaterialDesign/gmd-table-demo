@@ -1,6 +1,5 @@
 package gmd.datatable.demo.client.application;
 
-import com.google.gwt.user.client.Window;
 import gwt.material.design.client.pwa.serviceworker.ServiceEvent;
 import gwt.material.design.client.pwa.serviceworker.ServiceWorkerManager;
 import gwt.material.design.client.pwa.serviceworker.js.ServiceWorker;
