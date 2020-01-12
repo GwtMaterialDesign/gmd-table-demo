@@ -24,11 +24,11 @@
 	<m:MaterialPanel addStyleNames="container">
 		<m:MaterialRow padding="40" textAlign="CENTER">
 			<m:MaterialImage url="https://gwtmaterialdesign.github.io/gmd-core-demo/images/datatable-logo.png" alt="logo" width="120px"/>
-			<m:MaterialLabel text="GMD DataTable 2.3" fontWeight="BOLD" fontSize="3em"/>
+			<m:MaterialLabel text="GMD DataTable 2.3.0" fontWeight="BOLD" fontSize="3em"/>
 			<m:MaterialLabel text="Data tables display sets of data across rows and columns." secondary="true"/>
 			<m:MaterialRow marginTop="20">
-				<m:MaterialLink text="Github Repo" iconType="CODE" display="INLINE_BLOCK" href="https://github.com/GwtMaterialDesign/gwt-material-table" target="_blank" marginRight="32"/>
-				<m:MaterialLink text="Gitter Channel" iconType="INSERT_CHART" display="INLINE_BLOCK" href="https://gitter.im/GwtMaterialDesign/gwt-material" target="_blank" />
+				<m:MaterialLink text="Github" iconType="CODE" display="INLINE_BLOCK" href="https://github.com/GwtMaterialDesign/gwt-material-addins" target="_blank" marginRight="32"/>
+				<m:MaterialLink text="Slack" iconType="INSERT_CHART" display="INLINE_BLOCK" href="https://gmd-project.slack.com" target="_blank" />
 			</m:MaterialRow>
 		</m:MaterialRow>
 		<m:MaterialLabel text="Demos and Documentation" fontSize="2em"/>

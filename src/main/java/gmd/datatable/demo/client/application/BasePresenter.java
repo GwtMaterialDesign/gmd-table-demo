@@ -12,6 +12,7 @@ import gmd.datatable.demo.client.resources.AppResources;
 import gmd.datatable.demo.client.widget.HeaderTitle;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.base.helper.ScrollHelper;
 
 public class BasePresenter<V extends View, Proxy_ extends Proxy<?>> extends Presenter<V, Proxy_> {
 
@@ -44,6 +45,7 @@ public class BasePresenter<V extends View, Proxy_ extends Proxy<?>> extends Pres
         PageRevealEvent.fire(this, getView());
         RootPanel.get().getElement().setId(getView().getClass().getSimpleName().toLowerCase());
         initPre();
+        new ScrollHelper().scrollTo(0);
     }
 
     public void setHeaderTitle(String title, String description, String link) {
