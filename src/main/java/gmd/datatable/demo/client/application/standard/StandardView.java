@@ -19,7 +19,6 @@
  */
 package gmd.datatable.demo.client.application.standard;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -27,17 +26,15 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.ViewImpl;
-import gmd.datatable.demo.client.generator.DataGenerator;
 import gmd.datatable.demo.client.generator.user.User;
-import gwt.material.design.addins.client.combobox.events.ComboBoxEvents;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.density.DisplayDensity;
 import gwt.material.design.client.base.helper.ScrollHelper;
-import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.OffsetPosition;
 import gwt.material.design.client.data.SelectionType;
 import gwt.material.design.client.ui.*;
 import gwt.material.design.client.ui.table.MaterialDataTable;
+import gwt.material.design.client.ui.table.cell.Column;
 import gwt.material.design.client.ui.table.cell.TextColumn;
 import gwt.material.design.client.ui.table.cell.WidgetColumn;
 
@@ -46,8 +43,6 @@ import java.util.Date;
 import java.util.List;
 
 public class StandardView extends ViewImpl implements StandardPresenter.MyView {
-
-    private List<User> users;
 
     interface Binder extends UiBinder<Widget, StandardView> {
     }
@@ -77,25 +72,7 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
 
     @Override
     public void setupTable() {
-        MaterialIcon icon = new MaterialIcon();
-        icon.setPadding(4);
-        icon.setIconType(IconType.ADD_CIRCLE_OUTLINE);
-        icon.registerHandler(icon.addClickHandler(event -> {
-            users.add(0, new DataGenerator().generateUsers(1).get(0));
-            setData(users);
-        }));
-        table.getScaffolding().getToolPanel().add(icon);
-
-        MaterialIcon delete = new MaterialIcon();
-        delete.setPadding(4);
-        delete.setIconType(IconType.DELETE);
-        table.getScaffolding().getToolPanel().add(delete);
-        delete.addClickHandler(event -> {
-            User user = table.getView().getSelectedRowModels(true).get(0);
-            users.remove(user);
-            setData(users);
-        });
-
+        table.setRowClickCooldown(0);
         table.addColumn("Image", new WidgetColumn<User, MaterialPanel>() {
             @Override
             public MaterialPanel getValue(User object) {
@@ -120,6 +97,18 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
             @Override
             public boolean sortable() {
                 return true;
+            }
+        });
+
+        table.addColumn("CheckBox", new WidgetColumn<User, MaterialCheckBox>() {
+            @Override
+            public MaterialCheckBox getValue(User object) {
+                MaterialCheckBox checkBox = new MaterialCheckBox();
+                checkBox.addClickHandler(clickEvent -> {
+                    clickEvent.stopPropagation();
+                });
+                checkBox.setText("My CheckBox");
+                return checkBox;
             }
         });
 
@@ -148,6 +137,11 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
             @Override
             public String getValue(User object) {
                 return object.getCity();
+            }
+
+            @Override
+            public Column<User, String> width(int width) {
+                return super.width(200);
             }
         });
 
@@ -230,7 +224,6 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
 
     @Override
     public void setData(List<User> users) {
-        this.users = users;
         events.clear();
         table.getTableTitle().setText("Customers");
         table.setRowData(0, users);
@@ -246,7 +239,6 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         selectionType.add(SelectionType.SINGLE);
         selectionType.add(SelectionType.MULTIPLE);
         selectionType.addValueChangeHandler(event -> table.setSelectionType(event.getValue()));
-        selectionType.setValue(SelectionType.SINGLE, true);
         // Density
         density.add(DisplayDensity.DEFAULT);
         density.add(DisplayDensity.COMFORTABLE);

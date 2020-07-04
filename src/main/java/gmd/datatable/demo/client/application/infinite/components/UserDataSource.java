@@ -11,14 +11,13 @@ import gwt.material.design.client.data.loader.LoadResult;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class UserDataSource implements DataSource<User> {
 
-    private final UserServiceAsync UserService;
+    private final UserServiceAsync userService;
 
     public UserDataSource(UserServiceAsync UserService) {
-        this.UserService = UserService;
+        this.userService = UserService;
     }
 
     @Override
@@ -30,11 +29,11 @@ public class UserDataSource implements DataSource<User> {
             categoryNames.add("Category " + i);
         }
 
-        UserService.getUsers(loadConfig.getOffset(), loadConfig.getLimit(), categoryNames,
+        userService.getUsers(loadConfig.getOffset(), loadConfig.getLimit(), categoryNames,
             new AsyncCallback<Users>() {
                 @Override
-                public void onSuccess(Users Users) {
-                    callback.onSuccess(new LoadResult<>(Users, loadConfig.getOffset(), Users.getAbsoluteTotal()));
+                public void onSuccess(Users users) {
+                    callback.onSuccess(new LoadResult<>(users, loadConfig.getOffset(), users.getAbsoluteTotal()));
                 }
 
                 @Override
