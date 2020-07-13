@@ -28,7 +28,7 @@
 			<m:MaterialColumn grid="s12 m10" offset="m1">
 				<m:table.MaterialDataTable ui:field="table"
 										   shadow="1"
-										   height="400px"/>
+										   height="440px"/>
 
 				<widget:CodeSection sectionTitle="Properties" marginTop="80">
 					<g:HTMLPanel>

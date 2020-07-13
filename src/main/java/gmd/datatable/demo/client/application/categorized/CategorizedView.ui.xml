@@ -30,7 +30,7 @@
 										   shadow="1"
 										   useCategories="true"
 										   useRowExpansion="true"
-										   height="400px"
+										   height="440px"
 				  						   marginBottom="80"/>
 
 				<widget:CodeSection sectionTitle="Get Started" description="Requirements to build your categorized datatable. For the java classes, you can browse theme from the Java Source above">

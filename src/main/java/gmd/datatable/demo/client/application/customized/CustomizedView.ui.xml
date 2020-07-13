@@ -28,7 +28,7 @@
 			<m:MaterialColumn grid="s12 m10" offset="m1">
 				<m:table.MaterialDataTable ui:field="table"
 										   shadow="1"
-										   height="400px"
+										   height="440px"
 										   marginBottom="80"/>
 
 				<widget:CodeSection sectionTitle="Table 13Scaffolding" description="Get all table component element by calling table.getScaffolding()">

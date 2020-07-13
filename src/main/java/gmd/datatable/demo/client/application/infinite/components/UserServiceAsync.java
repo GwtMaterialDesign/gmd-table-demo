@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface UserServiceAsync {
 
-    void getUsers(int startIndex, int viewSize, List<String> categories, AsyncCallback<Users> async);
+    void getUsers(int startIndex, int viewSize, AsyncCallback<Users> async);
 
     void getCategories(AsyncCallback<List<String>> async);
 }

@@ -100,18 +100,6 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
             }
         });
 
-        table.addColumn("CheckBox", new WidgetColumn<User, MaterialCheckBox>() {
-            @Override
-            public MaterialCheckBox getValue(User object) {
-                MaterialCheckBox checkBox = new MaterialCheckBox();
-                checkBox.addClickHandler(clickEvent -> {
-                    clickEvent.stopPropagation();
-                });
-                checkBox.setText("My CheckBox");
-                return checkBox;
-            }
-        });
-
         table.addColumn("Email", new TextColumn<User>() {
             @Override
             public String getValue(User object) {

@@ -10,6 +10,7 @@ public class User {
     private String city;
     private String zipCode;
     private String image;
+    private String category;
 
     public User() {
     }
@@ -87,5 +88,13 @@ public class User {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

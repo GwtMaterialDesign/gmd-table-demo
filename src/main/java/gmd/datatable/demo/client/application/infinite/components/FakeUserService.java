@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class FakeUserService implements UserServiceAsync {
 
     private static Map<String, List<User>> map = new HashMap<>();
+    private boolean initialLoad = false;
 
     static {
         map.put("Category 1", new DataGenerator().generateUsers(25));
@@ -25,19 +26,13 @@ public class FakeUserService implements UserServiceAsync {
     }
 
     @Override
-    public void getUsers(int startIndex, int viewSize, List<String> categories, AsyncCallback<Users> async) {
+    public void getUsers(int startIndex, int viewSize, AsyncCallback<Users> async) {
         List<User> flatData = new ArrayList<>();
-        if (categories == null) {
-            // Load all data
-            for (String category : FakeUserService.map.keySet()) {
-                flatData.addAll(map.get(category));
-            }
-        } else {
-            // Load data by categories
-            for (String category : categories) {
-                for (User user : map.get(category)) {
-                    flatData.add(user);
-                }
+        // Load data by categories
+        for (String category : map.keySet()) {
+            for (User user : map.get(category)) {
+                user.setCategory(category);
+                flatData.add(user);
             }
         }
 

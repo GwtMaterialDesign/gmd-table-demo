@@ -4,13 +4,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import gmd.datatable.demo.client.generator.user.User;
 import gwt.material.design.client.data.DataSource;
-import gwt.material.design.client.data.component.CategoryComponent;
 import gwt.material.design.client.data.loader.LoadCallback;
 import gwt.material.design.client.data.loader.LoadConfig;
 import gwt.material.design.client.data.loader.LoadResult;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserDataSource implements DataSource<User> {
 
@@ -22,14 +18,7 @@ public class UserDataSource implements DataSource<User> {
 
     @Override
     public void load(LoadConfig<User> loadConfig, LoadCallback<User> callback) {
-        List<CategoryComponent> categories = loadConfig.getOpenCategories();
-
-        List<String> categoryNames = new ArrayList<>();
-        for (int i = 1; i <= 5; i++) {
-            categoryNames.add("Category " + i);
-        }
-
-        userService.getUsers(loadConfig.getOffset(), loadConfig.getLimit(), categoryNames,
+        userService.getUsers(loadConfig.getOffset(), loadConfig.getLimit(),
             new AsyncCallback<Users>() {
                 @Override
                 public void onSuccess(Users users) {

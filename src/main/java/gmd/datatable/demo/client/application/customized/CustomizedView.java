@@ -28,7 +28,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.ViewImpl;
 import gmd.datatable.demo.client.generator.DataGenerator;
 import gmd.datatable.demo.client.generator.user.User;
-import gwt.material.design.addins.client.combobox.MaterialComboBox;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.density.DisplayDensity;
 import gwt.material.design.client.constants.IconType;
@@ -125,18 +124,7 @@ public class CustomizedView extends ViewImpl implements CustomizedPresenter.MyVi
                 listBox.addItem("Option 3");
                 return listBox;
             }
-        });
-
-        table.addColumn("Option", new WidgetColumn<User, MaterialComboBox>() {
-            @Override
-            public MaterialComboBox getValue(User object) {
-                MaterialComboBox combo = new MaterialComboBox();
-                combo.addItem("Option 1");
-                combo.addItem("Option 2");
-                combo.addItem("Option 3");
-                return combo;
-            }
-        });
+        }).width(200);
 
         table.addColumn("Company", new TextColumn<User>() {
             @Override
