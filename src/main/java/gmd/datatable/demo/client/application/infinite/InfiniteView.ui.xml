@@ -28,7 +28,6 @@
 			<m:MaterialColumn grid="s12 m10" offset="m1">
 				<m:table.MaterialInfiniteDataTable ui:field="table"
 												   shadow="1"
-												   useCategories="true"
 												   height="440px"/>
 
 				<widget:CodeSection sectionTitle="Setting Up"
