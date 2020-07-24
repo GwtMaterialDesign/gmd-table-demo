@@ -30,13 +30,13 @@ import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.client.proxy.Proxy;
 import gmd.datatable.demo.client.events.PageRevealEvent;
 import gmd.datatable.demo.client.resources.AppResources;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeLoader;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.TableDarkThemeLoader;
 import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.pwa.PwaManager;
 import gwt.material.design.client.pwa.push.js.Notification;
-import gwt.material.design.client.theme.dark.ColorSchemeChangeEvent;
 import gwt.material.design.client.theme.dark.CoreDarkThemeLoader;
 import gwt.material.design.client.theme.dark.DarkThemeManager;
 import gwt.material.design.client.ui.MaterialToast;
@@ -80,6 +80,7 @@ public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView,
         // Dark Theme Mode
         DarkThemeManager.get()
             .register(new CoreDarkThemeLoader())
+            .register(new AddinsDarkThemeLoader())
             .register(new TableDarkThemeLoader())
             .load();
 

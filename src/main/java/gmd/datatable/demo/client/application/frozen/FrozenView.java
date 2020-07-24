@@ -19,7 +19,6 @@
  */
 package gmd.datatable.demo.client.application.frozen;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -34,9 +33,12 @@ import gmd.datatable.demo.client.generator.product.Product;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.density.DisplayDensity;
 import gwt.material.design.client.data.SelectionType;
-import gwt.material.design.client.ui.*;
+import gwt.material.design.client.theme.dark.DarkThemeManager;
+import gwt.material.design.client.ui.MaterialListValueBox;
+import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.MaterialTextBox;
+import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.table.MaterialDataTable;
-import gwt.material.design.client.ui.table.cell.Column;
 import gwt.material.design.client.ui.table.cell.FrozenProperties;
 import gwt.material.design.client.ui.table.cell.TextColumn;
 import gwt.material.design.jquery.client.api.JQueryElement;
@@ -67,6 +69,11 @@ public class FrozenView extends ViewImpl implements FrozenPresenter.MyView {
     @Inject
     FrozenView(Binder uiBinder) {
         initWidget(uiBinder.createAndBindUi(this));
+
+        DarkThemeManager.get().addColorSchemeChangeHandler(event -> {
+            table.getView().setRedraw(true);
+            table.getView().refresh();
+        });
     }
 
     @Override
@@ -98,7 +105,7 @@ public class FrozenView extends ViewImpl implements FrozenPresenter.MyView {
             }
 
         }.width("200px")
-        .frozenProperties(new FrozenProperties("100px", "55px")));
+            .frozenProperties(new FrozenProperties("100px", "60px")));
 
         table.addColumn("Adjective", new TextColumn<Product>() {
             @Override
@@ -107,7 +114,7 @@ public class FrozenView extends ViewImpl implements FrozenPresenter.MyView {
             }
 
         }.width("200px")
-        .frozenProperties(new FrozenProperties("100px", "55px")));
+            .frozenProperties(new FrozenProperties("100px", "60px")));
 
         table.addColumn("Color", new TextColumn<Product>() {
             @Override

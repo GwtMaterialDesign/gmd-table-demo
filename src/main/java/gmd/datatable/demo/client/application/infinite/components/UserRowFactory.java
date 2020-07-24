@@ -19,6 +19,6 @@ public class UserRowFactory extends RowComponentFactory<User> {
         // This is where we can define a models category.
         // This is useful when we don't want to pollute our
         // object models with the interface HasDataCategory.
-        return model.getCompany();
+        return model.getCategory();
     }
 }

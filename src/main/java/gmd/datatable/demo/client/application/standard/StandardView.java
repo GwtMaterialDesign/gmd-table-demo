@@ -19,7 +19,6 @@
  */
 package gmd.datatable.demo.client.application.standard;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -35,6 +34,7 @@ import gwt.material.design.client.constants.OffsetPosition;
 import gwt.material.design.client.data.SelectionType;
 import gwt.material.design.client.ui.*;
 import gwt.material.design.client.ui.table.MaterialDataTable;
+import gwt.material.design.client.ui.table.cell.Column;
 import gwt.material.design.client.ui.table.cell.TextColumn;
 import gwt.material.design.client.ui.table.cell.WidgetColumn;
 
@@ -72,6 +72,7 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
 
     @Override
     public void setupTable() {
+        table.setRowClickCooldown(0);
         table.addColumn("Image", new WidgetColumn<User, MaterialPanel>() {
             @Override
             public MaterialPanel getValue(User object) {
@@ -124,6 +125,11 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
             @Override
             public String getValue(User object) {
                 return object.getCity();
+            }
+
+            @Override
+            public Column<User, String> width(int width) {
+                return super.width(200);
             }
         });
 
@@ -216,13 +222,11 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
     public void setupOptions() {
         // Table Name
         tableName.addKeyUpHandler(event -> table.getTableTitle().setText(tableName.getValue()));
-
         // Selection Type
         selectionType.add(SelectionType.NONE);
         selectionType.add(SelectionType.SINGLE);
         selectionType.add(SelectionType.MULTIPLE);
         selectionType.addValueChangeHandler(event -> table.setSelectionType(event.getValue()));
-
         // Density
         density.add(DisplayDensity.DEFAULT);
         density.add(DisplayDensity.COMFORTABLE);

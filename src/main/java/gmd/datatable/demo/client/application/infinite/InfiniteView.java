@@ -87,7 +87,7 @@ public class InfiniteView extends ViewImpl implements InfinitePresenter.MyView {
         // We will define our own person row factory to generate the
         // category name. This can be used to generate your own
         // RowComponent's too, if custom functionality is required.
-        /*table.setRowFactory(new UserRowFactory());*/
+        table.setRowFactory(new UserRowFactory());
 
         // If we want to generate all our categories using CustomCategoryComponent
         // We can define our own CategoryComponentFactory. There we can define our

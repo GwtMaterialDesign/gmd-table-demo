@@ -28,7 +28,7 @@
 			<m:MaterialColumn grid="s12 m10" offset="m1">
 				<m:table.MaterialDataTable ui:field="table"
 										   shadow="1"
-										   height="400px"
+										   height="440px"
 										   marginBottom="80"/>
 
 				<widget:CodeSection sectionTitle="Table 13Scaffolding" description="Get all table component element by calling table.getScaffolding()">
@@ -53,8 +53,8 @@
 
 					<m:MaterialRow marginTop="80">
 						<m:MaterialTextBox ui:field="tableName" label="Table Title" text="Customers" fieldType="OUTLINED"/>
-						<m:MaterialListValueBox ui:field="selectionType" placeholder="Selection Type" fieldType="OUTLINED"/>
-						<m:MaterialListValueBox ui:field="density" placeholder="Density" fieldType="OUTLINED"/>
+						<m:MaterialListValueBox ui:field="selectionType" label="Selection Type" fieldType="OUTLINED"/>
+						<m:MaterialListValueBox ui:field="density" label="Density" fieldType="OUTLINED"/>
 						<m:MaterialCheckBox ui:field="stickyHeader" text="Enable Sticky Header" marginBottom="12"/>
 						<m:MaterialCheckBox ui:field="striped" text="Apply Striped Style" />
 					</m:MaterialRow>

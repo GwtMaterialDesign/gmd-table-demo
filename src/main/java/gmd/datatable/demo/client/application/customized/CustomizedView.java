@@ -21,33 +21,31 @@ package gmd.datatable.demo.client.application.customized;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.ViewImpl;
+import gmd.datatable.demo.client.generator.DataGenerator;
 import gmd.datatable.demo.client.generator.user.User;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.density.DisplayDensity;
-import gwt.material.design.client.base.helper.ScrollHelper;
 import gwt.material.design.client.constants.IconType;
-import gwt.material.design.client.constants.OffsetPosition;
 import gwt.material.design.client.data.SelectionType;
 import gwt.material.design.client.ui.*;
 import gwt.material.design.client.ui.table.MaterialDataTable;
-import gwt.material.design.client.ui.table.TableScaffolding;
 import gwt.material.design.client.ui.table.cell.TextColumn;
 import gwt.material.design.client.ui.table.cell.WidgetColumn;
 
 import javax.inject.Inject;
-import java.util.Date;
 import java.util.List;
 
 public class CustomizedView extends ViewImpl implements CustomizedPresenter.MyView {
 
     interface Binder extends UiBinder<Widget, CustomizedView> {
     }
+
+    private List<User> users;
 
     @UiField
     MaterialDataTable<User> table;
@@ -71,10 +69,25 @@ public class CustomizedView extends ViewImpl implements CustomizedPresenter.MyVi
 
     @Override
     public void setupTable() {
+        MaterialIcon icon = new MaterialIcon();
+        icon.setPadding(4);
+        icon.setIconType(IconType.ADD_CIRCLE_OUTLINE);
+        icon.registerHandler(icon.addClickHandler(event -> {
+            users.add(0, new DataGenerator().generateUsers(1).get(0));
+            setData(users);
+        }));
+        table.getScaffolding().getToolPanel().add(icon);
 
-        TableScaffolding scaffolding = table.getScaffolding();
-        scaffolding.getToolPanel().add(new MaterialIcon(IconType.SAVE));
-        scaffolding.getToolPanel().add(new MaterialIcon(IconType.DELETE));
+        MaterialIcon delete = new MaterialIcon();
+        delete.setPadding(4);
+        delete.setIconType(IconType.DELETE);
+        table.getScaffolding().getToolPanel().add(delete);
+        delete.addClickHandler(event -> {
+            User user = table.getView().getSelectedRowModels(true).get(0);
+            users.remove(user);
+            setData(users);
+        });
+
         table.addColumn("Image", new WidgetColumn<User, MaterialPanel>() {
             @Override
             public MaterialPanel getValue(User object) {
@@ -102,19 +115,16 @@ public class CustomizedView extends ViewImpl implements CustomizedPresenter.MyVi
             }
         });
 
-        table.addColumn("Email", new TextColumn<User>() {
+        table.addColumn("Option", new WidgetColumn<User, MaterialListBox>() {
             @Override
-            public String getValue(User object) {
-                return object.getEmail();
+            public MaterialListBox getValue(User object) {
+                MaterialListBox listBox = new MaterialListBox();
+                listBox.addItem("Option 1");
+                listBox.addItem("Option 2");
+                listBox.addItem("Option 3");
+                return listBox;
             }
-        });
-
-        table.addColumn("Phone", new TextColumn<User>() {
-            @Override
-            public String getValue(User object) {
-                return object.getPhone();
-            }
-        });
+        }).width(200);
 
         table.addColumn("Company", new TextColumn<User>() {
             @Override
@@ -201,6 +211,7 @@ public class CustomizedView extends ViewImpl implements CustomizedPresenter.MyVi
 
     @Override
     public void setData(List<User> users) {
+        this.users = users;
         // Customized Table Scaffolding elements
         table.getTableTitle().setText("Customers");
         table.setRowData(0, users);
@@ -217,7 +228,7 @@ public class CustomizedView extends ViewImpl implements CustomizedPresenter.MyVi
         selectionType.add(SelectionType.SINGLE);
         selectionType.add(SelectionType.MULTIPLE);
         selectionType.addValueChangeHandler(event -> table.setSelectionType(event.getValue()));
-
+        selectionType.setValue(SelectionType.SINGLE, true);
         // Density
         density.add(DisplayDensity.DEFAULT);
         density.add(DisplayDensity.COMFORTABLE);
