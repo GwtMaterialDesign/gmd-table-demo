@@ -24,12 +24,12 @@ git clone --quiet --branch=gh-pages https://$GH_TOKEN@github.com/GwtMaterialDesi
 cd gh-pages
 
 # remove the GmdDataTableDemo Snapshot directories from git.
-if [[ -d ./ ]]; then
-git rm -rf ./
+if [[ -d ./snapshot/ ]]; then
+git rm -rf ./snapshot/
 fi
 
 # copy the new GmdDataTableDemo the snapshot dir.
-unzip -u $TRAVIS_BUILD_DIR/target/GmdDataTableDemo*.war -d ./
+unzip -u $TRAVIS_BUILD_DIR/target/GmdDataTableDemo*.war -d ./snapshot/
 
 git add -f .
 git commit -m "Auto-push pattern to gh-pages successful. (Travis build: $TRAVIS_BUILD_NUMBER)"
