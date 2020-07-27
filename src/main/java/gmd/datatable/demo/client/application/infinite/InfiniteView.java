@@ -74,7 +74,7 @@ public class InfiniteView extends ViewImpl implements InfinitePresenter.MyView {
 
     @Inject
     InfiniteView(Binder uiBinder) {
-        table = new MaterialInfiniteDataTable(20,
+        table = new MaterialInfiniteDataTable<>(20,
             InfiniteDataView.DYNAMIC_VIEW, new UserDataSource(userService));
 
         initWidget(uiBinder.createAndBindUi(this));

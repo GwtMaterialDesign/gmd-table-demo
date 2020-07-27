@@ -15,7 +15,8 @@ public class User {
     public User() {
     }
 
-    public User(String image, String name, String email, String phone, String company, String address, String city, String zipCode) {
+    public User(String image, String name, String email, String phone,
+                String company, String address, String city, String zipCode) {
         this.image = image;
         this.name = name;
         this.email = email;

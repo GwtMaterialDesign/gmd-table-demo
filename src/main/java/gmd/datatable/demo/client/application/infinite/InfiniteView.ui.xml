@@ -28,7 +28,8 @@
 			<m:MaterialColumn grid="s12 m10" offset="m1">
 				<m:table.MaterialInfiniteDataTable ui:field="table"
 												   shadow="1"
-												   height="440px"/>
+												   height="440px"
+													 rowHeight="56"/>
 
 				<widget:CodeSection sectionTitle="Setting Up"
 									description="Follow the code below to define an infinite datatable." marginTop="80">

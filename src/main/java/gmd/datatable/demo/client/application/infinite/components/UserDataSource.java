@@ -18,7 +18,7 @@ public class UserDataSource implements DataSource<User> {
 
     @Override
     public void load(LoadConfig<User> loadConfig, LoadCallback<User> callback) {
-        userService.getUsers(loadConfig.getOffset(), loadConfig.getLimit(),
+        userService.getUsers(loadConfig.getOffset(), loadConfig.getLimit(), loadConfig.getOpenCategoryNames(),
             new AsyncCallback<Users>() {
                 @Override
                 public void onSuccess(Users users) {
