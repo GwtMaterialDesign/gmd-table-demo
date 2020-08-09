@@ -8,7 +8,7 @@ import java.util.List;
 @RemoteServiceRelativePath("userService")
 public interface UserService extends RemoteService {
 
-    Users getUsers(int startIndex, int viewSize);
+    Users getUsers(int startIndex, int viewSize, List<String> categories);
 
     List<String> getCategories();
 }
