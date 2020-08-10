@@ -17,9 +17,17 @@ public class DataGenerator {
     }
 
     public List<User> generateUsers(int total) {
+        return generateUsers(total, null);
+    }
+
+    public List<User> generateUsers(int total, String category) {
         List<User> users = new ArrayList<>();
         for (int i = 0; i < total; i++) {
-            users.add(UserGenerator.generate());
+            User user = UserGenerator.generate();
+            if (category != null) {
+                user.setCategory(category);
+            }
+            users.add(user);
         }
         return users;
     }
