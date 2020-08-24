@@ -70,12 +70,15 @@ public class PagedView extends ViewImpl implements PagedPresenter.MyView {
     @UiField
     MaterialTextBox tableName;
 
-    private MaterialDataPager<User> pager = new MaterialDataPager<>();
+    private MaterialDataPager<User> pager;
     private ListDataSource<User> dataSource;
 
     @Inject
     PagedView(Binder uiBinder) {
         initWidget(uiBinder.createAndBindUi(this));
+
+        dataSource = new ListDataSource<>();
+        pager = new MaterialDataPager<>(table, dataSource);
     }
 
     @Override
@@ -145,9 +148,8 @@ public class PagedView extends ViewImpl implements PagedPresenter.MyView {
 
     @Override
     public void setData(List<User> users) {
-        // Setup DataTable Pager
-        dataSource = new ListDataSource<>();
         dataSource.add(0, users);
+        table.add(pager);
 
         pager.setLocaleProvider(new DataPagerLocaleProvider() {
             @Override
@@ -165,13 +167,6 @@ public class PagedView extends ViewImpl implements PagedPresenter.MyView {
                 return "of";
             }
         });
-        pager.setTable(table);
-        pager.setDataSource(dataSource);
-        table.add(pager);
-
-        table.getTableTitle().setText("Customers");
-        table.setRowData(0, users);
-        table.getView().refresh();
     }
 
     @Override
@@ -194,8 +189,8 @@ public class PagedView extends ViewImpl implements PagedPresenter.MyView {
             reload();
         });
 
-        pageSelection.addItem( new PageNumberBox(), "Page NumberBox");
-        pageSelection.addItem( new PageListBox(), "Page ListBox");
+        pageSelection.addItem(new PageNumberBox(), "Page NumberBox");
+        pageSelection.addItem(new PageListBox(), "Page ListBox");
         pageSelection.addValueChangeHandler(event -> {
             pager.setPageSelection(event.getValue());
             pager.reload();
