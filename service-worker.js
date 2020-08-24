@@ -1,13 +1,13 @@
-var cacheName = 'cache_1597635466498';
+var cacheName = 'cache_1598256666361';
 
 var filesToCache = [  
-'/gmd-table-demo/snapshot/',
+'/gmd-table-demo/',
 
-'GmdDataTableDemo/79582819D0D27FCAAC4601068137B303.cache.js',
+'GmdDataTableDemo/D3A59288AA73A204DC2494052C3C1613.cache.js',
 
-'GmdDataTableDemo/B2EFCA57E78492E03128DA384F659759.cache.js',
+'GmdDataTableDemo/D8476D1684B2BC86D6A8AD0C7B89A5FE.cache.js',
 
-'GmdDataTableDemo/BAFF9894F8555A1AD8CDC861A7886B0E.cache.js',
+'GmdDataTableDemo/DFF23468FE00B7489A34694E3C466518.cache.js',
 
 'GmdDataTableDemo/GmdDataTableDemo.devmode.js',
 
