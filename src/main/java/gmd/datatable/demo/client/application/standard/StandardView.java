@@ -85,6 +85,11 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
                 panel.add(image);
                 return panel;
             }
+
+            @Override
+            public boolean sortable() {
+                return true;
+            }
         });
 
 
@@ -105,6 +110,11 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
             public String getValue(User object) {
                 return object.getEmail();
             }
+
+            @Override
+            public boolean sortable() {
+                return true;
+            }
         });
 
         table.addColumn("Phone", new TextColumn<User>() {
@@ -112,12 +122,22 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
             public String getValue(User object) {
                 return object.getPhone();
             }
+
+            @Override
+            public boolean sortable() {
+                return true;
+            }
         });
 
         table.addColumn("Company", new TextColumn<User>() {
             @Override
             public String getValue(User object) {
                 return object.getCompany();
+            }
+
+            @Override
+            public boolean sortable() {
+                return true;
             }
         });
 
@@ -131,12 +151,22 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
             public Column<User, String> width(int width) {
                 return super.width(200);
             }
+
+            @Override
+            public boolean sortable() {
+                return true;
+            }
         });
 
         table.addColumn("Zip Code", new TextColumn<User>() {
             @Override
             public String getValue(User object) {
                 return object.getZipCode();
+            }
+
+            @Override
+            public boolean sortable() {
+                return true;
             }
         });
 
