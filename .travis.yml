@@ -32,7 +32,7 @@ before_install:
 - cd gwt-material-table
 - mvn install -DskipTests=true -DdryRun=true
 - cd ..
-# install the gwt-material-amcharts library
+# install the gwt-material-amcharts4 library
 - git clone -b release_2.4.1 https://github.com/GwtMaterialDesign/gwt-material-amcharts4.git
 - cd gwt-material-amcharts4
 - mvn install -DskipTests=true -DdryRun=true
