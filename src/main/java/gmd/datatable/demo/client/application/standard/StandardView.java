@@ -281,6 +281,15 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         }
     }
 
+    @UiHandler("responsive")
+    void responsive(ValueChangeEvent<Boolean> event) {
+        if (event.getValue()) {
+            table.getScaffolding().getTable().addStyleName("responsive");
+        } else {
+            table.getScaffolding().getTable().removeStyleName("responsive");
+        }
+    }
+
     public void reload() {
         table.getView().setRedraw(true);
         table.getView().refresh();

@@ -208,6 +208,7 @@ textColumn.setFieldUpdater(new FieldUpdater() {
 						<m:MaterialListValueBox ui:field="density" label="Density" fieldType="OUTLINED"/>
 						<m:MaterialCheckBox ui:field="stickyHeader" text="Enable Sticky Header" marginBottom="12"/>
 						<m:MaterialCheckBox ui:field="striped" text="Apply Striped Style" />
+						<m:MaterialCheckBox ui:field="responsive" text="Apply Responsive Style" />
 					</m:MaterialRow>
 				</m:MaterialPanel>
 			</m:MaterialColumn>
