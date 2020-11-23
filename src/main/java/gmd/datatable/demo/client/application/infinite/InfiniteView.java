@@ -37,6 +37,7 @@ import gmd.datatable.demo.client.generator.user.User;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.density.DisplayDensity;
 import gwt.material.design.client.data.SelectionType;
+import gwt.material.design.client.data.component.CategoryComponent;
 import gwt.material.design.client.data.infinite.InfiniteDataView;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialListValueBox;
@@ -169,7 +170,7 @@ public class InfiniteView extends ViewImpl implements InfinitePresenter.MyView {
             @Override
             public void onSuccess(List<String> categories) {
                 for (String category : categories) {
-                    table.addCategory(category);
+                    table.addCategory(new CategoryComponent(table, category, category));
                 }
                 table.getView().setLoadMask(false);
                 reload();
