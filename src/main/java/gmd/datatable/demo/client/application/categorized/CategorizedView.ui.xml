@@ -134,6 +134,17 @@ table.addRowExpandingHandler(event -> {
 						<m:MaterialButton ui:field="closeAllCategories" type="OUTLINED" text="Close All" grid="s6" waves="LIGHT"/>
 					</m:MaterialRow>
 
+					<m:MaterialLabel text="Show or Hide Categories" />
+					<m:MaterialRow marginTop="20">
+						<m:MaterialButton ui:field="showAllCategories" type="OUTLINED" text="Show All" grid="s6" waves="LIGHT"/>
+						<m:MaterialButton ui:field="hideAllCategories" type="OUTLINED" text="Hide All" grid="s6" waves="LIGHT"/>
+					</m:MaterialRow>
+
+					<m:MaterialLabel text="Enable or Disable Categories" />
+					<m:MaterialRow marginTop="20">
+						<m:MaterialButton ui:field="enableAllCategories" type="OUTLINED" text="Enable All" grid="s6" waves="LIGHT"/>
+						<m:MaterialButton ui:field="disableAllCategories" type="OUTLINED" text="Disable All" grid="s6" waves="LIGHT"/>
+					</m:MaterialRow>
 
 				</m:MaterialPanel>
 			</m:MaterialColumn>

@@ -34,6 +34,8 @@ import gmd.datatable.demo.client.generator.product.Product;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.density.DisplayDensity;
 import gwt.material.design.client.data.SelectionType;
+import gwt.material.design.client.data.component.CategoryComponent;
+import gwt.material.design.client.data.factory.CategoryState;
 import gwt.material.design.client.ui.*;
 import gwt.material.design.client.ui.table.MaterialDataTable;
 import gwt.material.design.client.ui.table.cell.TextColumn;
@@ -189,6 +191,10 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
                 }
             }.schedule(2000);
         });
+
+        table.getCategories().forEach(categoryComponent -> {
+            categoryComponent.setState(CategoryState.DISABLE);
+        });
     }
 
     @Override
@@ -272,6 +278,18 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
     @UiHandler("closeAllCategories")
     void closeAllCategories(ClickEvent event) {
         table.closeAllCategories();
+    }
+
+    @UiHandler("enableAllCategories")
+    void enableAll(ClickEvent event) {
+        table.getCategories().forEach(categoryComponent -> categoryComponent.setState(CategoryState.ENABLE));
+        reload();
+    }
+
+    @UiHandler("disableAllCategories")
+    void disableAll(ClickEvent event) {
+        table.getCategories().forEach(categoryComponent -> categoryComponent.setState(CategoryState.DISABLE));
+        reload();
     }
 
     public void reload() {

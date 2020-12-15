@@ -5,18 +5,18 @@ import gwt.material.design.client.data.DataView;
 import gwt.material.design.client.data.HasCategories;
 import gwt.material.design.client.data.component.CategoryComponent;
 import gwt.material.design.client.data.component.CategoryComponent.OrphanCategoryComponent;
+import gwt.material.design.client.data.factory.Category;
 import gwt.material.design.client.data.factory.CategoryComponentFactory;
-import gwt.material.design.client.data.factory.CategoryPair;
 import gwt.material.design.client.ui.table.TableSubHeader;
 
 public class CustomCategoryFactory extends CategoryComponentFactory {
 
     @Override
-    public CategoryComponent generate(DataView dataView, CategoryPair categoryPair) {
+    public CategoryComponent generate(DataView dataView, Category categoryPair) {
         CategoryComponent category = super.generate(dataView, categoryPair);
 
         if(!(category instanceof OrphanCategoryComponent)) {
-            category = new CustomCategoryComponent(dataView, categoryPair.getName(), categoryPair.getId(), false);
+            category = new CustomCategoryComponent(dataView, categoryPair.getName(), categoryPair.getId().toString(), false);
         }
         return category;
     }
