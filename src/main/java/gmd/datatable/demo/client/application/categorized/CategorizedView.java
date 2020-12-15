@@ -34,9 +34,11 @@ import gmd.datatable.demo.client.generator.product.Product;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.density.DisplayDensity;
 import gwt.material.design.client.data.SelectionType;
-import gwt.material.design.client.data.component.CategoryComponent;
 import gwt.material.design.client.data.factory.CategoryState;
-import gwt.material.design.client.ui.*;
+import gwt.material.design.client.ui.MaterialListValueBox;
+import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.MaterialTextBox;
+import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.table.MaterialDataTable;
 import gwt.material.design.client.ui.table.cell.TextColumn;
 import gwt.material.design.jquery.client.api.JQueryElement;
@@ -57,6 +59,9 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
 
     @UiField
     MaterialListValueBox<SelectionType> selectionType;
+
+    @UiField
+    MaterialListValueBox<CategoryState> states;
 
     @UiField
     MaterialListValueBox<DisplayDensity> density;
@@ -193,7 +198,7 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
         });
 
         table.getCategories().forEach(categoryComponent -> {
-            categoryComponent.setState(CategoryState.DISABLE);
+            categoryComponent.setState(CategoryState.DISABLED);
         });
     }
 
@@ -232,6 +237,11 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
             table.setDensity(event.getValue());
             reload();
         });
+
+        //States
+        states.add(CategoryState.ENABLED);
+        states.add(CategoryState.DISABLED);
+        states.add(CategoryState.HIDDEN);
     }
 
     @UiHandler("stickyHeader")
@@ -280,15 +290,9 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
         table.closeAllCategories();
     }
 
-    @UiHandler("enableAllCategories")
-    void enableAll(ClickEvent event) {
-        table.getCategories().forEach(categoryComponent -> categoryComponent.setState(CategoryState.ENABLE));
-        reload();
-    }
-
-    @UiHandler("disableAllCategories")
-    void disableAll(ClickEvent event) {
-        table.getCategories().forEach(categoryComponent -> categoryComponent.setState(CategoryState.DISABLE));
+    @UiHandler("states")
+    void states(ValueChangeEvent<CategoryState> event) {
+        table.getCategories().forEach(categoryComponent -> categoryComponent.setState(event.getValue()));
         reload();
     }
 
