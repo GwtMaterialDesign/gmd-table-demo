@@ -80,8 +80,8 @@ public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView,
         // Dark Theme Mode
         DarkThemeManager.get()
             .register(new CoreDarkThemeLoader())
-            .register(new AddinsDarkThemeLoader())
             .register(new TableDarkThemeLoader())
+            .register(new AddinsDarkThemeLoader())
             .load();
 
         // Enable PWA

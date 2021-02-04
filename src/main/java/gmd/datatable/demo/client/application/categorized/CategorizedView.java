@@ -34,7 +34,7 @@ import gmd.datatable.demo.client.generator.product.Product;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.density.DisplayDensity;
 import gwt.material.design.client.data.SelectionType;
-import gwt.material.design.client.data.factory.CategoryState;
+import gwt.material.design.client.data.factory.CategoryMode;
 import gwt.material.design.client.ui.MaterialListValueBox;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextBox;
@@ -61,7 +61,7 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
     MaterialListValueBox<SelectionType> selectionType;
 
     @UiField
-    MaterialListValueBox<CategoryState> states;
+    MaterialListValueBox<CategoryMode> states;
 
     @UiField
     MaterialListValueBox<DisplayDensity> density;
@@ -198,7 +198,7 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
         });
 
         table.getCategories().forEach(categoryComponent -> {
-            categoryComponent.setState(CategoryState.DISABLED);
+            categoryComponent.setMode(CategoryMode.DISABLED);
         });
     }
 
@@ -239,9 +239,9 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
         });
 
         //States
-        states.add(CategoryState.ENABLED);
-        states.add(CategoryState.DISABLED);
-        states.add(CategoryState.HIDDEN);
+        states.add(CategoryMode.ENABLED);
+        states.add(CategoryMode.DISABLED);
+        states.add(CategoryMode.HIDDEN);
     }
 
     @UiHandler("stickyHeader")
@@ -291,8 +291,8 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
     }
 
     @UiHandler("states")
-    void states(ValueChangeEvent<CategoryState> event) {
-        table.getCategories().forEach(categoryComponent -> categoryComponent.setState(event.getValue()));
+    void states(ValueChangeEvent<CategoryMode> event) {
+        table.getCategories().forEach(categoryComponent -> categoryComponent.setMode(event.getValue()));
         reload();
     }
 
