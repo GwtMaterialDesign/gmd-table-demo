@@ -116,7 +116,7 @@ table.addRowExpandingHandler(event -> {
 						<m:MaterialTextBox ui:field="tableName" label="Table Title" text="Customers" fieldType="OUTLINED"/>
 						<m:MaterialListValueBox ui:field="selectionType" label="Selection Type" fieldType="OUTLINED"/>
 						<m:MaterialListValueBox ui:field="density" label="Density" fieldType="OUTLINED"/>
-						<m:MaterialListValueBox ui:field="states" label="States" fieldType="OUTLINED"/>
+						<m:MaterialListValueBox ui:field="mode" label="Mode" fieldType="OUTLINED"/>
 						<m:MaterialCheckBox ui:field="stickyHeader" text="Enable Sticky Header" marginBottom="12"/>
 						<m:MaterialCheckBox ui:field="striped" text="Apply Striped Style" marginBottom="12"/>
 						<m:MaterialCheckBox ui:field="useCategories" text="Categorized Data" value="true" marginBottom="12"/>

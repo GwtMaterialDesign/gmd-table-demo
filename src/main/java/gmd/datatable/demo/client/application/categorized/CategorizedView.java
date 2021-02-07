@@ -61,7 +61,7 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
     MaterialListValueBox<SelectionType> selectionType;
 
     @UiField
-    MaterialListValueBox<CategoryMode> states;
+    MaterialListValueBox<CategoryMode> mode;
 
     @UiField
     MaterialListValueBox<DisplayDensity> density;
@@ -239,9 +239,9 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
         });
 
         //States
-        states.add(CategoryMode.ENABLED);
-        states.add(CategoryMode.DISABLED);
-        states.add(CategoryMode.HIDDEN);
+        mode.add(CategoryMode.ENABLED);
+        mode.add(CategoryMode.DISABLED);
+        mode.add(CategoryMode.HIDDEN);
     }
 
     @UiHandler("stickyHeader")
@@ -290,7 +290,7 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
         table.closeAllCategories();
     }
 
-    @UiHandler("states")
+    @UiHandler("mode")
     void states(ValueChangeEvent<CategoryMode> event) {
         table.getCategories().forEach(categoryComponent -> categoryComponent.setMode(event.getValue()));
         reload();

@@ -19,8 +19,10 @@
  */
 package gmd.datatable.demo.client.application.standard;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -34,9 +36,7 @@ import gwt.material.design.client.constants.OffsetPosition;
 import gwt.material.design.client.data.SelectionType;
 import gwt.material.design.client.ui.*;
 import gwt.material.design.client.ui.table.MaterialDataTable;
-import gwt.material.design.client.ui.table.cell.Column;
-import gwt.material.design.client.ui.table.cell.TextColumn;
-import gwt.material.design.client.ui.table.cell.WidgetColumn;
+import gwt.material.design.client.ui.table.cell.*;
 
 import javax.inject.Inject;
 import java.util.Date;
@@ -72,6 +72,18 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
 
     @Override
     public void setupTable() {
+
+        // Setting default formats on each columns
+        MaterialDataTable.setDefaultDateFormat(DateTimeFormat.getFormat("MM/dd/yyyy"));
+        //MaterialDataTable.setDefaultIntegerFormat(NumberFormat.getFormat("##"));
+        //MaterialDataTable.setDefaultFloatFormat(NumberFormat.getFormat("##"));
+        //MaterialDataTable.setDefaultDoubleFormat(NumberFormat.getFormat("##"));
+        //MaterialDataTable.setDefaultLongFormat(NumberFormat.getFormat("##"));
+        //MaterialDataTable.setDefaultBigDecimalFormat(NumberFormat.getFormat("##"));
+
+        // Will set the global default blank placeholder
+        MaterialDataTable.setDefaultBlankPlaceholder("-");
+
         table.setRowClickCooldown(0);
         table.addColumn("Image", new WidgetColumn<User, MaterialPanel>() {
             @Override
@@ -92,30 +104,47 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
             }
         });
 
+        table.addColumn(User::getName, "First Name")
+             .sortable(true);
 
-        table.addColumn("First Name", new TextColumn<User>() {
+        table.addColumn(new DateColumn<User>() {
+            @Override
+            public Date getValue(User object) {
+                return new Date();
+            }
+        })
+        .format(DateTimeFormat.getFormat("MM/dd/yyyy"))
+        .blankPlaceholder("-")
+        .name("Date");
+
+        table.addColumn(new IntegerColumn<User>() {
+            @Override
+            public Integer getValue(User object) {
+                return 240;
+            }
+        })
+        .format(NumberFormat.getCurrencyFormat())
+        .defaultValue(0)
+        .name("Currency");
+
+        table.addColumn(new DoubleColumn<User>() {
+            @Override
+            public Double getValue(User object) {
+                return 0.1;
+            }
+        })
+        .format(null)
+        .defaultValue(0.0)
+        .name("Percent");
+
+        table.addColumn(new TextColumn<User>() {
             @Override
             public String getValue(User object) {
-                return object.getName();
+                return null;
             }
-
-            @Override
-            public boolean sortable() {
-                return true;
-            }
-        });
-
-        table.addColumn("Email", new TextColumn<User>() {
-            @Override
-            public String getValue(User object) {
-                return object.getEmail();
-            }
-
-            @Override
-            public boolean sortable() {
-                return true;
-            }
-        });
+        })
+        .blankPlaceholder("-")
+        .name("Email");
 
         table.addColumn("Phone", new TextColumn<User>() {
             @Override
