@@ -19,8 +19,8 @@
  */
 package gmd.datatable.demo.client.application.standard;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.i18n.client.CurrencyList;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -74,12 +74,11 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
     public void setupTable() {
 
         // Setting default formats on each columns
-        MaterialDataTable.setDefaultDateFormat(DateTimeFormat.getFormat("MM/dd/yyyy"));
-        //MaterialDataTable.setDefaultIntegerFormat(NumberFormat.getFormat("##"));
-        //MaterialDataTable.setDefaultFloatFormat(NumberFormat.getFormat("##"));
-        //MaterialDataTable.setDefaultDoubleFormat(NumberFormat.getFormat("##"));
-        //MaterialDataTable.setDefaultLongFormat(NumberFormat.getFormat("##"));
-        //MaterialDataTable.setDefaultBigDecimalFormat(NumberFormat.getFormat("##"));
+        MaterialDataTable.setDefaultColumnFormatter(new ColumnFormatter()
+            .setDateFormat(DateTimeFormat.getFormat("MM/dd/yyyy"))
+            .setDoubleFormat(NumberFormat.getPercentFormat())
+            .setIntegerFormat(NumberFormat.getCurrencyFormat("CAD"))
+            .setLongFormat(NumberFormat.getFormat("##")));
 
         // Will set the global default blank placeholder
         MaterialDataTable.setDefaultBlankPlaceholder("-");
@@ -117,16 +116,6 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         .blankPlaceholder("-")
         .name("Date");
 
-        table.addColumn(new IntegerColumn<User>() {
-            @Override
-            public Integer getValue(User object) {
-                return 240;
-            }
-        })
-        .format(NumberFormat.getCurrencyFormat())
-        .defaultValue(0)
-        .name("Currency");
-
         table.addColumn(new DoubleColumn<User>() {
             @Override
             public Double getValue(User object) {
@@ -136,6 +125,16 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         .format(null)
         .defaultValue(0.0)
         .name("Percent");
+
+        table.addColumn(new IntegerColumn<User>() {
+            @Override
+            public Integer getValue(User object) {
+                return 240;
+            }
+        })
+        .format(NumberFormat.getCurrencyFormat())
+        .defaultValue(0)
+        .name("Currency");
 
         table.addColumn(new TextColumn<User>() {
             @Override
