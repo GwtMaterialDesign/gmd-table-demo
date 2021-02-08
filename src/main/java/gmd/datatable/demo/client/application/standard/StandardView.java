@@ -75,10 +75,13 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
 
         // Setting default formats on each columns
         MaterialDataTable.setDefaultColumnFormatter(new ColumnFormatter()
-            .setDateFormat(DateTimeFormat.getFormat("MM/dd/yyyy"))
-            .setDoubleFormat(NumberFormat.getPercentFormat())
+            .setDateFormat(DateTimeFormat.getFormat("yyyy/MM/dd"))
             .setIntegerFormat(NumberFormat.getCurrencyFormat("CAD"))
-            .setLongFormat(NumberFormat.getFormat("##")));
+            .setLongFormat(NumberFormat.getFormat("##"))
+            .setDoubleFormat(NumberFormat.getPercentFormat())
+            .setFloatFormat(NumberFormat.getDecimalFormat())
+            .setBigDecimalFormat(NumberFormat.getDecimalFormat())
+            .setShortFormat(NumberFormat.getDecimalFormat()));
 
         // Will set the global default blank placeholder
         MaterialDataTable.setDefaultBlankPlaceholder("-");
@@ -119,17 +122,17 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         table.addColumn(new DoubleColumn<User>() {
             @Override
             public Double getValue(User object) {
-                return 0.1;
+                return 0.1126132;
             }
         })
-        .format(null)
+        .format(NumberFormat.getPercentFormat())
         .defaultValue(0.0)
         .name("Percent");
 
         table.addColumn(new IntegerColumn<User>() {
             @Override
             public Integer getValue(User object) {
-                return 240;
+                return 24000000;
             }
         })
         .format(NumberFormat.getCurrencyFormat())
