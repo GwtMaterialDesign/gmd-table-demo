@@ -11,12 +11,13 @@ public class User {
     private String zipCode;
     private String image;
     private String category;
+    private double salary;
 
     public User() {
     }
 
     public User(String image, String name, String email, String phone,
-                String company, String address, String city, String zipCode) {
+                String company, String address, String city, String zipCode, double salary) {
         this.image = image;
         this.name = name;
         this.email = email;
@@ -25,6 +26,7 @@ public class User {
         this.address = address;
         this.city = city;
         this.zipCode = zipCode;
+        this.salary = salary;
     }
 
     public String getName() {
@@ -97,5 +99,13 @@ public class User {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
     }
 }

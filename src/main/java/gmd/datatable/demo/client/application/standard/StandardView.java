@@ -19,8 +19,8 @@
  */
 package gmd.datatable.demo.client.application.standard;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.i18n.client.CurrencyList;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -34,6 +34,7 @@ import gwt.material.design.client.base.density.DisplayDensity;
 import gwt.material.design.client.base.helper.ScrollHelper;
 import gwt.material.design.client.constants.OffsetPosition;
 import gwt.material.design.client.data.SelectionType;
+import gwt.material.design.client.data.component.RowComponent;
 import gwt.material.design.client.ui.*;
 import gwt.material.design.client.ui.table.MaterialDataTable;
 import gwt.material.design.client.ui.table.cell.*;
@@ -107,7 +108,7 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         });
 
         table.addColumn(User::getName, "First Name")
-             .sortable(true);
+            .sortable(true);
 
         table.addColumn(new DateColumn<User>() {
             @Override
@@ -115,9 +116,9 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
                 return new Date();
             }
         })
-        .format(DateTimeFormat.getFormat("MM/dd/yyyy"))
-        .blankPlaceholder("-")
-        .name("Date");
+            .format(DateTimeFormat.getFormat("MM/dd/yyyy"))
+            .blankPlaceholder("-")
+            .name("Date");
 
         table.addColumn(new DoubleColumn<User>() {
             @Override
@@ -125,19 +126,19 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
                 return 0.1126132;
             }
         })
-        .format(NumberFormat.getPercentFormat())
-        .defaultValue(0.0)
-        .name("Percent");
+            .format(NumberFormat.getPercentFormat())
+            .defaultValue(0.0)
+            .name("Percent");
 
         table.addColumn(new IntegerColumn<User>() {
             @Override
             public Integer getValue(User object) {
-                return 24000000;
+                return 24000;
             }
         })
-        .format(NumberFormat.getCurrencyFormat())
-        .defaultValue(0)
-        .name("Currency");
+            .format(NumberFormat.getCurrencyFormat())
+            .defaultValue(0)
+            .name("Currency");
 
         table.addColumn(new TextColumn<User>() {
             @Override
@@ -145,8 +146,23 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
                 return null;
             }
         })
-        .blankPlaceholder("-")
-        .name("Email");
+            .blankPlaceholder("-")
+            .name("Email");
+
+        table.addColumn(new ComputedColumn<User, Double>() {
+            @Override
+            public Double compute(User currentData, List<User> entireData) {
+                double totalSalary = entireData.stream().mapToDouble(User::getSalary).findAny().getAsDouble();
+                double computedValue = totalSalary / currentData.getSalary();
+                GWT.log("Total Salary : " + totalSalary);
+                GWT.log(currentData.getName() + " Salary : " + currentData.getSalary());
+                GWT.log("Computed (Total / Salary) : " + computedValue);
+                return computedValue;
+            }
+        })
+        .format(NumberFormat.getDecimalFormat())
+        .defaultValue(0.0)
+        .name("Total / Salary");
 
         table.addColumn("Phone", new TextColumn<User>() {
             @Override
