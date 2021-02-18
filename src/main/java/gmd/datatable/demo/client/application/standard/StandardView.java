@@ -160,7 +160,7 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
             public Double compute(RowComponent<User> row) {
                 User currentData = row.getData();
                 List<User> entireData = row.getDataView().getData();
-                double totalSalary = entireData.stream().mapToDouble(User::getSalary).findAny().getAsDouble();
+                double totalSalary = entireData.stream().mapToDouble(User::getSalary).sum();
                 double computedValue = totalSalary / currentData.getSalary();
                 GWT.log("Total Salary : " + totalSalary);
                 return computedValue;

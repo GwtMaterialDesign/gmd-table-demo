@@ -19,6 +19,7 @@
  */
 package gmd.datatable.demo.client.application.categorized;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.i18n.client.NumberFormat;
@@ -44,7 +45,6 @@ import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.table.MaterialDataTable;
 import gwt.material.design.client.ui.table.cell.ComputedColumn;
 import gwt.material.design.client.ui.table.cell.DoubleColumn;
-import gwt.material.design.client.ui.table.cell.TextColumn;
 import gwt.material.design.jquery.client.api.JQueryElement;
 
 import javax.inject.Inject;
@@ -104,7 +104,7 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
             .sortable(true)
             .width("25%");
 
-        table.addColumn(Product::getProductAdjective,"Adjective")
+        table.addColumn(Product::getProductAdjective, "Adjective")
             .sortable(true)
             .width("15%");
 
@@ -133,9 +133,27 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
         table.addColumn("Computed", new ComputedColumn<Product, Double>() {
             @Override
             public Double compute(RowComponent<Product> row) {
-                return super.compute(row);
+                Product data = row.getData();
+                List<Product> allData = row.getDataView().getData();
+                List<Product> categoryData = row.getCategory().getData();
+
+                double currentPrice = data.getPrice();
+                double allPrices = allData.stream().mapToDouble(Product::getPrice).sum();
+                double categoryPrices = categoryData.stream().mapToDouble(Product::getPrice).sum();
+
+                GWT.log("--------------------------------");
+                GWT.log(data.getProductName());
+                GWT.log("--------------------------------");
+                GWT.log("Current Price   : " + NumberFormat.getCurrencyFormat().format(currentPrice));
+                GWT.log("All Prices(" + allData.size() + " rows): " + NumberFormat.getCurrencyFormat().format(allPrices));
+                GWT.log("Category Prices (" + categoryData.size() + " rows): " + NumberFormat.getCurrencyFormat().format(categoryPrices));
+                GWT.log("Computed Price (current - (all / category)) : " + NumberFormat.getCurrencyFormat().format(currentPrice - (allPrices / categoryPrices)));
+
+                return currentPrice - (allPrices / categoryPrices);
             }
-        });
+        })
+            .format(NumberFormat.getCurrencyFormat())
+            .blankPlaceholder("-");
 
         // Here we are adding a row expansion handler.
         // This is invoked when a row is expanded.
