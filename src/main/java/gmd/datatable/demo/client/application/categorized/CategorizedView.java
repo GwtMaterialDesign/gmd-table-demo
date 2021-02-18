@@ -21,6 +21,7 @@ package gmd.datatable.demo.client.application.categorized;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -34,12 +35,15 @@ import gmd.datatable.demo.client.generator.product.Product;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.density.DisplayDensity;
 import gwt.material.design.client.data.SelectionType;
+import gwt.material.design.client.data.component.RowComponent;
 import gwt.material.design.client.data.factory.CategoryMode;
 import gwt.material.design.client.ui.MaterialListValueBox;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.table.MaterialDataTable;
+import gwt.material.design.client.ui.table.cell.ComputedColumn;
+import gwt.material.design.client.ui.table.cell.DoubleColumn;
 import gwt.material.design.client.ui.table.cell.TextColumn;
 import gwt.material.design.jquery.client.api.JQueryElement;
 
@@ -96,83 +100,42 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
         // methods to create elements the way you would like.
         table.setRenderer(new CustomRenderer<>());
 
-        table.addColumn("Product Name", new TextColumn<Product>() {
-            @Override
-            public String getValue(Product object) {
-                return object.getProductName();
-            }
+        table.addColumn(Product::getProductName, "Product Name")
+            .sortable(true)
+            .width("25%");
 
+        table.addColumn(Product::getProductAdjective,"Adjective")
+            .sortable(true)
+            .width("15%");
+
+        table.addColumn(Product::getColor, "Color")
+            .sortable(true)
+            .width("15%");
+
+        table.addColumn(Product::getProductMaterial, "Material")
+            .sortable(true)
+            .width("15%");
+
+        table.addColumn(Product::getCompany, "Company")
+            .sortable(true)
+            .width("20%");
+
+        table.addColumn("Price", new DoubleColumn<Product>() {
             @Override
-            public boolean sortable() {
-                return true;
+            public Double getValue(Product object) {
+                return object.getPrice();
             }
         }
-            .width("25%"));
-
-        table.addColumn("Adjective", new TextColumn<Product>() {
-            @Override
-            public String getValue(Product object) {
-                return object.getProductAdjective();
-            }
-
-            @Override
-            public boolean sortable() {
-                return true;
-            }
-        }
-            .width("15%"));
-
-        table.addColumn("Color", new TextColumn<Product>() {
-            @Override
-            public String getValue(Product object) {
-                return object.getColor();
-            }
-
-            @Override
-            public boolean sortable() {
-                return true;
-            }
-        }
-            .width("15%"));
-
-        table.addColumn("Material", new TextColumn<Product>() {
-            @Override
-            public String getValue(Product object) {
-                return object.getProductMaterial();
-            }
-
-            @Override
-            public boolean sortable() {
-                return true;
-            }
-        }.width("15%"));
-
-        table.addColumn("Company", new TextColumn<Product>() {
-            @Override
-            public String getValue(Product object) {
-                return object.getDate();
-            }
-
-            @Override
-            public boolean sortable() {
-                return true;
-            }
-        }
-            .width("20%")
-            .autoSort(true));
-
-        table.addColumn("Price", new TextColumn<Product>() {
-            @Override
-            public String getValue(Product object) {
-                return "$" + object.getPrice();
-            }
-
-            @Override
-            public boolean sortable() {
-                return true;
-            }
-        }
+            .format(NumberFormat.getCurrencyFormat())
+            .sortable(true)
             .width("10%"));
+
+        table.addColumn("Computed", new ComputedColumn<Product, Double>() {
+            @Override
+            public Double compute(RowComponent<Product> row) {
+                return super.compute(row);
+            }
+        });
 
         // Here we are adding a row expansion handler.
         // This is invoked when a row is expanded.

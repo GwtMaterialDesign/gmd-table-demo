@@ -144,7 +144,7 @@ public class FrozenView extends ViewImpl implements FrozenPresenter.MyView {
             table.addColumn("Company", new TextColumn<Product>() {
                 @Override
                 public String getValue(Product object) {
-                    return object.getDate();
+                    return object.getCompany();
                 }
 
                 @Override
@@ -157,7 +157,7 @@ public class FrozenView extends ViewImpl implements FrozenPresenter.MyView {
         table.addColumn("Company", new TextColumn<Product>() {
             @Override
             public String getValue(Product object) {
-                return object.getDate();
+                return object.getCompany();
             }
 
             @Override

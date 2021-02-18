@@ -75,6 +75,7 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
     public void setupTable() {
 
         // Setting default formats on each columns
+        // TODO: getGlobalFormats().set
         MaterialDataTable.setDefaultColumnFormatter(new ColumnFormatter()
             .setDateFormat(DateTimeFormat.getFormat("yyyy/MM/dd"))
             .setIntegerFormat(NumberFormat.getCurrencyFormat("CAD"))
@@ -118,7 +119,8 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         })
             .format(DateTimeFormat.getFormat("MM/dd/yyyy"))
             .blankPlaceholder("-")
-            .name("Date");
+            .name("Date")
+            .sortable(true);
 
         table.addColumn(new DoubleColumn<User>() {
             @Override
@@ -128,7 +130,8 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         })
             .format(NumberFormat.getPercentFormat())
             .defaultValue(0.0)
-            .name("Percent");
+            .name("Percent")
+            .sortable(true);
 
         table.addColumn(new IntegerColumn<User>() {
             @Override
@@ -138,7 +141,8 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         })
             .format(NumberFormat.getCurrencyFormat())
             .defaultValue(0)
-            .name("Currency");
+            .name("Currency")
+            .sortable(true);
 
         table.addColumn(new TextColumn<User>() {
             @Override
@@ -147,75 +151,38 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
             }
         })
             .blankPlaceholder("-")
-            .name("Email");
+            .name("Email")
+            .sortable(true);
 
         table.addColumn(new ComputedColumn<User, Double>() {
+
             @Override
-            public Double compute(User currentData, List<User> entireData) {
+            public Double compute(RowComponent<User> row) {
+                User currentData = row.getData();
+                List<User> entireData = row.getDataView().getData();
                 double totalSalary = entireData.stream().mapToDouble(User::getSalary).findAny().getAsDouble();
                 double computedValue = totalSalary / currentData.getSalary();
                 GWT.log("Total Salary : " + totalSalary);
-                GWT.log(currentData.getName() + " Salary : " + currentData.getSalary());
-                GWT.log("Computed (Total / Salary) : " + computedValue);
                 return computedValue;
             }
         })
-        .format(NumberFormat.getDecimalFormat())
-        .defaultValue(0.0)
-        .name("Total / Salary");
+            .format(NumberFormat.getDecimalFormat())
+            .defaultValue(0.0)
+            .name("Total / Salary")
+            .sortable(true);
 
-        table.addColumn("Phone", new TextColumn<User>() {
-            @Override
-            public String getValue(User object) {
-                return object.getPhone();
-            }
+        table.addColumn(User::getPhone, "Phone")
+            .sortable(true);
 
-            @Override
-            public boolean sortable() {
-                return true;
-            }
-        });
+        table.addColumn(User::getCompany, "Company")
+            .sortable(true);
 
-        table.addColumn("Company", new TextColumn<User>() {
-            @Override
-            public String getValue(User object) {
-                return object.getCompany();
-            }
+        table.addColumn(User::getCity, "City")
+            .width(120)
+            .sortable(true);
 
-            @Override
-            public boolean sortable() {
-                return true;
-            }
-        });
-
-        table.addColumn("City", new TextColumn<User>() {
-            @Override
-            public String getValue(User object) {
-                return object.getCity();
-            }
-
-            @Override
-            public Column<User, String> width(int width) {
-                return super.width(200);
-            }
-
-            @Override
-            public boolean sortable() {
-                return true;
-            }
-        });
-
-        table.addColumn("Zip Code", new TextColumn<User>() {
-            @Override
-            public String getValue(User object) {
-                return object.getZipCode();
-            }
-
-            @Override
-            public boolean sortable() {
-                return true;
-            }
-        });
+        table.addColumn(User::getZipCode, "Zip Code")
+            .sortable(true);
 
         // Add a row select handler, called when a user selects a row.
         table.addRowSelectHandler(event -> {
