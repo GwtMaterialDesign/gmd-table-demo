@@ -75,15 +75,14 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
     public void setupTable() {
 
         // Setting default formats on each columns
-        // TODO: getGlobalFormats().set
-        MaterialDataTable.setDefaultColumnFormatter(new ColumnFormatter()
+        MaterialDataTable.getGlobalFormatProvider()
             .setDateFormat(DateTimeFormat.getFormat("yyyy/MM/dd"))
             .setIntegerFormat(NumberFormat.getCurrencyFormat("CAD"))
             .setLongFormat(NumberFormat.getFormat("##"))
             .setDoubleFormat(NumberFormat.getPercentFormat())
             .setFloatFormat(NumberFormat.getDecimalFormat())
             .setBigDecimalFormat(NumberFormat.getDecimalFormat())
-            .setShortFormat(NumberFormat.getDecimalFormat()));
+            .setShortFormat(NumberFormat.getDecimalFormat());
 
         // Will set the global default blank placeholder
         MaterialDataTable.setDefaultBlankPlaceholder("-");
