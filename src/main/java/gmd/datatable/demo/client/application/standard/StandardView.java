@@ -26,6 +26,7 @@ import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.ViewImpl;
 import gmd.datatable.demo.client.generator.user.User;
@@ -35,6 +36,7 @@ import gwt.material.design.client.base.helper.ScrollHelper;
 import gwt.material.design.client.constants.OffsetPosition;
 import gwt.material.design.client.data.SelectionType;
 import gwt.material.design.client.data.component.RowComponent;
+import gwt.material.design.client.data.factory.Mode;
 import gwt.material.design.client.ui.*;
 import gwt.material.design.client.ui.table.MaterialDataTable;
 import gwt.material.design.client.ui.table.cell.*;
@@ -66,6 +68,8 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
     @UiField
     MaterialPanel events;
 
+    protected MaterialLabel totalSalaryLabel = new MaterialLabel();
+
     @Inject
     StandardView(Binder uiBinder) {
         initWidget(uiBinder.createAndBindUi(this));
@@ -73,10 +77,9 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
 
     @Override
     public void setupTable() {
-
         // Setting default formats on each columns
-        MaterialDataTable.getGlobalFormatProvider()
-            .setDateFormat(DateTimeFormat.getFormat("yyyy/MM/dd"))
+        MaterialDataTable.getGlobals().getDefaultFormatProvider()
+            .setDateFormat(DateTimeFormat.getFormat("MM/dd/yyyy"))
             .setIntegerFormat(NumberFormat.getCurrencyFormat("CAD"))
             .setLongFormat(NumberFormat.getFormat("##"))
             .setDoubleFormat(NumberFormat.getPercentFormat())
@@ -85,7 +88,15 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
             .setShortFormat(NumberFormat.getDecimalFormat());
 
         // Will set the global default blank placeholder
-        MaterialDataTable.setDefaultBlankPlaceholder("-");
+        MaterialDataTable.getGlobals().setDefaultBlankPlaceholder("-");
+
+        // Default Blank Placeholder for the table's instance only
+        //table.setDefaultBlankPlaceholder("N/A");
+        //table.getDefaultFormatProvider().setDateFormat(DateTimeFormat.getFormat("MM"));
+
+        // Setup Footer demo
+        Panel footerPanel = table.getScaffolding().getFooterPanel();
+        footerPanel.add(totalSalaryLabel);
 
         table.setRowClickCooldown(0);
         table.addColumn("Image", new WidgetColumn<User, MaterialPanel>() {
@@ -110,6 +121,7 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         table.addColumn(User::getName, "First Name")
             .sortable(true);
 
+        // Demoing date formats and placeholder
         table.addColumn(new DateColumn<User>() {
             @Override
             public Date getValue(User object) {
@@ -132,25 +144,17 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
             .name("Percent")
             .sortable(true);
 
-        table.addColumn(new IntegerColumn<User>() {
-            @Override
-            public Integer getValue(User object) {
-                return 24000;
-            }
-        })
-            .format(NumberFormat.getCurrencyFormat())
-            .defaultValue(0)
-            .name("Currency")
-            .sortable(true);
-
         table.addColumn(new TextColumn<User>() {
             @Override
             public String getValue(User object) {
-                return null;
+                return object.getEmail();
             }
         })
-            .blankPlaceholder("-")
+            .blankPlaceholder("N/A")
             .name("Email")
+            .sortable(true);
+
+        table.addColumn(User::getPhone, "Phone")
             .sortable(true);
 
         table.addColumn(new ComputedColumn<User, Double>() {
@@ -167,21 +171,21 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         })
             .format(NumberFormat.getDecimalFormat())
             .defaultValue(0.0)
-            .name("Total / Salary")
+            .name("Computed")
             .sortable(true);
 
-        table.addColumn(User::getPhone, "Phone")
+        table.addColumn(new DoubleColumn<User>() {
+            @Override
+            public Double getValue(User object) {
+                return object.getSalary();
+            }
+        })
+            .format(NumberFormat.getCurrencyFormat())
+            .defaultValue(0.0)
+            .name("Salary")
             .sortable(true);
 
-        table.addColumn(User::getCompany, "Company")
-            .sortable(true);
 
-        table.addColumn(User::getCity, "City")
-            .width(120)
-            .sortable(true);
-
-        table.addColumn(User::getZipCode, "Zip Code")
-            .sortable(true);
 
         // Add a row select handler, called when a user selects a row.
         table.addRowSelectHandler(event -> {
@@ -256,9 +260,17 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
     @Override
     public void setData(List<User> users) {
         events.clear();
+
         table.getTableTitle().setText("Customers");
         table.setRowData(0, users);
         table.getView().refresh();
+
+        double totalSalary = users.stream().mapToDouble(User::getSalary).sum();
+        totalSalaryLabel.setText("Total : " + NumberFormat.getCurrencyFormat().format(totalSalary));
+
+        // Setting the first row to be disabled. Available Modes are HIDDEN, DISABLED and ENABLED (By Default)
+        //table.getRow(0).setMode(Mode.DISABLED);
+        reload();
     }
 
     @Override

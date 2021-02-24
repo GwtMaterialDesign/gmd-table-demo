@@ -30,6 +30,7 @@
 			<m:MaterialColumn grid="s12 m10" offset="m1">
 				<m:table.MaterialDataTable ui:field="table"
 										   shadow="1"
+										   useStickyHeader="true"
 										   height="440px"
 										   marginBottom="80"/>
 

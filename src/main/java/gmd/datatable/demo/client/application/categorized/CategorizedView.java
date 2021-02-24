@@ -37,7 +37,7 @@ import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.density.DisplayDensity;
 import gwt.material.design.client.data.SelectionType;
 import gwt.material.design.client.data.component.RowComponent;
-import gwt.material.design.client.data.factory.CategoryMode;
+import gwt.material.design.client.data.factory.Mode;
 import gwt.material.design.client.ui.MaterialListValueBox;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextBox;
@@ -65,7 +65,7 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
     MaterialListValueBox<SelectionType> selectionType;
 
     @UiField
-    MaterialListValueBox<CategoryMode> mode;
+    MaterialListValueBox<Mode> mode;
 
     @UiField
     MaterialListValueBox<DisplayDensity> density;
@@ -179,7 +179,7 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
         });
 
         table.getCategories().forEach(categoryComponent -> {
-            categoryComponent.setMode(CategoryMode.DISABLED);
+            categoryComponent.setMode(Mode.DISABLED);
         });
     }
 
@@ -220,9 +220,9 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
         });
 
         //States
-        mode.add(CategoryMode.ENABLED);
-        mode.add(CategoryMode.DISABLED);
-        mode.add(CategoryMode.HIDDEN);
+        mode.add(Mode.ENABLED);
+        mode.add(Mode.DISABLED);
+        mode.add(Mode.HIDDEN);
     }
 
     @UiHandler("stickyHeader")
@@ -272,7 +272,7 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
     }
 
     @UiHandler("mode")
-    void states(ValueChangeEvent<CategoryMode> event) {
+    void states(ValueChangeEvent<Mode> event) {
         table.getCategories().forEach(categoryComponent -> categoryComponent.setMode(event.getValue()));
         reload();
     }
