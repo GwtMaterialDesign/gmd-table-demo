@@ -30,6 +30,7 @@
 			<m:MaterialColumn grid="s12 m10" offset="m1">
 				<m:table.MaterialDataTable ui:field="table"
 										   shadow="1"
+										   useStickyHeader="true"
 										   height="440px"
 										   marginBottom="80"/>
 
@@ -208,6 +209,7 @@ textColumn.setFieldUpdater(new FieldUpdater() {
 						<m:MaterialListValueBox ui:field="density" label="Density" fieldType="OUTLINED"/>
 						<m:MaterialCheckBox ui:field="stickyHeader" text="Enable Sticky Header" marginBottom="12"/>
 						<m:MaterialCheckBox ui:field="striped" text="Apply Striped Style" />
+						<m:MaterialCheckBox ui:field="responsive" text="Apply Responsive Style" />
 					</m:MaterialRow>
 				</m:MaterialPanel>
 			</m:MaterialColumn>

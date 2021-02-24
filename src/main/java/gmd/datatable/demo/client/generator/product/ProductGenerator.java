@@ -3,10 +3,10 @@ package gmd.datatable.demo.client.generator.product;
 public class ProductGenerator {
 
     public static Product generate() {
-        return new Product(date(), productName(), productAdjective(), price(), color(), productMaterial(), department());
+        return new Product(company(), productName(), productAdjective(), Double.parseDouble(price()), color(), productMaterial(), department());
     }
 
-    protected static native String date() /*-{
+    protected static native String company() /*-{
         return $wnd.faker.company.companyName();
     }-*/;
 

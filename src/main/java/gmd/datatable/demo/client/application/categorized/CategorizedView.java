@@ -19,8 +19,10 @@
  */
 package gmd.datatable.demo.client.application.categorized;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -34,9 +36,15 @@ import gmd.datatable.demo.client.generator.product.Product;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.density.DisplayDensity;
 import gwt.material.design.client.data.SelectionType;
-import gwt.material.design.client.ui.*;
+import gwt.material.design.client.data.component.RowComponent;
+import gwt.material.design.client.data.factory.Mode;
+import gwt.material.design.client.ui.MaterialListValueBox;
+import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.MaterialTextBox;
+import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.table.MaterialDataTable;
-import gwt.material.design.client.ui.table.cell.TextColumn;
+import gwt.material.design.client.ui.table.cell.ComputedColumn;
+import gwt.material.design.client.ui.table.cell.DoubleColumn;
 import gwt.material.design.jquery.client.api.JQueryElement;
 
 import javax.inject.Inject;
@@ -55,6 +63,9 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
 
     @UiField
     MaterialListValueBox<SelectionType> selectionType;
+
+    @UiField
+    MaterialListValueBox<Mode> mode;
 
     @UiField
     MaterialListValueBox<DisplayDensity> density;
@@ -89,83 +100,60 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
         // methods to create elements the way you would like.
         table.setRenderer(new CustomRenderer<>());
 
-        table.addColumn("Product Name", new TextColumn<Product>() {
-            @Override
-            public String getValue(Product object) {
-                return object.getProductName();
-            }
+        table.addColumn(Product::getProductName, "Product Name")
+            .sortable(true)
+            .width("25%");
 
+        table.addColumn(Product::getProductAdjective, "Adjective")
+            .sortable(true)
+            .width("15%");
+
+        table.addColumn(Product::getColor, "Color")
+            .sortable(true)
+            .width("15%");
+
+        table.addColumn(Product::getProductMaterial, "Material")
+            .sortable(true)
+            .width("15%");
+
+        table.addColumn(Product::getCompany, "Company")
+            .sortable(true)
+            .width("20%");
+
+        table.addColumn("Price", new DoubleColumn<Product>() {
             @Override
-            public boolean sortable() {
-                return true;
+            public Double getValue(Product object) {
+                return object.getPrice();
             }
         }
-            .width("25%"));
-
-        table.addColumn("Adjective", new TextColumn<Product>() {
-            @Override
-            public String getValue(Product object) {
-                return object.getProductAdjective();
-            }
-
-            @Override
-            public boolean sortable() {
-                return true;
-            }
-        }
-            .width("15%"));
-
-        table.addColumn("Color", new TextColumn<Product>() {
-            @Override
-            public String getValue(Product object) {
-                return object.getColor();
-            }
-
-            @Override
-            public boolean sortable() {
-                return true;
-            }
-        }
-            .width("15%"));
-
-        table.addColumn("Material", new TextColumn<Product>() {
-            @Override
-            public String getValue(Product object) {
-                return object.getProductMaterial();
-            }
-
-            @Override
-            public boolean sortable() {
-                return true;
-            }
-        }.width("15%"));
-
-        table.addColumn("Company", new TextColumn<Product>() {
-            @Override
-            public String getValue(Product object) {
-                return object.getDate();
-            }
-
-            @Override
-            public boolean sortable() {
-                return true;
-            }
-        }
-            .width("20%")
-            .autoSort(true));
-
-        table.addColumn("Price", new TextColumn<Product>() {
-            @Override
-            public String getValue(Product object) {
-                return "$" + object.getPrice();
-            }
-
-            @Override
-            public boolean sortable() {
-                return true;
-            }
-        }
+            .format(NumberFormat.getCurrencyFormat())
+            .sortable(true)
             .width("10%"));
+
+        table.addColumn("Computed", new ComputedColumn<Product, Double>() {
+            @Override
+            public Double compute(RowComponent<Product> row) {
+                Product data = row.getData();
+                List<Product> allData = row.getDataView().getData();
+                List<Product> categoryData = row.getCategory().getData();
+
+                double currentPrice = data.getPrice();
+                double allPrices = allData.stream().mapToDouble(Product::getPrice).sum();
+                double categoryPrices = categoryData.stream().mapToDouble(Product::getPrice).sum();
+
+                GWT.log("--------------------------------");
+                GWT.log(data.getProductName());
+                GWT.log("--------------------------------");
+                GWT.log("Current Price   : " + NumberFormat.getCurrencyFormat().format(currentPrice));
+                GWT.log("All Prices(" + allData.size() + " rows): " + NumberFormat.getCurrencyFormat().format(allPrices));
+                GWT.log("Category Prices (" + categoryData.size() + " rows): " + NumberFormat.getCurrencyFormat().format(categoryPrices));
+                GWT.log("Computed Price (current - (all / category)) : " + NumberFormat.getCurrencyFormat().format(currentPrice - (allPrices / categoryPrices)));
+
+                return currentPrice - (allPrices / categoryPrices);
+            }
+        })
+            .format(NumberFormat.getCurrencyFormat())
+            .blankPlaceholder("-");
 
         // Here we are adding a row expansion handler.
         // This is invoked when a row is expanded.
@@ -188,6 +176,10 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
                     event.getExpansion().getOverlay().css("display", "none");
                 }
             }.schedule(2000);
+        });
+
+        table.getCategories().forEach(categoryComponent -> {
+            categoryComponent.setMode(Mode.DISABLED);
         });
     }
 
@@ -226,6 +218,11 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
             table.setDensity(event.getValue());
             reload();
         });
+
+        //States
+        mode.add(Mode.ENABLED);
+        mode.add(Mode.DISABLED);
+        mode.add(Mode.HIDDEN);
     }
 
     @UiHandler("stickyHeader")
@@ -272,6 +269,12 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
     @UiHandler("closeAllCategories")
     void closeAllCategories(ClickEvent event) {
         table.closeAllCategories();
+    }
+
+    @UiHandler("mode")
+    void states(ValueChangeEvent<Mode> event) {
+        table.getCategories().forEach(categoryComponent -> categoryComponent.setMode(event.getValue()));
+        reload();
     }
 
     public void reload() {

@@ -2,16 +2,16 @@ package gmd.datatable.demo.client.generator.product;
 
 public class Product {
 
-    private String date;
+    private String company;
     private String productName;
     private String productAdjective;
-    private String price;
+    private double price;
     private String color;
     private String productMaterial;
     private String department;
 
-    public Product(String date, String productName, String productAdjective, String price, String color, String productMaterial, String department) {
-        this.date = date;
+    public Product(String company, String productName, String productAdjective, double price, String color, String productMaterial, String department) {
+        this.company = company;
         this.productName = productName;
         this.productAdjective = productAdjective;
         this.price = price;
@@ -20,12 +20,12 @@ public class Product {
         this.department = department;
     }
 
-    public String getDate() {
-        return date;
+    public String getCompany() {
+        return company;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setCompany(String company) {
+        this.company = company;
     }
 
     public String getProductName() {
@@ -44,11 +44,11 @@ public class Product {
         this.productAdjective = productAdjective;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

@@ -165,14 +165,12 @@ public class InfiniteView extends ViewImpl implements InfinitePresenter.MyView {
     @Override
     public void loadData() {
         table.getTableTitle().setText("Users");
-        // Load the categories from the server
         table.getView().setLoadMask(true);
-
         userService.getCategories(new AsyncCallback<List<String>>() {
             @Override
             public void onSuccess(List<String> categories) {
                 for (String category : categories) {
-                    table.addCategory(new CategoryComponent(table, category));
+                    table.addCategory(new CategoryComponent(table, category, category));
                 }
                 table.getView().setLoadMask(false);
                 reload();

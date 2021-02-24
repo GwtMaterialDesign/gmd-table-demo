@@ -45,7 +45,6 @@ public class BasePresenter<V extends View, Proxy_ extends Proxy<?>> extends Pres
         PageRevealEvent.fire(this, getView());
         RootPanel.get().getElement().setId(getView().getClass().getSimpleName().toLowerCase());
         initPre();
-        new ScrollHelper().scrollTo(0);
     }
 
     public void setHeaderTitle(String title, String description, String link) {

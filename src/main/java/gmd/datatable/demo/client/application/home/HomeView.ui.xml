@@ -24,7 +24,7 @@
 	<m:MaterialPanel addStyleNames="container">
 		<m:MaterialRow padding="40" textAlign="CENTER">
 			<m:MaterialImage url="https://gwtmaterialdesign.github.io/gmd-core-demo/images/datatable-logo.png" alt="logo" width="120px"/>
-			<m:MaterialLabel text="GMD DataTable 2.4.2" fontWeight="BOLD" fontSize="3em"/>
+			<m:MaterialLabel text="GMD DataTable 2.5.0-rc1" fontWeight="BOLD" fontSize="3em"/>
 			<m:MaterialLabel text="Data tables display sets of data across rows and columns." secondary="true"/>
 			<m:MaterialRow marginTop="20">
 				<m:MaterialLink text="Github" iconType="CODE" display="INLINE_BLOCK" href="https://github.com/GwtMaterialDesign/gwt-material-addins" target="_blank" marginRight="32"/>

@@ -19,11 +19,14 @@
  */
 package gmd.datatable.demo.client.application.standard;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.ViewImpl;
 import gmd.datatable.demo.client.generator.user.User;
@@ -32,11 +35,11 @@ import gwt.material.design.client.base.density.DisplayDensity;
 import gwt.material.design.client.base.helper.ScrollHelper;
 import gwt.material.design.client.constants.OffsetPosition;
 import gwt.material.design.client.data.SelectionType;
+import gwt.material.design.client.data.component.RowComponent;
+import gwt.material.design.client.data.factory.Mode;
 import gwt.material.design.client.ui.*;
 import gwt.material.design.client.ui.table.MaterialDataTable;
-import gwt.material.design.client.ui.table.cell.Column;
-import gwt.material.design.client.ui.table.cell.TextColumn;
-import gwt.material.design.client.ui.table.cell.WidgetColumn;
+import gwt.material.design.client.ui.table.cell.*;
 
 import javax.inject.Inject;
 import java.util.Date;
@@ -65,6 +68,8 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
     @UiField
     MaterialPanel events;
 
+    protected MaterialLabel totalSalaryLabel = new MaterialLabel();
+
     @Inject
     StandardView(Binder uiBinder) {
         initWidget(uiBinder.createAndBindUi(this));
@@ -72,6 +77,27 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
 
     @Override
     public void setupTable() {
+        // Setting default formats on each columns
+        MaterialDataTable.getGlobals().getDefaultFormatProvider()
+            .setDateFormat(DateTimeFormat.getFormat("MM/dd/yyyy"))
+            .setIntegerFormat(NumberFormat.getCurrencyFormat("CAD"))
+            .setLongFormat(NumberFormat.getFormat("##"))
+            .setDoubleFormat(NumberFormat.getPercentFormat())
+            .setFloatFormat(NumberFormat.getDecimalFormat())
+            .setBigDecimalFormat(NumberFormat.getDecimalFormat())
+            .setShortFormat(NumberFormat.getDecimalFormat());
+
+        // Will set the global default blank placeholder
+        MaterialDataTable.getGlobals().setDefaultBlankPlaceholder("-");
+
+        // Default Blank Placeholder for the table's instance only
+        //table.setDefaultBlankPlaceholder("N/A");
+        //table.getDefaultFormatProvider().setDateFormat(DateTimeFormat.getFormat("MM"));
+
+        // Setup Footer demo
+        Panel footerPanel = table.getScaffolding().getFooterPanel();
+        footerPanel.add(totalSalaryLabel);
+
         table.setRowClickCooldown(0);
         table.addColumn("Image", new WidgetColumn<User, MaterialPanel>() {
             @Override
@@ -85,14 +111,6 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
                 panel.add(image);
                 return panel;
             }
-        });
-
-
-        table.addColumn("First Name", new TextColumn<User>() {
-            @Override
-            public String getValue(User object) {
-                return object.getName();
-            }
 
             @Override
             public boolean sortable() {
@@ -100,45 +118,74 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
             }
         });
 
-        table.addColumn("Email", new TextColumn<User>() {
+        table.addColumn(User::getName, "First Name")
+            .sortable(true);
+
+        // Demoing date formats and placeholder
+        table.addColumn(new DateColumn<User>() {
+            @Override
+            public Date getValue(User object) {
+                return new Date();
+            }
+        })
+            .format(DateTimeFormat.getFormat("MM/dd/yyyy"))
+            .blankPlaceholder("-")
+            .name("Date")
+            .sortable(true);
+
+        table.addColumn(new DoubleColumn<User>() {
+            @Override
+            public Double getValue(User object) {
+                return 0.1126132;
+            }
+        })
+            .format(NumberFormat.getPercentFormat())
+            .defaultValue(0.0)
+            .name("Percent")
+            .sortable(true);
+
+        table.addColumn(new TextColumn<User>() {
             @Override
             public String getValue(User object) {
                 return object.getEmail();
             }
-        });
+        })
+            .blankPlaceholder("N/A")
+            .name("Email")
+            .sortable(true);
 
-        table.addColumn("Phone", new TextColumn<User>() {
-            @Override
-            public String getValue(User object) {
-                return object.getPhone();
-            }
-        });
+        table.addColumn(User::getPhone, "Phone")
+            .sortable(true);
 
-        table.addColumn("Company", new TextColumn<User>() {
-            @Override
-            public String getValue(User object) {
-                return object.getCompany();
-            }
-        });
-
-        table.addColumn("City", new TextColumn<User>() {
-            @Override
-            public String getValue(User object) {
-                return object.getCity();
-            }
+        table.addColumn(new ComputedColumn<User, Double>() {
 
             @Override
-            public Column<User, String> width(int width) {
-                return super.width(200);
+            public Double compute(RowComponent<User> row) {
+                User currentData = row.getData();
+                List<User> entireData = row.getDataView().getData();
+                double totalSalary = entireData.stream().mapToDouble(User::getSalary).sum();
+                double computedValue = totalSalary / currentData.getSalary();
+                GWT.log("Total Salary : " + totalSalary);
+                return computedValue;
             }
-        });
+        })
+            .format(NumberFormat.getDecimalFormat())
+            .defaultValue(0.0)
+            .name("Computed")
+            .sortable(true);
 
-        table.addColumn("Zip Code", new TextColumn<User>() {
+        table.addColumn(new DoubleColumn<User>() {
             @Override
-            public String getValue(User object) {
-                return object.getZipCode();
+            public Double getValue(User object) {
+                return object.getSalary();
             }
-        });
+        })
+            .format(NumberFormat.getCurrencyFormat())
+            .defaultValue(0.0)
+            .name("Salary")
+            .sortable(true);
+
+
 
         // Add a row select handler, called when a user selects a row.
         table.addRowSelectHandler(event -> {
@@ -213,9 +260,17 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
     @Override
     public void setData(List<User> users) {
         events.clear();
+
         table.getTableTitle().setText("Customers");
         table.setRowData(0, users);
         table.getView().refresh();
+
+        double totalSalary = users.stream().mapToDouble(User::getSalary).sum();
+        totalSalaryLabel.setText("Total : " + NumberFormat.getCurrencyFormat().format(totalSalary));
+
+        // Setting the first row to be disabled. Available Modes are HIDDEN, DISABLED and ENABLED (By Default)
+        //table.getRow(0).setMode(Mode.DISABLED);
+        reload();
     }
 
     @Override
@@ -248,6 +303,15 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
             table.getScaffolding().getTable().addStyleName("striped");
         } else {
             table.getScaffolding().getTable().removeStyleName("striped");
+        }
+    }
+
+    @UiHandler("responsive")
+    void responsive(ValueChangeEvent<Boolean> event) {
+        if (event.getValue()) {
+            table.getScaffolding().getTable().addStyleName("responsive");
+        } else {
+            table.getScaffolding().getTable().removeStyleName("responsive");
         }
     }
 
