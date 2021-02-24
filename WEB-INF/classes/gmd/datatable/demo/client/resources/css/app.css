@@ -22,6 +22,15 @@ blockquote span {
     color: #4a4a4a;
 }
 
+/** Footer Panel **/
+#standardview .footer-panel {
+    padding: 20px 32px 20px 20px;
+    text-align: right;
+    border-top: 1px solid #e9e9e9;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
 /** Nav Collapse icon **/
 nav .button-collapse i {
     color: #8d8d8d;

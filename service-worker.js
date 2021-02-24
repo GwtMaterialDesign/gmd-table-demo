@@ -1,13 +1,13 @@
-var cacheName = 'cache_1609150470697';
+var cacheName = 'cache_1614160734092';
 
 var filesToCache = [  
 '/gmd-table-demo/',
 
-'GmdDataTableDemo/0AD31B4328DB6AC7300F36898D933372.cache.js',
+'GmdDataTableDemo/58E7B7553EB5376053F4D4F4EB8FE465.cache.js',
 
-'GmdDataTableDemo/B3123C64425380DFD787715FC14CAF2D.cache.js',
+'GmdDataTableDemo/6AFD3EC047DEC3104239CB3062E3FB44.cache.js',
 
-'GmdDataTableDemo/D9E06F0D604E1C73C7C78FB4AC25919A.cache.js',
+'GmdDataTableDemo/F1274FB065053104977215946FC499B5.cache.js',
 
 'GmdDataTableDemo/GmdDataTableDemo.devmode.js',
 
@@ -42,36 +42,6 @@ var filesToCache = [
 'GmdDataTableDemo/font/material-icons/MaterialIcons-Regular.woff',
 
 'GmdDataTableDemo/font/material-icons/MaterialIcons-Regular.woff2',
-
-'GmdDataTableDemo/font/roboto/Roboto-Bold.ttf',
-
-'GmdDataTableDemo/font/roboto/Roboto-Bold.woff',
-
-'GmdDataTableDemo/font/roboto/Roboto-Bold.woff2',
-
-'GmdDataTableDemo/font/roboto/Roboto-Light.ttf',
-
-'GmdDataTableDemo/font/roboto/Roboto-Light.woff',
-
-'GmdDataTableDemo/font/roboto/Roboto-Light.woff2',
-
-'GmdDataTableDemo/font/roboto/Roboto-Medium.ttf',
-
-'GmdDataTableDemo/font/roboto/Roboto-Medium.woff',
-
-'GmdDataTableDemo/font/roboto/Roboto-Medium.woff2',
-
-'GmdDataTableDemo/font/roboto/Roboto-Regular.ttf',
-
-'GmdDataTableDemo/font/roboto/Roboto-Regular.woff',
-
-'GmdDataTableDemo/font/roboto/Roboto-Regular.woff2',
-
-'GmdDataTableDemo/font/roboto/Roboto-Thin.ttf',
-
-'GmdDataTableDemo/font/roboto/Roboto-Thin.woff',
-
-'GmdDataTableDemo/font/roboto/Roboto-Thin.woff2',
 
 'GmdDataTableDemo/fontawesome-icons/fa-brands-400.eot',
 
