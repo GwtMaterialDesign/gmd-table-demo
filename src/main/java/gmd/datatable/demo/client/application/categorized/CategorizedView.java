@@ -35,17 +35,14 @@ import gmd.datatable.demo.client.application.categorized.components.ProductRowFa
 import gmd.datatable.demo.client.generator.product.Product;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.density.DisplayDensity;
+import gwt.material.design.client.data.Categories;
 import gwt.material.design.client.data.SelectionType;
 import gwt.material.design.client.data.component.RowComponent;
+import gwt.material.design.client.data.factory.Category;
 import gwt.material.design.client.data.factory.Mode;
-import gwt.material.design.client.ui.MaterialListValueBox;
-import gwt.material.design.client.ui.MaterialPanel;
-import gwt.material.design.client.ui.MaterialTextBox;
-import gwt.material.design.client.ui.MaterialTitle;
-import gwt.material.design.client.ui.table.FooterColumn;
+import gwt.material.design.client.ui.*;
+import gwt.material.design.client.ui.table.cell.*;
 import gwt.material.design.client.ui.table.MaterialDataTable;
-import gwt.material.design.client.ui.table.cell.ComputedColumn;
-import gwt.material.design.client.ui.table.cell.DoubleColumn;
 import gwt.material.design.jquery.client.api.JQueryElement;
 
 import javax.inject.Inject;
@@ -103,24 +100,24 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
 
         table.addColumn(Product::getProductName, "Product Name")
             .sortable(true)
-            .width("25%");
+            .width("30%");
 
         table.addColumn(Product::getProductAdjective, "Adjective")
             .sortable(true)
-            .width("15%");
+            .width("10%");
 
         table.addColumn(Product::getColor, "Color")
             .sortable(true)
-            .width("15%");
+            .width("10%");
 
         table.addColumn(Product::getProductMaterial, "Material")
             .sortable(true)
-            .width("15%");
+            .width("10%");
 
         table.addColumn(Product::getCompany, "Company")
             .sortable(true)
             .addFooter(new FooterColumn<>(entireData -> NumberFormat.getDecimalFormat().format(0.0)))
-            .width("20%");
+            .width("10%");
 
         table.addColumn("Tax", new DoubleColumn<Product>() {
             @Override
@@ -128,7 +125,7 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
                 return object.getTax();
             }
         }
-            .format(NumberFormat.getCurrencyFormat())
+            .format(NumberFormat.getDecimalFormat())
             .sortable(true)
             .addFooter(new FooterColumn<>(entireData -> {
                 double totalPrice = entireData.stream().mapToDouble(Product::getTax).sum();
@@ -174,6 +171,7 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
         })
             .format(NumberFormat.getCurrencyFormat())
             .addFooter(new FooterColumn<>(entireData -> NumberFormat.getDecimalFormat().format(0.0)))
+            .width("10%")
             .blankPlaceholder("-");
 
         // Here we are adding a row expansion handler.
@@ -199,8 +197,31 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
             }.schedule(2000);
         });
 
-        table.getCategories().forEach(categoryComponent -> {
-            categoryComponent.setMode(Mode.DISABLED);
+        //TODO: Standardized and make it easier to define category columns
+        table.addComponentsRenderedHandler(event -> {
+            Categories<Product> categories = table.getCategories();
+            categories.forEach(category -> {
+                List<Column<Product, ?>> columns = table.getColumns();
+                for (Column<Product, ?> column : columns) {
+                    if (column.name().equalsIgnoreCase("Price")) {
+                        category.addColumn(new CategoryColumn<>(column, (entireData, categoryComponent) -> {
+                            double categoryPrices = categoryComponent.getData().stream().mapToDouble(Product::getPrice).sum();
+                            return NumberFormat.getCurrencyFormat().format(categoryPrices);
+                        }));
+                    } else if (column.name().equalsIgnoreCase("Tax")) {
+                        category.addColumn(new CategoryColumn<>(column, (entireData, categoryComponent) -> {
+                            double categoryTaxes = categoryComponent.getData().stream().mapToDouble(Product::getTax).sum();
+                            return NumberFormat.getDecimalFormat().format(categoryTaxes);
+                        }));
+                    } else if (column.name().equalsIgnoreCase("Computed")) {
+                        category.addColumn(new CategoryColumn<>(column, (entireData, categoryComponent) -> {
+                            //TODO: Get computed values.
+                            double categoryTaxes = categoryComponent.getData().stream().mapToDouble(Product::getTax).sum();
+                            return NumberFormat.getDecimalFormat().format(categoryTaxes);
+                        }));
+                    }
+                }
+            });
         });
     }
 
@@ -214,10 +235,6 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
         table.getTableTitle().setText("Products");
         table.setRowData(0, products);
         table.getView().refresh();
-
-        /*table.openCategory();
-        table.openAllCategories();
-        table.*/
     }
 
     @Override
@@ -295,6 +312,7 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
     @UiHandler("mode")
     void states(ValueChangeEvent<Mode> event) {
         table.getCategories().forEach(categoryComponent -> categoryComponent.setMode(event.getValue()));
+
         reload();
     }
 

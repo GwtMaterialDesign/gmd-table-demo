@@ -36,11 +36,9 @@ import gwt.material.design.client.constants.OffsetPosition;
 import gwt.material.design.client.data.SelectionType;
 import gwt.material.design.client.data.component.RowComponent;
 import gwt.material.design.client.ui.*;
-import gwt.material.design.client.ui.table.FooterColumn;
+import gwt.material.design.client.ui.table.cell.FooterColumn;
 import gwt.material.design.client.ui.table.MaterialDataTable;
-import gwt.material.design.client.ui.table.FooterRowFactory;
 import gwt.material.design.client.ui.table.cell.*;
-import gwt.material.design.client.ui.table.TableFooter;
 
 import javax.inject.Inject;
 import java.util.Date;

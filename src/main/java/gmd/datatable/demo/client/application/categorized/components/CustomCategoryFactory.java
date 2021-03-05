@@ -12,13 +12,13 @@ import gwt.material.design.client.ui.table.TableSubHeader;
 public class CustomCategoryFactory extends CategoryComponentFactory {
 
     @Override
-    public CategoryComponent generate(DataView dataView, Category categoryPair) {
-        CategoryComponent category = super.generate(dataView, categoryPair);
+    public CategoryComponent generate(DataView dataView, Category category) {
+        CategoryComponent categoryComponent = super.generate(dataView, category);
 
-        if(!(category instanceof OrphanCategoryComponent)) {
-            category = new CustomCategoryComponent(dataView, categoryPair.getName(), categoryPair.getId().toString(), false);
+        if(!(categoryComponent instanceof OrphanCategoryComponent)) {
+            categoryComponent = new CustomCategoryComponent(dataView, category.getName(), category.getId().toString(), false);
         }
-        return category;
+        return categoryComponent;
     }
 
     public static class CustomCategoryComponent extends CategoryComponent {

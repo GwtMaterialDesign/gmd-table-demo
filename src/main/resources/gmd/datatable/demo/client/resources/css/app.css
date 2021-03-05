@@ -174,12 +174,6 @@ nav ul li.active {
     margin: auto;
 }
 
-/** TODO: Check **/
-table.table tbody tr.subheader th:first-child, table.table tbody tr.subheader td:first-child {
-    min-width: 10% !important;
-    max-width: 10% !important;
-}
-
 @media only screen and (max-width: 600px) {
     nav .brand-logo {
         left: 80px !important;
