@@ -29,8 +29,10 @@
 				<m:table.MaterialDataTable ui:field="table"
 										   shadow="1"
 										   useCategories="true"
-										   useRowExpansion="true"
+										   useRowExpansion="false"
 										   height="440px"
+										   useStickyHeader="true"
+										   useStickyFooter="true"
 				  						   marginBottom="80"/>
 
 				<widget:CodeSection sectionTitle="Get Started" description="Requirements to build your categorized datatable. For the java classes, you can browse theme from the Java Source above">

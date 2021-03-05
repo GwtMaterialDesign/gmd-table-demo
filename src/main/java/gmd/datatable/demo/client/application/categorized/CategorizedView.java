@@ -42,6 +42,7 @@ import gwt.material.design.client.ui.MaterialListValueBox;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialTitle;
+import gwt.material.design.client.ui.table.FooterColumn;
 import gwt.material.design.client.ui.table.MaterialDataTable;
 import gwt.material.design.client.ui.table.cell.ComputedColumn;
 import gwt.material.design.client.ui.table.cell.DoubleColumn;
@@ -118,7 +119,22 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
 
         table.addColumn(Product::getCompany, "Company")
             .sortable(true)
+            .addFooter(new FooterColumn<>(entireData -> NumberFormat.getDecimalFormat().format(0.0)))
             .width("20%");
+
+        table.addColumn("Tax", new DoubleColumn<Product>() {
+            @Override
+            public Double getValue(Product object) {
+                return object.getTax();
+            }
+        }
+            .format(NumberFormat.getCurrencyFormat())
+            .sortable(true)
+            .addFooter(new FooterColumn<>(entireData -> {
+                double totalPrice = entireData.stream().mapToDouble(Product::getTax).sum();
+                return NumberFormat.getDecimalFormat().format(totalPrice);
+            }))
+            .width("10%"));
 
         table.addColumn("Price", new DoubleColumn<Product>() {
             @Override
@@ -128,6 +144,10 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
         }
             .format(NumberFormat.getCurrencyFormat())
             .sortable(true)
+            .addFooter(new FooterColumn<>(entireData -> {
+                double totalPrice = entireData.stream().mapToDouble(Product::getPrice).sum();
+                return NumberFormat.getDecimalFormat().format(totalPrice);
+            }))
             .width("10%"));
 
         table.addColumn("Computed", new ComputedColumn<Product, Double>() {
@@ -153,6 +173,7 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
             }
         })
             .format(NumberFormat.getCurrencyFormat())
+            .addFooter(new FooterColumn<>(entireData -> NumberFormat.getDecimalFormat().format(0.0)))
             .blankPlaceholder("-");
 
         // Here we are adding a row expansion handler.

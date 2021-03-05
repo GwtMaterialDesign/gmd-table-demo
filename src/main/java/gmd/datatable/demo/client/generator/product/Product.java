@@ -1,5 +1,7 @@
 package gmd.datatable.demo.client.generator.product;
 
+import java.util.Random;
+
 public class Product {
 
     private String company;
@@ -74,5 +76,11 @@ public class Product {
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public double getTax() {
+        double random = new Random().nextDouble();
+        double tax = 0.0 + (random * (7.0 - 0.0));
+        return tax;
     }
 }
