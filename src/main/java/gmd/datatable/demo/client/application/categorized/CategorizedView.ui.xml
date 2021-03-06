@@ -30,7 +30,7 @@
 										   shadow="1"
 										   useCategories="true"
 										   useRowExpansion="false"
-										   height="440px"
+										   height="800px"
 										   useStickyHeader="true"
 										   useStickyFooter="true"
 				  						   marginBottom="80"/>
