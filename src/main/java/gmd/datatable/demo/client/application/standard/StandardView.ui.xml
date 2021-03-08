@@ -34,6 +34,12 @@
 										   height="440px"
 										   marginBottom="80"/>
 
+				<m:MaterialRow>
+					<m:MaterialButton ui:field="clear" text="Clear Table" />
+					<m:MaterialButton ui:field="addRow" text="Add Row" />
+					<m:MaterialButton ui:field="addAllRows" text="Add All Rows" />
+				</m:MaterialRow>
+
 				<!-- Events -->
 				<widget:CodeSection sectionTitle="Events" description="All events are logged below.">
 					<m:MaterialCard >

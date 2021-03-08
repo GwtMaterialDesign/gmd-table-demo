@@ -20,14 +20,19 @@
 package gmd.datatable.demo.client.application.standard;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.ViewImpl;
+import gmd.datatable.demo.client.generator.DataGenerator;
 import gmd.datatable.demo.client.generator.user.User;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.density.DisplayDensity;
@@ -35,6 +40,7 @@ import gwt.material.design.client.base.helper.ScrollHelper;
 import gwt.material.design.client.constants.OffsetPosition;
 import gwt.material.design.client.data.SelectionType;
 import gwt.material.design.client.data.component.RowComponent;
+import gwt.material.design.client.jquery.JQueryExtension;
 import gwt.material.design.client.ui.*;
 import gwt.material.design.client.ui.table.cell.FooterColumn;
 import gwt.material.design.client.ui.table.MaterialDataTable;
@@ -43,6 +49,8 @@ import gwt.material.design.client.ui.table.cell.*;
 import javax.inject.Inject;
 import java.util.Date;
 import java.util.List;
+
+import static gwt.material.design.jquery.client.api.JQuery.$;
 
 public class StandardView extends ViewImpl implements StandardPresenter.MyView {
 
@@ -66,8 +74,6 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
 
     @UiField
     MaterialPanel events;
-
-    protected MaterialLabel totalSalaryLabel = new MaterialLabel();
 
     @Inject
     StandardView(Binder uiBinder) {
@@ -255,19 +261,20 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
 
     @Override
     public void setData(List<User> users) {
-        events.clear();
+        table.getView().setLoadMask(true);
+        Scheduler.get().scheduleFixedDelay(() -> {
+            events.clear();
 
-        table.getTableTitle().setText("Customers");
-        table.setRowData(0, users);
-        table.getView().refresh();
+            table.getTableTitle().setText("Customers");
+            table.setRowData(0, users);
 
-        double totalSalary = users.stream().mapToDouble(User::getSalary).sum();
-        totalSalaryLabel.setText("Total : " + NumberFormat.getCurrencyFormat().format(totalSalary));
+            // Setting the first row to be disabled. Available Modes are HIDDEN, DISABLED and ENABLED (By Default)
+            //table.getRow(0).setMode(Mode.DISABLED);
 
-        // Setting the first row to be disabled. Available Modes are HIDDEN, DISABLED and ENABLED (By Default)
-        //table.getRow(0).setMode(Mode.DISABLED);
-
-        reload();
+            reload();
+            table.getView().setLoadMask(false);
+            return false;
+        }, 1000);
     }
 
     @Override
@@ -287,6 +294,21 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
             table.setDensity(event.getValue());
             reload();
         });
+    }
+
+    @UiHandler("clear")
+    void clearTable(ClickEvent event) {
+        setData(new DataGenerator().generateUsers(0));
+    }
+
+    @UiHandler("addRow")
+    void addRow(ClickEvent event) {
+        setData(new DataGenerator().generateUsers(1));
+    }
+
+    @UiHandler("addAllRows")
+    void addAllRows(ClickEvent event) {
+        setData(new DataGenerator().generateUsers(50));
     }
 
     @UiHandler("stickyHeader")
