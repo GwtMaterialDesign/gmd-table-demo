@@ -129,8 +129,8 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
             .format(NumberFormat.getDecimalFormat())
             .sortable(true)
             .addFooter(new FooterColumn<>(entireData -> {
-                double totalPrice = entireData.stream().mapToDouble(Product::getTax).sum();
-                return NumberFormat.getDecimalFormat().format(totalPrice);
+                double totalTax = entireData.stream().mapToDouble(Product::getTax).sum();
+                return NumberFormat.getDecimalFormat().format(totalTax);
             }))
             .width("10%"));
 
@@ -172,7 +172,7 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
         })
             .format(NumberFormat.getCurrencyFormat())
             .addFooter(new FooterColumn<>(entireData -> {
-                return NumberFormat.getDecimalFormat().format(entireData.stream().mapToDouble(Product::getPrice).sum());
+                return NumberFormat.getCurrencyFormat().format(entireData.stream().mapToDouble(Product::getPrice).sum());
             }))
             .width("10%")
             .blankPlaceholder("-");
@@ -213,7 +213,7 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
                             category.addColumn(createCategoryTaxTotals(column));
                             break;
                         case "Computed":
-                            category.addColumn(createCategoryComputedTotals(column));
+                            category.addColumn(createCategoryComputedTotals((Column<Product, Double>) column));
                             break;
                         default:
                             break;
@@ -224,23 +224,31 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
     }
 
     protected CategoryColumn<Product> createCategoryPriceTotals(Column<Product, ?> column) {
-        return new CategoryColumn<>(column, (categoryComponent) -> {
-            double categoryPrices = categoryComponent.getData().stream().mapToDouble(Product::getPrice).sum();
+        return new CategoryColumn<>(column, (category) -> {
+            double categoryPrices = category.getData().stream().mapToDouble(Product::getPrice).sum();
             return NumberFormat.getCurrencyFormat().format(categoryPrices);
         });
     }
 
     protected CategoryColumn<Product> createCategoryTaxTotals(Column<Product, ?> column) {
-        return new CategoryColumn<>(column, (categoryComponent) -> {
-            double categoryTaxes = categoryComponent.getData().stream().mapToDouble(Product::getTax).sum();
+        return new CategoryColumn<>(column, (category) -> {
+            double categoryTaxes = category.getData().stream().mapToDouble(Product::getTax).sum();
             return NumberFormat.getDecimalFormat().format(categoryTaxes);
         });
     }
 
-    protected CategoryColumn<Product> createCategoryComputedTotals(Column<Product, ?> column) {
-        return new CategoryColumn<>(column, (categoryComponent) -> {
-            double allPrices = categoryComponent.getData().stream().mapToDouble(Product::getPrice).sum();
-            return NumberFormat.getDecimalFormat().format(allPrices);
+    protected CategoryColumn<Product> createCategoryComputedTotals(Column<Product, Double> column) {
+        return new CategoryColumn<>(column, (category) -> {
+            List<Product> entireData = column.getDataView().getData();
+            List<Product> categoryData = category.getData();
+
+            double computedValuesTotal = 0;
+            double allPrices = entireData.stream().mapToDouble(Product::getPrice).sum();
+            double categoryPrices = categoryData.stream().mapToDouble(Product::getPrice).sum();
+            for (Product categoryDatum : categoryData) {
+                computedValuesTotal = computedValuesTotal + categoryDatum.getPrice() - (allPrices / categoryPrices);
+            }
+            return NumberFormat.getCurrencyFormat().format(computedValuesTotal);
         });
     }
 

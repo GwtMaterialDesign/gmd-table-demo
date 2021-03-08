@@ -1,9 +1,13 @@
 package gmd.datatable.demo.client.generator.product;
 
+import java.util.Random;
+
 public class ProductGenerator {
 
     public static Product generate() {
-        return new Product(company(), productName(), productAdjective(), Double.parseDouble(price()), color(), productMaterial(), department());
+        double random = new Random().nextDouble();
+        double tax = 0.0 + (random * (7.0 - 0.0));
+        return new Product(company(), productName(), productAdjective(), Math.abs(Double.parseDouble(price())), Math.abs(tax), color(), productMaterial(), department());
     }
 
     protected static native String company() /*-{
