@@ -20,6 +20,7 @@
 package gmd.datatable.demo.client.application.frozen;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -30,6 +31,7 @@ import gmd.datatable.demo.client.application.categorized.components.CustomCatego
 import gmd.datatable.demo.client.application.categorized.components.CustomRenderer;
 import gmd.datatable.demo.client.application.categorized.components.ProductRowFactory;
 import gmd.datatable.demo.client.generator.product.Product;
+import gmd.datatable.demo.client.generator.user.User;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.density.DisplayDensity;
 import gwt.material.design.client.data.SelectionType;
@@ -39,6 +41,8 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.table.MaterialDataTable;
+import gwt.material.design.client.ui.table.cell.DoubleColumn;
+import gwt.material.design.client.ui.table.cell.FooterColumn;
 import gwt.material.design.client.ui.table.cell.FrozenProperties;
 import gwt.material.design.client.ui.table.cell.TextColumn;
 import gwt.material.design.jquery.client.api.JQueryElement;
@@ -140,6 +144,18 @@ public class FrozenView extends ViewImpl implements FrozenPresenter.MyView {
             }
         }.width("200px"));
 
+        table.addColumn("Price", new DoubleColumn<Product>() {
+            @Override
+            public Double getValue(Product object) {
+                return object.getPrice();
+            }
+
+            @Override
+            public boolean sortable() {
+                return true;
+            }
+        });
+
         for (int i = 0; i < 10; i++) {
             table.addColumn("Company", new TextColumn<Product>() {
                 @Override
@@ -158,19 +174,6 @@ public class FrozenView extends ViewImpl implements FrozenPresenter.MyView {
             @Override
             public String getValue(Product object) {
                 return object.getCompany();
-            }
-
-            @Override
-            public boolean sortable() {
-                return true;
-            }
-        }.width("200px"));
-
-
-        table.addColumn("Price", new TextColumn<Product>() {
-            @Override
-            public String getValue(Product object) {
-                return "$" + object.getPrice();
             }
 
             @Override

@@ -29,7 +29,9 @@
 				<m:table.MaterialInfiniteDataTable ui:field="table"
 												   shadow="1"
 												   height="440px"
-													 rowHeight="56"/>
+												   useStickyHeader="true"
+												   useStickyFooter="true"
+												   rowHeight="56"/>
 
 				<widget:CodeSection sectionTitle="Setting Up"
 									description="Follow the code below to define an infinite datatable." marginTop="80">
@@ -55,7 +57,8 @@ InfiniteDataView.DYNAMIC_VIEW, new UserDataSource(userService));
 						<m:MaterialListValueBox ui:field="selectionType" label="Selection Type"
 												fieldType="OUTLINED"/>
 						<m:MaterialListValueBox ui:field="density" label="Density" fieldType="OUTLINED"/>
-						<m:MaterialCheckBox ui:field="stickyHeader" text="Enable Sticky Header" marginBottom="12"/>
+						<m:MaterialCheckBox ui:field="stickyHeader" text="Enable Sticky Header" value="true" marginBottom="12"/>
+						<m:MaterialCheckBox ui:field="stickyFooter" text="Enable Sticky Footer" value="true" marginBottom="12"/>
 						<m:MaterialCheckBox ui:field="striped" text="Apply Striped Style" marginBottom="12"/>
 						<m:MaterialCheckBox ui:field="useCategories" text="Categorized Data"
 											marginBottom="12"/>

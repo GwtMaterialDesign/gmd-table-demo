@@ -21,6 +21,7 @@ package gmd.datatable.demo.client.application.infinite;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -44,6 +45,8 @@ import gwt.material.design.client.ui.MaterialListValueBox;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.table.MaterialInfiniteDataTable;
+import gwt.material.design.client.ui.table.cell.DoubleColumn;
+import gwt.material.design.client.ui.table.cell.FooterColumn;
 import gwt.material.design.client.ui.table.cell.TextColumn;
 import gwt.material.design.client.ui.table.cell.WidgetColumn;
 
@@ -159,7 +162,21 @@ public class InfiniteView extends ViewImpl implements InfinitePresenter.MyView {
             public String getValue(User object) {
                 return object.getZipCode();
             }
-        });
+        })
+            .addFooter(new FooterColumn<>(entireData -> "Total"));
+
+        table.addColumn("Salary", new DoubleColumn<User>() {
+            @Override
+            public Double getValue(User object) {
+                return object.getSalary();
+            }
+        })
+            .format(NumberFormat.getCurrencyFormat())
+            .width(200)
+            .addFooter(new FooterColumn<>(entireData -> {
+                double totalSalary = entireData.stream().mapToDouble(User::getSalary).sum();
+                return NumberFormat.getCurrencyFormat().format(totalSalary);
+            }));
     }
 
     @Override
@@ -212,6 +229,11 @@ public class InfiniteView extends ViewImpl implements InfinitePresenter.MyView {
     @UiHandler("stickyHeader")
     void stickyHeader(ValueChangeEvent<Boolean> event) {
         table.setUseStickyHeader(event.getValue());
+    }
+
+    @UiHandler("stickyFooter")
+    void stickyFooter(ValueChangeEvent<Boolean> event) {
+        table.setUseStickyFooter(event.getValue());
     }
 
     @UiHandler("striped")

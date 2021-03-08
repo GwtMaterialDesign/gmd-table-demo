@@ -30,7 +30,7 @@
 										   shadow="1"
 										   useCategories="true"
 										   useRowExpansion="false"
-										   height="800px"
+										   height="600px"
 										   useStickyHeader="true"
 										   useStickyFooter="true"
 				  						   marginBottom="80"/>
@@ -60,6 +60,16 @@
 					<g:HTMLPanel>
 						<pre class="java">
 table.addCategory("New Category");
+						</pre>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Category Columns" description="Just like Footer columns, this will add a column on the category component.">
+					<g:HTMLPanel>
+						<pre class="java">
+table.addComponentsRenderedHandler(event -> {
+	category.addColumn(new CategoryColumn(...));
+});
 						</pre>
 					</g:HTMLPanel>
 				</widget:CodeSection>
@@ -119,7 +129,8 @@ table.addRowExpandingHandler(event -> {
 						<m:MaterialListValueBox ui:field="selectionType" label="Selection Type" fieldType="OUTLINED"/>
 						<m:MaterialListValueBox ui:field="density" label="Density" fieldType="OUTLINED"/>
 						<m:MaterialListValueBox ui:field="mode" label="Mode" fieldType="OUTLINED"/>
-						<m:MaterialCheckBox ui:field="stickyHeader" text="Enable Sticky Header" marginBottom="12"/>
+						<m:MaterialCheckBox ui:field="stickyHeader" text="Enable Sticky Header" value="true" marginBottom="12"/>
+						<m:MaterialCheckBox ui:field="stickyFooter" text="Enable Sticky Footer" value="true" marginBottom="12"/>
 						<m:MaterialCheckBox ui:field="striped" text="Apply Striped Style" marginBottom="12"/>
 						<m:MaterialCheckBox ui:field="useCategories" text="Categorized Data" value="true" marginBottom="12"/>
 						<m:MaterialCheckBox ui:field="rowExpansion" text="Use Row Expansion" value="true" marginBottom="12"/>

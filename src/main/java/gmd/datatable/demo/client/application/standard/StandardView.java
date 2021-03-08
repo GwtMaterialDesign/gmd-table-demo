@@ -166,7 +166,7 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
             .format(NumberFormat.getDecimalFormat())
             .defaultValue(0.0)
             .addFooter(new FooterColumn<>(entireData -> {
-                return "123";
+                return "Total";
             }))
             .name("Computed")
             .sortable(true);
@@ -292,6 +292,11 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
     @UiHandler("stickyHeader")
     void stickyHeader(ValueChangeEvent<Boolean> event) {
         table.setUseStickyHeader(event.getValue());
+    }
+
+    @UiHandler("stickyFooter")
+    void stickyFooter(ValueChangeEvent<Boolean> event) {
+        table.setUseStickyFooter(event.getValue());
     }
 
     @UiHandler("striped")

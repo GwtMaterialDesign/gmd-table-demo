@@ -28,6 +28,8 @@
 			<m:MaterialColumn grid="s12 m10" offset="m1">
 				<m:table.MaterialDataTable ui:field="table"
 										   shadow="1"
+										   useStickyHeader="true"
+										   useStickyFooter="true"
 										   height="440px"/>
 
 				<widget:CodeSection sectionTitle="Setting Up" description="Below is how you will define your data pager and incorporate with your datatable" marginTop="80">
@@ -106,7 +108,8 @@ pager.setLocaleProvider(new DataPagerLocaleProvider() {
 						<m:MaterialListValueBox ui:field="selectionType" label="Selection Type" fieldType="OUTLINED"/>
 						<m:MaterialListValueBox ui:field="density" label="Density" fieldType="OUTLINED"/>
 						<m:MaterialListValueBox ui:field="pageSelection" label="Page Selection" fieldType="OUTLINED"/>
-						<m:MaterialCheckBox ui:field="stickyHeader" text="Enable Sticky Header" marginBottom="12"/>
+						<m:MaterialCheckBox ui:field="stickyFooter" text="Enable Sticky Footer" value="true" marginBottom="12"/>
+						<m:MaterialCheckBox ui:field="stickyHeader" text="Enable Sticky Header" value="true" marginBottom="12"/>
 						<m:MaterialCheckBox ui:field="striped" text="Apply Striped Style" />
 					</m:MaterialRow>
 					<m:MaterialRow>

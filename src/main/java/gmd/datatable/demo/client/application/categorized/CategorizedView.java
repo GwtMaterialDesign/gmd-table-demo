@@ -118,6 +118,7 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
 
         table.addColumn(Product::getCompany, "Company")
             .sortable(true)
+            .addFooter(new FooterColumn<>(entireData -> "Totals"))
             .width("10%");
 
         table.addColumn("Tax", new DoubleColumn<Product>() {
@@ -293,6 +294,11 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
     @UiHandler("stickyHeader")
     void stickyHeader(ValueChangeEvent<Boolean> event) {
         table.setUseStickyHeader(event.getValue());
+    }
+
+    @UiHandler("stickyFooter")
+    void stickyFooter(ValueChangeEvent<Boolean> event) {
+        table.setUseStickyFooter(event.getValue());
     }
 
     @UiHandler("striped")
