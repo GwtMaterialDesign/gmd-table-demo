@@ -102,7 +102,7 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         table.getFormatProvider().setDateFormat(DateTimeFormat.getFormat("MM"));
 
         table.setRowClickCooldown(0);
-        table.addColumn("Image", new WidgetColumn<User, MaterialPanel>() {
+        table.addColumn(new WidgetColumn<User, MaterialPanel>() {
             @Override
             public MaterialPanel getValue(User object) {
                 MaterialPanel panel = new MaterialPanel();
@@ -114,12 +114,10 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
                 panel.add(image);
                 return panel;
             }
-
-            @Override
-            public boolean sortable() {
-                return true;
-            }
-        });
+        })
+        .sortable(true)
+        .name("Image")
+        .width("60px");
 
         table.addColumn(User::getName, "First Name")
             .sortable(true);
@@ -171,9 +169,7 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         })
             .format(NumberFormat.getDecimalFormat())
             .defaultValue(0.0)
-            .addFooter(new FooterColumn<>(entireData -> {
-                return "Total";
-            }))
+            .addFooter(new FooterColumn<>(entireData -> "Total"))
             .name("Computed")
             .sortable(true);
 
@@ -275,6 +271,7 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
             table.getView().setLoadMask(false);
             return false;
         }, 1000);
+
     }
 
     @Override
