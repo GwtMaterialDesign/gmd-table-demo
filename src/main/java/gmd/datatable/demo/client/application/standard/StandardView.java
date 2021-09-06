@@ -21,7 +21,6 @@ package gmd.datatable.demo.client.application.standard;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -29,7 +28,6 @@ import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.ViewImpl;
 import gmd.datatable.demo.client.generator.DataGenerator;
@@ -40,7 +38,6 @@ import gwt.material.design.client.base.helper.ScrollHelper;
 import gwt.material.design.client.constants.OffsetPosition;
 import gwt.material.design.client.data.SelectionType;
 import gwt.material.design.client.data.component.RowComponent;
-import gwt.material.design.client.jquery.JQueryExtension;
 import gwt.material.design.client.ui.*;
 import gwt.material.design.client.ui.table.cell.FooterColumn;
 import gwt.material.design.client.ui.table.MaterialDataTable;
@@ -120,6 +117,8 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         .width("60px");
 
         table.addColumn(User::getName, "First Name")
+            .setHidden(false)
+            .setHideable(false)
             .sortable(true);
 
         // Demoing date formats and placeholder

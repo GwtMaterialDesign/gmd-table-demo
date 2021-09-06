@@ -119,7 +119,7 @@ public class CategorizedView extends ViewImpl implements CategorizedPresenter.My
         table.addColumn(Product::getCompany, "Company")
             .sortable(true)
             .addFooter(new FooterColumn<>(entireData -> "Totals"))
-            .width("10%");
+            .width("200px");
 
         table.addColumn("Tax", new DoubleColumn<Product>() {
             @Override

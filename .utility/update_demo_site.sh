@@ -1,6 +1,6 @@
 #!/bin/bash
 set -ev
-if [ "$TRAVIS_JDK_VERSION" == "oraclejdk8" ] && [ "$TRAVIS_BRANCH" == "release_2.5.0" ]; then
+if [ "$TRAVIS_JDK_VERSION" == "oraclejdk8" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
 
 if [[ -z "$GH_TOKEN" ]]; then
 echo -e "GH_TOKEN is not set"
@@ -29,7 +29,7 @@ git rm -rf ./snapshot/
 fi
 
 # copy the new GmdDataTableDemo the snapshot dir.
-unzip -u $TRAVIS_BUILD_DIR/target/GmdDataTableDemo*.war -d ./snapshot/
+unzip -u $TRAVIS_BUILD_DIR/target/GmdDataTableDemo*.war -d ./
 
 git add -f .
 git commit -m "Auto-push pattern to gh-pages successful. (Travis build: $TRAVIS_BUILD_NUMBER)"
