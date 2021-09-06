@@ -19,27 +19,20 @@
  */
 package gmd.datatable.demo.client.application;
 
-import com.google.gwt.dom.client.Document;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.ViewImpl;
 import gmd.datatable.demo.client.HasRightSideNav;
-import gmd.datatable.demo.client.resources.AppResources;
-import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.TableDarkThemeLoader;
-import gwt.material.design.client.base.helper.ColorHelper;
-import gwt.material.design.client.base.viewport.Resolution;
-import gwt.material.design.client.constants.Color;
-import gwt.material.design.client.js.Window;
-import gwt.material.design.client.pwa.PwaManager;
-import gwt.material.design.client.pwa.push.js.Notification;
-import gwt.material.design.client.theme.dark.CoreDarkThemeLoader;
-import gwt.material.design.client.theme.dark.DarkThemeManager;
-import gwt.material.design.client.ui.*;
+import gwt.material.design.client.ui.MaterialColumn;
+import gwt.material.design.client.ui.MaterialIcon;
+import gwt.material.design.client.ui.MaterialLabel;
+import gwt.material.design.client.ui.MaterialNavSection;
 
 import java.util.Date;
 
@@ -52,16 +45,7 @@ public class ApplicationView extends ViewImpl implements ApplicationPresenter.My
     MaterialNavSection navSection;
 
     @UiField
-    MaterialPanel mainContainer;
-
-    @UiField
-    MaterialIcon filter;
-
-    @UiField
-    MaterialSideNavContent sideContent;
-
-    @UiField
-    MaterialSideNavPush sidenav;
+    MaterialColumn mainContainer, optionsPanel, optionsContent;
 
     @UiField
     MaterialLabel copyright;
@@ -81,19 +65,15 @@ public class ApplicationView extends ViewImpl implements ApplicationPresenter.My
 
     @Override
     public void updateSideNavContent(View view) {
-        sideContent.clear();
+        optionsContent.clear();
 
         if (view instanceof HasRightSideNav) {
-            sideContent.add(((HasRightSideNav) view).getSideContent());
-            sidenav.setVisible(true);
-            filter.setVisible(true);
-            if (!Window.matchMedia(Resolution.TABLET_AND_MOBILE.asMediaQuery())) {
-                sidenav.open();
-            }
+            optionsContent.add(((HasRightSideNav) view).getSideContent());
+            optionsPanel.setVisible(true);
+            mainContainer.setGrid("s12 m12 l9");
         } else {
-            filter.setVisible(false);
-            sidenav.setVisible(false);
-            sidenav.close();
+            optionsPanel.setVisible(false);
+            mainContainer.setGrid("s12 m12 l12");
         }
     }
 }

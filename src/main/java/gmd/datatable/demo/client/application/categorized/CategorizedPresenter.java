@@ -67,7 +67,7 @@ public class CategorizedPresenter extends BasePresenter<CategorizedPresenter.MyV
     protected void onReveal() {
         super.onReveal();
 
-        getView().setData(new DataGenerator().generateProducts(100));
+        getView().setData(new DataGenerator().generateProducts(50));
         setHeaderTitle("Categorized", "You can group or categorized your datatable row data easily.", "categorized");
     }
 }

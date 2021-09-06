@@ -20,15 +20,17 @@
 package gmd.datatable.demo.client.application.standard;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.ViewImpl;
+import gmd.datatable.demo.client.generator.DataGenerator;
 import gmd.datatable.demo.client.generator.user.User;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.density.DisplayDensity;
@@ -36,14 +38,16 @@ import gwt.material.design.client.base.helper.ScrollHelper;
 import gwt.material.design.client.constants.OffsetPosition;
 import gwt.material.design.client.data.SelectionType;
 import gwt.material.design.client.data.component.RowComponent;
-import gwt.material.design.client.data.factory.Mode;
 import gwt.material.design.client.ui.*;
+import gwt.material.design.client.ui.table.cell.FooterColumn;
 import gwt.material.design.client.ui.table.MaterialDataTable;
 import gwt.material.design.client.ui.table.cell.*;
 
 import javax.inject.Inject;
 import java.util.Date;
 import java.util.List;
+
+import static gwt.material.design.jquery.client.api.JQuery.$;
 
 public class StandardView extends ViewImpl implements StandardPresenter.MyView {
 
@@ -68,17 +72,17 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
     @UiField
     MaterialPanel events;
 
-    protected MaterialLabel totalSalaryLabel = new MaterialLabel();
-
     @Inject
     StandardView(Binder uiBinder) {
         initWidget(uiBinder.createAndBindUi(this));
+
+        table.setUseStickyFooter(true);
     }
 
     @Override
     public void setupTable() {
         // Setting default formats on each columns
-        MaterialDataTable.getGlobals().getDefaultFormatProvider()
+        MaterialDataTable.getGlobals().getFormatProvider()
             .setDateFormat(DateTimeFormat.getFormat("MM/dd/yyyy"))
             .setIntegerFormat(NumberFormat.getCurrencyFormat("CAD"))
             .setLongFormat(NumberFormat.getFormat("##"))
@@ -91,15 +95,11 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         MaterialDataTable.getGlobals().setDefaultBlankPlaceholder("-");
 
         // Default Blank Placeholder for the table's instance only
-        //table.setDefaultBlankPlaceholder("N/A");
-        //table.getDefaultFormatProvider().setDateFormat(DateTimeFormat.getFormat("MM"));
-
-        // Setup Footer demo
-        Panel footerPanel = table.getScaffolding().getFooterPanel();
-        footerPanel.add(totalSalaryLabel);
+        table.setDefaultBlankPlaceholder("N/A");
+        table.getFormatProvider().setDateFormat(DateTimeFormat.getFormat("MM"));
 
         table.setRowClickCooldown(0);
-        table.addColumn("Image", new WidgetColumn<User, MaterialPanel>() {
+        table.addColumn(new WidgetColumn<User, MaterialPanel>() {
             @Override
             public MaterialPanel getValue(User object) {
                 MaterialPanel panel = new MaterialPanel();
@@ -111,14 +111,14 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
                 panel.add(image);
                 return panel;
             }
-
-            @Override
-            public boolean sortable() {
-                return true;
-            }
-        });
+        })
+        .sortable(true)
+        .name("Image")
+        .width("60px");
 
         table.addColumn(User::getName, "First Name")
+            .setHidden(false)
+            .setHideable(false)
             .sortable(true);
 
         // Demoing date formats and placeholder
@@ -154,9 +154,6 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
             .name("Email")
             .sortable(true);
 
-        table.addColumn(User::getPhone, "Phone")
-            .sortable(true);
-
         table.addColumn(new ComputedColumn<User, Double>() {
 
             @Override
@@ -171,6 +168,7 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         })
             .format(NumberFormat.getDecimalFormat())
             .defaultValue(0.0)
+            .addFooter(new FooterColumn<>(entireData -> "Total"))
             .name("Computed")
             .sortable(true);
 
@@ -183,9 +181,14 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
             .format(NumberFormat.getCurrencyFormat())
             .defaultValue(0.0)
             .name("Salary")
+            .addFooter(new FooterColumn<>(entireData -> {
+                double totalSalary = entireData.stream().mapToDouble(User::getSalary).sum();
+                return NumberFormat.getCurrencyFormat().format(totalSalary);
+            }))
             .sortable(true);
 
-
+        table.addColumn(User::getPhone, "Phone")
+            .sortable(true);
 
         // Add a row select handler, called when a user selects a row.
         table.addRowSelectHandler(event -> {
@@ -232,12 +235,6 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         table.addRenderedHandler(e -> {
             log("RenderedEvent", "Table Rendered");
         });
-
-        // Add components rendered handler, Called each time when components are rendered,
-        // which includes sorting renders and refreshView() renders.
-        table.addComponentsRenderedHandler(e -> {
-            log("ComponentsRenderedEvent", "Data Table Components Rendered");
-        });
     }
 
     protected void log(String eventName, String description) {
@@ -259,18 +256,21 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
 
     @Override
     public void setData(List<User> users) {
-        events.clear();
+        table.getView().setLoadMask(true);
+        Scheduler.get().scheduleFixedDelay(() -> {
+            events.clear();
 
-        table.getTableTitle().setText("Customers");
-        table.setRowData(0, users);
-        table.getView().refresh();
+            table.getTableTitle().setText("Customers");
+            table.setRowData(0, users);
 
-        double totalSalary = users.stream().mapToDouble(User::getSalary).sum();
-        totalSalaryLabel.setText("Total : " + NumberFormat.getCurrencyFormat().format(totalSalary));
+            // Setting the first row to be disabled. Available Modes are HIDDEN, DISABLED and ENABLED (By Default)
+            //table.getRow(0).setMode(Mode.DISABLED);
 
-        // Setting the first row to be disabled. Available Modes are HIDDEN, DISABLED and ENABLED (By Default)
-        //table.getRow(0).setMode(Mode.DISABLED);
-        reload();
+            reload();
+            table.getView().setLoadMask(false);
+            return false;
+        }, 1000);
+
     }
 
     @Override
@@ -292,9 +292,29 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         });
     }
 
+    @UiHandler("clear")
+    void clearTable(ClickEvent event) {
+        setData(new DataGenerator().generateUsers(0));
+    }
+
+    @UiHandler("addRow")
+    void addRow(ClickEvent event) {
+        setData(new DataGenerator().generateUsers(1));
+    }
+
+    @UiHandler("addAllRows")
+    void addAllRows(ClickEvent event) {
+        setData(new DataGenerator().generateUsers(50));
+    }
+
     @UiHandler("stickyHeader")
     void stickyHeader(ValueChangeEvent<Boolean> event) {
         table.setUseStickyHeader(event.getValue());
+    }
+
+    @UiHandler("stickyFooter")
+    void stickyFooter(ValueChangeEvent<Boolean> event) {
+        table.setUseStickyFooter(event.getValue());
     }
 
     @UiHandler("striped")

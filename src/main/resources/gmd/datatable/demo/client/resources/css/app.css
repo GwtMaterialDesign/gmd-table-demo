@@ -1,3 +1,20 @@
+#standardview table tfoot,
+#categorizedview table tfoot,
+#pagedview table tfoot,
+#infiniteview table tfoot {
+
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+#standardview table tfoot tr,
+#categorizedview table tfoot tr,
+#pagedview table tfoot tr,
+#infiniteview table tfoot tr {
+    height: 40px;
+}
+
+
 * {
     font-family: monospace, monospace;
 }
@@ -20,15 +37,6 @@ blockquote span {
 .table-container .top-panel {
     background: #ffffff;
     color: #4a4a4a;
-}
-
-/** Footer Panel **/
-#standardview .footer-panel {
-    padding: 20px 32px 20px 20px;
-    text-align: right;
-    border-top: 1px solid #e9e9e9;
-    font-size: 0.9em;
-    font-weight: bold;
 }
 
 /** Nav Collapse icon **/
@@ -169,12 +177,6 @@ nav ul li.active {
 /** Circular Label **/
 .circular-label {
     margin: auto;
-}
-
-/** TODO: Check **/
-table.table tbody tr.subheader th:first-child, table.table tbody tr.subheader td:first-child {
-    min-width: 10% !important;
-    max-width: 10% !important;
 }
 
 @media only screen and (max-width: 600px) {

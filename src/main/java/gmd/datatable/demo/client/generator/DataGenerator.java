@@ -24,6 +24,7 @@ public class DataGenerator {
         List<User> users = new ArrayList<>();
         for (int i = 0; i < total; i++) {
             User user = UserGenerator.generate();
+            user.setId(i + 1);
             if (category != null) {
                 user.setCategory(category);
             }

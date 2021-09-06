@@ -1,20 +1,24 @@
 package gmd.datatable.demo.client.generator.product;
 
+import java.util.Random;
+
 public class Product {
 
     private String company;
     private String productName;
     private String productAdjective;
     private double price;
+    private double tax;
     private String color;
     private String productMaterial;
     private String department;
 
-    public Product(String company, String productName, String productAdjective, double price, String color, String productMaterial, String department) {
+    public Product(String company, String productName, String productAdjective, double price, double tax, String color, String productMaterial, String department) {
         this.company = company;
         this.productName = productName;
         this.productAdjective = productAdjective;
         this.price = price;
+        this.tax = tax;
         this.color = color;
         this.productMaterial = productMaterial;
         this.department = department;
@@ -74,5 +78,9 @@ public class Product {
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public double getTax() {
+        return tax;
     }
 }

@@ -2,6 +2,7 @@ package gmd.datatable.demo.client.generator.user;
 
 public class User {
 
+    private long id;
     private String name;
     private String email;
     private String phone;
@@ -27,6 +28,14 @@ public class User {
         this.city = city;
         this.zipCode = zipCode;
         this.salary = salary;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {

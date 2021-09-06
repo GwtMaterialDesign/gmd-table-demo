@@ -21,6 +21,7 @@ package gmd.datatable.demo.client.application.paged;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -41,6 +42,8 @@ import gwt.material.design.client.ui.pager.actions.AbstractPageSelection;
 import gwt.material.design.client.ui.pager.actions.PageListBox;
 import gwt.material.design.client.ui.pager.actions.PageNumberBox;
 import gwt.material.design.client.ui.table.MaterialDataTable;
+import gwt.material.design.client.ui.table.cell.DoubleColumn;
+import gwt.material.design.client.ui.table.cell.FooterColumn;
 import gwt.material.design.client.ui.table.cell.TextColumn;
 import gwt.material.design.client.ui.table.cell.WidgetColumn;
 
@@ -138,7 +141,19 @@ public class PagedView extends ViewImpl implements PagedPresenter.MyView {
             public String getValue(User object) {
                 return object.getZipCode();
             }
-        });
+        }).addFooter(new FooterColumn<>(entireData -> "Totals"));
+
+        table.addColumn("Salary", new DoubleColumn<User>() {
+            @Override
+            public Double getValue(User object) {
+                return object.getSalary();
+            }
+        })
+            .format(NumberFormat.getCurrencyFormat())
+            .addFooter(new FooterColumn<>(entireData -> {
+                double totalSalary = entireData.stream().mapToDouble(User::getSalary).sum();
+                return NumberFormat.getCurrencyFormat().format(totalSalary);
+            }));
     }
 
     @Override
@@ -200,6 +215,11 @@ public class PagedView extends ViewImpl implements PagedPresenter.MyView {
     @UiHandler("stickyHeader")
     void stickyHeader(ValueChangeEvent<Boolean> event) {
         table.setUseStickyHeader(event.getValue());
+    }
+
+    @UiHandler("stickyFooter")
+    void stickyFooter(ValueChangeEvent<Boolean> event) {
+        table.setUseStickyFooter(event.getValue());
     }
 
     @UiHandler("striped")

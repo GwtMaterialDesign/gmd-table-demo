@@ -34,6 +34,12 @@
 										   height="440px"
 										   marginBottom="80"/>
 
+				<m:MaterialRow>
+					<m:MaterialButton ui:field="clear" text="Clear Table" />
+					<m:MaterialButton ui:field="addRow" text="Add Row" />
+					<m:MaterialButton ui:field="addAllRows" text="Add All Rows" />
+				</m:MaterialRow>
+
 				<!-- Events -->
 				<widget:CodeSection sectionTitle="Events" description="All events are logged below.">
 					<m:MaterialCard >
@@ -68,6 +74,7 @@
 						<blockquote>
 							<p><b>height - </b><span> sets the height of the datatable</span></p>
 							<p><b>useStickyHeader - </b><span> Enable the use of sticky table header bar.</span></p>
+							<p><b>useStickyFooter - </b><span> Enable the use of sticky table footer.</span></p>
 							<p><b>useCategories - </b><span> Allow the data view to generate categories, or use added categories for row data. </span></p>
 							<p><b>selectionType - </b><span> Set the data views row selection type.</span></p>
 							<p><b>useLoadOverlay - </b><span> Use the loading overlay mask.</span></p>
@@ -150,6 +157,100 @@ table.addColumn("Image", new WidgetColumn&lt;User, MaterialPanel>() {
 					</g:HTMLPanel>
 				</widget:CodeSection>
 
+				<widget:CodeSection sectionTitle="Computed Columns" description="With computed columns you can calculate the current data, categorized data and the entire data and return the calculated result.">
+					<g:HTMLPanel>
+						<pre class="java">
+table.addColumn(new ComputedColumn&lt;User, Double>() {
+
+	@Override
+	public Double compute(RowComponent&lt;User> row) {
+		Product data = row.getData();
+		List&lt;Product> allData = row.getDataView().getData();
+		List&lt;Product> categoryData = row.getCategory().getData();
+
+		double currentPrice = data.getPrice();
+		double allPrices = allData.stream().mapToDouble(Product::getPrice).sum();
+		double categoryPrices = categoryData.stream().mapToDouble(Product::getPrice).sum();
+		return currentPrice - (allPrices / categoryPrices);
+	}
+})
+						</pre>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Footer Columns" description="With footer columns you can call column.addFooter() to specify your footer on that column.">
+					<g:HTMLPanel>
+						<pre class="java">
+column.addFooter(new FooterColumn&lt;>(entireData -> {
+	double totalSalary = entireData.stream().mapToDouble(User::getSalary).sum();
+	return NumberFormat.getCurrencyFormat().format(totalSalary);
+}))
+						</pre>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Column Formatting" description="We have the ability to set global column formats.">
+					<g:HTMLPanel>
+						<pre class="java">
+MaterialDataTable.getGlobals().getFormatProvider()
+	.setDateFormat(DateTimeFormat.getFormat("MM/dd/yyyy"))
+	.setIntegerFormat(NumberFormat.getCurrencyFormat("CAD"))
+	.setLongFormat(NumberFormat.getFormat("##"))
+	.setDoubleFormat(NumberFormat.getPercentFormat())
+	.setFloatFormat(NumberFormat.getDecimalFormat())
+	.setBigDecimalFormat(NumberFormat.getDecimalFormat())
+	.setShortFormat(NumberFormat.getDecimalFormat());
+						</pre>
+					</g:HTMLPanel>
+
+					<m:MaterialLabel text="Or thru column instance" />
+
+					<g:HTMLPanel>
+						<pre class="java">
+// Dates
+table.addColumn(new DateColumn&lt;User>() {
+	@Override
+	public Date getValue(User object) {
+		return object.getCreationDate();
+	}
+})
+.format(DateTimeFormat.getFormat("MM/dd/yyyy"))
+
+// Numbers
+table.addColumn(new DoubleColumn&lt;User>() {
+	@Override
+	public Double getValue(User object) {
+		return 0.1126132;
+	}
+})
+.format(NumberFormat.getPercentFormat())
+						</pre>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
+				<widget:CodeSection sectionTitle="Column Blank Placeholder" description="We can replace any null values to a blank placeholder for better column display.">
+					<g:HTMLPanel>
+						<pre class="java">
+// Global setter
+MaterialDataTable.getGlobals().setDefaultBlankPlaceholder("-");
+						</pre>
+					</g:HTMLPanel>
+
+					<m:MaterialLabel text="Or thru column instance" />
+
+					<g:HTMLPanel>
+						<pre class="java">
+table.addColumn(new DateColumn&lt;User>() {
+	@Override
+	public Date getValue(User object) {
+		return object.getCreationDate();
+	}
+})
+.blankPlaceholder("-")
+						</pre>
+					</g:HTMLPanel>
+				</widget:CodeSection>
+
 				<widget:CodeSection sectionTitle="Sortable Columns" description="Make this column auto sort on rendering, if multiple columns are auto sorting it will be based on the first one set to auto sort.">
 					<g:HTMLPanel>
 						<pre class="java">
@@ -207,7 +308,8 @@ textColumn.setFieldUpdater(new FieldUpdater() {
 						<m:MaterialTextBox ui:field="tableName" label="Table Title" text="Customers" fieldType="OUTLINED"/>
 						<m:MaterialListValueBox ui:field="selectionType" label="Selection Type" fieldType="OUTLINED"/>
 						<m:MaterialListValueBox ui:field="density" label="Density" fieldType="OUTLINED"/>
-						<m:MaterialCheckBox ui:field="stickyHeader" text="Enable Sticky Header" marginBottom="12"/>
+						<m:MaterialCheckBox ui:field="stickyHeader" text="Enable Sticky Header" value="true" marginBottom="12"/>
+						<m:MaterialCheckBox ui:field="stickyFooter" text="Enable Sticky Footer" value="true" marginBottom="12"/>
 						<m:MaterialCheckBox ui:field="striped" text="Apply Striped Style" />
 						<m:MaterialCheckBox ui:field="responsive" text="Apply Responsive Style" />
 					</m:MaterialRow>
