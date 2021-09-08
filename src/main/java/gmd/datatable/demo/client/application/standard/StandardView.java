@@ -335,6 +335,12 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         }
     }
 
+    @UiHandler("highlightRow")
+    void highlightRow(ClickEvent event) {
+        RowComponent<User> row = table.getRow(20);
+        row.highlight();
+    }
+
     public void reload() {
         table.getView().setRedraw(true);
         table.getView().refresh();
