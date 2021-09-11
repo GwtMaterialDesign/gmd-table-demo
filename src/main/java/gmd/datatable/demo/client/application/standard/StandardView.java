@@ -341,6 +341,17 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         row.highlight();
     }
 
+    @UiHandler("showLoading")
+    void showLoading(ClickEvent event) {
+        RowComponent<User> row = table.getRow(1);
+        row.loading(true);
+
+        Scheduler.get().scheduleFixedDelay(() -> {
+            row.loading(false);
+            return false;
+        }, 2000);
+    }
+
     public void reload() {
         table.getView().setRedraw(true);
         table.getView().refresh();
