@@ -81,18 +81,8 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
 
     @Override
     public void setupTable() {
-        // Setting default formats on each columns
-        MaterialDataTable.getGlobals().getFormatProvider()
-            .setDateFormat(DateTimeFormat.getFormat("MM/dd/yyyy"))
-            .setIntegerFormat(NumberFormat.getCurrencyFormat("CAD"))
-            .setLongFormat(NumberFormat.getFormat("##"))
-            .setDoubleFormat(NumberFormat.getPercentFormat())
-            .setFloatFormat(NumberFormat.getDecimalFormat())
-            .setBigDecimalFormat(NumberFormat.getDecimalFormat())
-            .setShortFormat(NumberFormat.getDecimalFormat());
-
-        // Will set the global default blank placeholder
-        MaterialDataTable.getGlobals().setDefaultBlankPlaceholder("-");
+        // Will turn off only this datatable help feature
+        //table.setHelpEnabled(false);
 
         // Default Blank Placeholder for the table's instance only
         table.setDefaultBlankPlaceholder("N/A");
@@ -112,9 +102,9 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
                 return panel;
             }
         })
-        .sortable(true)
-        .name("Image")
-        .width("60px");
+            .sortable(true)
+            .name("Image")
+            .width("60px");
 
         table.addColumn(User::getName, "First Name")
             .setHidden(false)
@@ -142,7 +132,11 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
             .format(NumberFormat.getPercentFormat())
             .defaultValue(0.0)
             .name("Percent")
-            .sortable(true);
+            .sortable(true)
+            .help("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui dicta minus molestiae vel beatae " +
+                    "natus eveniet ratione temporibus aperiam harum alias officiis assumenda officia quibusdam deleniti" +
+                    " eos cupiditate dolore doloribus")
+            .helpEnabled(false);
 
         table.addColumn(new TextColumn<User>() {
             @Override
@@ -152,7 +146,10 @@ public class StandardView extends ViewImpl implements StandardPresenter.MyView {
         })
             .blankPlaceholder("N/A")
             .name("Email")
-            .sortable(true);
+            .sortable(true)
+            .help("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui dicta minus molestiae vel beatae " +
+                    "natus eveniet ratione temporibus aperiam harum alias officiis assumenda officia quibusdam deleniti" +
+                    " eos cupiditate dolore doloribus");
 
         table.addColumn(new ComputedColumn<User, Double>() {
 

@@ -120,7 +120,7 @@ public class PagedView extends ViewImpl implements PagedPresenter.MyView {
             public String getValue(User object) {
                 return object.getPhone();
             }
-        });
+        }).help("Help for Product Name");
 
         table.addColumn("Company", new TextColumn<User>() {
             @Override

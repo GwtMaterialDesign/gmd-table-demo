@@ -21,6 +21,7 @@ package gmd.datatable.demo.client.application;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -33,6 +34,7 @@ import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialNavSection;
+import gwt.material.design.client.ui.table.MaterialDataTable;
 
 import java.util.Date;
 
@@ -59,6 +61,22 @@ public class ApplicationView extends ViewImpl implements ApplicationPresenter.My
     @Override
     protected void onAttach() {
         super.onAttach();
+
+        // Setting default formats on each columns
+        MaterialDataTable.getGlobals().getFormatProvider()
+                .setDateFormat(DateTimeFormat.getFormat("MM/dd/yyyy"))
+                .setIntegerFormat(NumberFormat.getCurrencyFormat("CAD"))
+                .setLongFormat(NumberFormat.getFormat("##"))
+                .setDoubleFormat(NumberFormat.getPercentFormat())
+                .setFloatFormat(NumberFormat.getDecimalFormat())
+                .setBigDecimalFormat(NumberFormat.getDecimalFormat())
+                .setShortFormat(NumberFormat.getDecimalFormat());
+
+        // Will set the global default blank placeholder
+        MaterialDataTable.getGlobals().setDefaultBlankPlaceholder("-");
+
+        // Will turn off all datatables help feature
+        MaterialDataTable.getGlobals().setHelpEnabled(true);
 
         copyright.setText("Copyright @ " + DateTimeFormat.getFormat("yyyy").format(new Date()) + " GMD Project");
     }
