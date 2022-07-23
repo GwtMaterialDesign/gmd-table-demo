@@ -1,13 +1,11 @@
-var cacheName = 'cache_1630994802672';
+var cacheName = 'cache_1658565291308';
 
 var filesToCache = [  
 '/gmd-table-demo/',
 
-'GmdDataTableDemo/1A72EAD6642AA2FF5687A2533E2A138E.cache.js',
+'GmdDataTableDemo/72B1EEF33C82BB1C3CFA745C395FDF08.cache.js',
 
-'GmdDataTableDemo/30EAC7FA14FA7144B98D67F5905F908B.cache.js',
-
-'GmdDataTableDemo/A13D30E62DCB43EFAC2DD45CACB367F9.cache.js',
+'GmdDataTableDemo/C4B742A3F423D2D86F9B97D3AFD0DFAA.cache.js',
 
 'GmdDataTableDemo/GmdDataTableDemo.devmode.js',
 
@@ -35,13 +33,7 @@ var filesToCache = [
 
 'GmdDataTableDemo/css/materialize.min.css',
 
-'GmdDataTableDemo/font/material-icons/MaterialIcons-Regular.eot',
-
 'GmdDataTableDemo/font/material-icons/MaterialIcons-Regular.ttf',
-
-'GmdDataTableDemo/font/material-icons/MaterialIcons-Regular.woff',
-
-'GmdDataTableDemo/font/material-icons/MaterialIcons-Regular.woff2',
 
 'GmdDataTableDemo/fontawesome-icons/fa-brands-400.eot',
 
