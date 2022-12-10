@@ -208,7 +208,7 @@ public class PagedView extends ViewImpl implements PagedPresenter.MyView {
         pageSelection.addItem(new PageListBox(), "Page ListBox");
         pageSelection.addValueChangeHandler(event -> {
             pager.setPageSelection(event.getValue());
-            pager.reload();
+            pager.reload(true);
         });
     }
 
@@ -229,6 +229,11 @@ public class PagedView extends ViewImpl implements PagedPresenter.MyView {
         } else {
             table.getScaffolding().getTable().removeStyleName("striped");
         }
+    }
+
+    @UiHandler("enableSlidePaging")
+    void enableSlidePaging(ValueChangeEvent<Boolean> event) {
+        pager.setEnabledSlideActions(event.getValue());
     }
 
     @UiHandler("first")
