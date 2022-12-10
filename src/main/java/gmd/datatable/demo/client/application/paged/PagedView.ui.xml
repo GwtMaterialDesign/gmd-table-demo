@@ -111,6 +111,7 @@ pager.setLocaleProvider(new DataPagerLocaleProvider() {
 						<m:MaterialCheckBox ui:field="stickyFooter" text="Enable Sticky Footer" value="true" marginBottom="12"/>
 						<m:MaterialCheckBox ui:field="stickyHeader" text="Enable Sticky Header" value="true" marginBottom="12"/>
 						<m:MaterialCheckBox ui:field="striped" text="Apply Striped Style" />
+						<m:MaterialCheckBox ui:field="enableSlidePaging" text="Enable Slide Paging" />
 					</m:MaterialRow>
 					<m:MaterialRow>
 						<m:MaterialButton ui:field="first" type="OUTLINED" text="First Page" grid="s6" waves="LIGHT"/>

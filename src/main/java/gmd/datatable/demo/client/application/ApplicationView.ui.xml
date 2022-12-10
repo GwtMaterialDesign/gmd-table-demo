@@ -32,7 +32,7 @@
                             <m:MaterialImage url="https://gwtmaterialdesign.github.io/gmd-core-demo/images/datatable-logo.png" alt="logo" float="LEFT" width="60px" />
                             <m:MaterialPanel>
                                 <m:MaterialLabel text="gmd-table" fontWeight="BOLD" lineHeight="24" marginTop="12" />
-                                <m:MaterialLabel text="Version 2.6.0" lineHeight="12" fontSize="0.6em" />
+                                <m:MaterialLabel text="Version 2.6.1" lineHeight="12" fontSize="0.6em" />
                             </m:MaterialPanel>
                         </m:MaterialNavBrand>
                         <m:MaterialNavSection ui:field="navSection" hideOn="NONE" float="RIGHT">
